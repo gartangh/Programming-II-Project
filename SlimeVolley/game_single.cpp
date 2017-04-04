@@ -50,7 +50,7 @@ int GameSingle::Run()
 		// Start Allegro iteration
 		AllegroLib::Instance().StartIteration();
 
-		// TODO: Get the current Allegro event
+		//Detects KEY_UP, KEY_DOWN and TIMER and updates context
 		ALLEGRO_EVENT event = AllegroLib::Instance().GetCurrentEvent();
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 			if (event.keyboard.keycode == QKEY || event.keyboard.keycode == ZKEY ||
@@ -69,7 +69,7 @@ int GameSingle::Run()
 			}
 		}
 		else if (event.type == ALLEGRO_EVENT_TIMER) {
-			//update
+			engine.Update();
 		}
 		// TODO: If event key down, toggle key in context
 
@@ -112,7 +112,24 @@ void GameSingle::RemoveSystems()
 void GameSingle::MakeEntities()
 {
 	// TODO: Initialize required entities and add them to the engine
+	Entity *ball = new Entity();
+	ball->Add(new ComponentSprite(Graphics::SPRITE_BALL, 150, 11, 738, -11, 150, 11, 288, 11));
+	ball->Add(new ComponentMotion(0, 0, 0, -1));
+	ball->Add(new ComponentBall());
+	engine.AddEntity(ball);
 
+	Entity *player1 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
+	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, 150, 39, 738, -39, 0, 39, 288, 39));
+	player1->Add(new ComponentMotion(0, 0, 0, 0));
+	player1->Add(new ComponentPlayer());
+	engine.AddEntity(player1);
+
+
+	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
+	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, 600, 39, 738, -39, 0, 39, 288, 39));
+	player2->Add(new ComponentMotion(0, 0, 0, 0));
+	player2->Add(new ComponentPlayer());
+	engine.AddEntity(player2);
 }
 
 void GameSingle::DestroyEntities()

@@ -55,6 +55,8 @@ void Engine::RemoveSystem(System* system)
 
 void Engine::Update()
 {
+
+	
 	for (vector<System*>::iterator it = systems.begin(); it != systems.end(); it++)
 	{
 		(*it)->Update();
