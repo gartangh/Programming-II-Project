@@ -9,6 +9,18 @@
 #include "entity.h"
 #include "entity_stream.h"
 #include "graphics.h"
+#include <iostream>
+
+#define QKEY 17
+#define ZKEY 26
+#define SKEY 19
+#define DKEY 4
+
+#define UPKEY 84
+#define DOWNKEY 85
+#define LEFTKEY 82
+#define RIGHTKEY 83
+
 
 GameSingle::GameSingle(Context* _context, int _level) :
 	context(_context),
@@ -39,7 +51,26 @@ int GameSingle::Run()
 		AllegroLib::Instance().StartIteration();
 
 		// TODO: Get the current Allegro event
-
+		ALLEGRO_EVENT event = AllegroLib::Instance().GetCurrentEvent();
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+			if (event.keyboard.keycode == QKEY || event.keyboard.keycode == ZKEY ||
+				event.keyboard.keycode == SKEY || event.keyboard.keycode == DKEY ||
+				event.keyboard.keycode == UPKEY || event.keyboard.keycode == DOWNKEY ||
+				event.keyboard.keycode == LEFTKEY || event.keyboard.keycode == RIGHTKEY) {
+				context->ToggleKey(event.keyboard.keycode, true);
+			}
+		}
+		else if (event.type == ALLEGRO_EVENT_KEY_UP) {
+			if (event.keyboard.keycode == QKEY || event.keyboard.keycode == ZKEY ||
+				event.keyboard.keycode == SKEY || event.keyboard.keycode == DKEY ||
+				event.keyboard.keycode == UPKEY || event.keyboard.keycode == DOWNKEY ||
+				event.keyboard.keycode == LEFTKEY || event.keyboard.keycode == RIGHTKEY) {
+				context->ToggleKey(event.keyboard.keycode, false);
+			}
+		}
+		else if (event.type == ALLEGRO_EVENT_TIMER) {
+			//update
+		}
 		// TODO: If event key down, toggle key in context
 
 		// TODO: If event key up, untoggle key in context

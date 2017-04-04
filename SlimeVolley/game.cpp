@@ -101,6 +101,7 @@ void Game::Run()
 				break;
 			}
 		}
+		
 
 		// Update screen
 		Color red(255, 30, 0);
