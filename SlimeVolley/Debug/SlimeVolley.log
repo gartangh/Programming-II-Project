@@ -1,0 +1,28 @@
+﻿  system_state_single.cpp
+  system_state_multi.cpp
+  system_replay.cpp
+  system_render.cpp
+  system_points.cpp
+  system_output.cpp
+  system_motion.cpp
+  system_input_single.cpp
+  system_input_multi.cpp
+  system_eyes.cpp
+  system_collision.cpp
+  system_ai.cpp
+  main.cpp
+  graphics.cpp
+  game_single.cpp
+  game_replay.cpp
+  game_multi.cpp
+  game.cpp
+  entity_stream.cpp
+  entity.cpp
+  Generating Code...
+  Compiling...
+  engine.cpp
+  context.cpp
+  allegro_lib.cpp
+  Generating Code...
+  SlimeVolley.vcxproj -> C:\Users\Gebruiker\Programmeren\PGM\project_programmeren\Debug\SlimeVolley.exe
+  SlimeVolley.vcxproj -> C:\Users\Gebruiker\Programmeren\PGM\project_programmeren\Debug\SlimeVolley.pdb (Partial PDB)
