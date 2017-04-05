@@ -122,6 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="allegro_lib.h" />
+    <ClInclude Include="allSystems.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="component_ball.h" />

@@ -121,18 +121,18 @@ void GameSingle::MakeEntities()
 	engine.AddEntity(ball);
 
 	Entity *player1 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, 150, 39, 738, -39, 0, 39, 288, 39));
+	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, 150, 39, 738, -39, 300, 39, 288, 39));
 	player1->Add(new ComponentMotion(0, 0, 0, 0));
 	player1->Add(new ComponentPlayer());
 	engine.AddEntity(player1);
 
 
 	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, 600, 39, 738, -39, 0, 39, 288, 39));
+	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, 600, 39, 738, -39, 300, 39, 288, 39));
 	player2->Add(new ComponentMotion(0, 0, 0, 0));
 	player2->Add(new ComponentPlayer());
 	engine.AddEntity(player2);
-
+	/*
 	// Points for player1
 	Entity *point11 = new Entity();
 	point11->Add(new ComponentSprite(Graphics::SPRITE_POINT, 40, 279));
@@ -204,7 +204,7 @@ void GameSingle::MakeEntities()
 	point27->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 279));
 	point27->Add(new ComponentPoint(2, 7));
 	engine.AddEntity(point27);
-
+	*/
 	Entity *net = new Entity();
 	net->Add(new ComponentSprite(Graphics::SPRITE_NET, 375, 0));
 	engine.AddEntity(net);

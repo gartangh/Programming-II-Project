@@ -20,6 +20,15 @@ void SystemMotion::Update()
 	{
 		// TODO: Update velocity and position of all entities with motion
 		// component
-		//engine->get
+		double time = 1.0 / 40;
+		set<Entity*> entities= engine->GetEntityStream()->WithTag(Component::MOTION);
+		for (set<Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
+			ComponentMotion *motion_comp = (ComponentMotion*)(*i)->GetComponent(Component::MOTION);
+			ComponentSprite *sprite_comp = (ComponentSprite*)(*i)->GetComponent(Component::SPRITE);
+			sprite_comp->x += motion_comp->v_x*time;
+			sprite_comp->y += motion_comp->v_y*time;
+			motion_comp->v_x += motion_comp->a_x*time;
+			motion_comp->v_y += motion_comp->a_y*time;
+		}
 	}
 }

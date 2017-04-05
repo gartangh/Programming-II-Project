@@ -23,7 +23,7 @@ void SystemRender::Update()
 	{
 		initialized = Initialize();
 	}
-
+	cout << "rendering";
 	// Clear screen and draw background
 	Graphics::Instance().ClearScreen();
 	Graphics::Instance().DrawBackground();
@@ -31,6 +31,19 @@ void SystemRender::Update()
 	// TODO: Iterate over all entities with the sprite component and print to
 	// screen. For player slimes, draw the pupils as well.
 
+	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::SPRITE);
+	for (set<Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
+		ComponentSprite *sprite_comp = (ComponentSprite*)(*i)->GetComponent(Component::SPRITE);
+		Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, sprite_comp->y, 39, 39);
+	}
+	/*
+		Graphics::Instance().ClearScreen();
+		Graphics::Instance().DrawBackground();
+		Graphics::Instance().DrawBitmap(Graphics::SPRITE_PLAYER1, 150, 299 - 0, 39, 39);
+		Graphics::Instance().DrawBitmap(Graphics::SPRITE_PLAYER2, 600, 299 - 0, 39, 39);
+		Graphics::Instance().DrawBitmap(Graphics::SPRITE_BALL, 150, 299 - 133.5, 11, 11);
+		Graphics::Instance().ExecuteDraws();
+	*/
 	Color c(0, 0, 0);
 
 	// TODO: Use an appropriate color for the different backgrounds
