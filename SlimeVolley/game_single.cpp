@@ -10,16 +10,10 @@
 #include "entity_stream.h"
 #include "graphics.h"
 #include <iostream>
+#include "keyenum.h"
 
-#define QKEY 17
-#define ZKEY 26
-#define SKEY 19
-#define DKEY 4
-
-#define UPKEY 84
-#define DOWNKEY 85
-#define LEFTKEY 82
-#define RIGHTKEY 83
+#define START1 150
+#define START2 600
 
 GameSingle::GameSingle(Context* _context, int _level) :
 	context(_context),
@@ -116,23 +110,31 @@ void GameSingle::MakeEntities()
 	// Initialize required entities and add them to the engine
 	Entity *ball = new Entity();
 	ball->Add(new ComponentSprite(Graphics::SPRITE_BALL, 150, 11, 738, -11, 150, 11, 288, 11));
-	ball->Add(new ComponentMotion(0, 0, 0, -1));
+	ball->Add(new ComponentMotion(0, 0, 0, 9.81));
 	ball->Add(new ComponentBall());
 	engine.AddEntity(ball);
 
 	Entity *player1 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, 150, 39, 738, -39, 300, 39, 288, 39));
+	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, START1, 39, 738, -39, COY(0), 39, 288, 39));
 	player1->Add(new ComponentMotion(0, 0, 0, 0));
 	player1->Add(new ComponentPlayer());
 	engine.AddEntity(player1);
 
 
 	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, 600, 39, 738, -39, 300, 39, 288, 39));
+	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, START2, 39, 738, -39, COY(0), 39, 288, 39));
 	player2->Add(new ComponentMotion(0, 0, 0, 0));
 	player2->Add(new ComponentPlayer());
 	engine.AddEntity(player2);
-	/*
+
+	Entity *eye1 = new Entity();
+	eye1->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, 100, 0, 738, 0, 190, 0, 375, 0));
+	engine.AddEntity(eye1);
+
+	Entity *eye2 = new Entity();
+	eye2->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, START2 - 53, 0, 738, -5, COY(0) + 15, 0, 375, 5));
+	engine.AddEntity(eye2);
+	
 	// Points for player1
 	Entity *point11 = new Entity();
 	point11->Add(new ComponentSprite(Graphics::SPRITE_POINT, 40, 279));
@@ -196,17 +198,17 @@ void GameSingle::MakeEntities()
 	engine.AddEntity(point25);
 
 	Entity *point26 = new Entity();
-	point26->Add(new ComponentSprite(Graphics::SPRITE_POINT, 669, 279));
+	point26->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 0, 750, 11, COY(0), 0, 350, 5));
 	point26->Add(new ComponentPoint(2, 6));
 	engine.AddEntity(point26);
 
 	Entity *point27 = new Entity();
-	point27->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 279));
+	point27->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 0, 750, 11, COY(0), 0, 350, -5));
 	point27->Add(new ComponentPoint(2, 7));
 	engine.AddEntity(point27);
-	*/
+	
 	Entity *net = new Entity();
-	net->Add(new ComponentSprite(Graphics::SPRITE_NET, 375, 0));
+	net->Add(new ComponentSprite(Graphics::SPRITE_NET, 369, 300));
 	engine.AddEntity(net);
 }
 

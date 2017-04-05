@@ -141,6 +141,7 @@
     <ClInclude Include="game_replay.h" />
     <ClInclude Include="game_single.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="keyenum.h" />
     <ClInclude Include="system.h" />
     <ClInclude Include="system_ai.h" />
     <ClInclude Include="system_collision.h" />
