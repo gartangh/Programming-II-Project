@@ -1,4 +1,30 @@
-﻿allegro_lib.obj : error LNK2019: unresolved external symbol __imp_al_map_rgb referenced in function "public: void __cdecl AllegroLib::StartLoop(void)" (?StartLoop@AllegroLib@@QEAAXXZ)
+﻿  system_state_single.cpp
+  system_state_multi.cpp
+  system_replay.cpp
+  system_render.cpp
+  system_points.cpp
+  system_output.cpp
+  system_motion.cpp
+  system_input_single.cpp
+  system_input_multi.cpp
+  system_eyes.cpp
+  system_collision.cpp
+  system_ai.cpp
+  main.cpp
+  graphics.cpp
+  game_single.cpp
+  game_replay.cpp
+  game_multi.cpp
+  game.cpp
+  entity_stream.cpp
+  entity.cpp
+  Generating Code...
+  Compiling...
+  engine.cpp
+  context.cpp
+  allegro_lib.cpp
+  Generating Code...
+allegro_lib.obj : error LNK2019: unresolved external symbol __imp_al_map_rgb referenced in function "public: void __cdecl AllegroLib::StartLoop(void)" (?StartLoop@AllegroLib@@QEAAXXZ)
 graphics.obj : error LNK2001: unresolved external symbol __imp_al_map_rgb
 allegro_lib.obj : error LNK2019: unresolved external symbol __imp_al_create_event_queue referenced in function "public: void __cdecl AllegroLib::Init(int,int,float)" (?Init@AllegroLib@@QEAAXHHM@Z)
 allegro_lib.obj : error LNK2019: unresolved external symbol __imp_al_destroy_event_queue referenced in function "public: void __cdecl AllegroLib::Destroy(void)" (?Destroy@AllegroLib@@QEAAXXZ)
@@ -44,5 +70,5 @@ graphics.obj : error LNK2019: unresolved external symbol __imp_al_draw_text refe
 graphics.obj : error LNK2019: unresolved external symbol __imp_al_destroy_font referenced in function "public: void __cdecl Graphics::UnLoadFonts(void)" (?UnLoadFonts@Graphics@@QEAAXXZ)
 graphics.obj : error LNK2019: unresolved external symbol __imp_al_load_ttf_font referenced in function "public: void __cdecl Graphics::LoadFonts(void)" (?LoadFonts@Graphics@@QEAAXXZ)
 system_render.obj : error LNK2019: unresolved external symbol __imp_al_get_time referenced in function "public: virtual void __cdecl SystemRender::Update(void)" (?Update@SystemRender@@UEAAXXZ)
-C:\Users\Gebruiker\Programmeren\PGM\project_programmeren\SlimeVolley\allegro\lib\allegro-5.0.10-monolith-md-debug.lib : warning LNK4272: library machine type 'X86' conflicts with target machine type 'x64'
-C:\Users\Gebruiker\Programmeren\PGM\project_programmeren\x64\Debug\SlimeVolley.exe : fatal error LNK1120: 41 unresolved externals
+F:\Programmeren\C++\SlimeVolley\SlimeVolley\allegro\lib\allegro-5.0.10-monolith-md-debug.lib : warning LNK4272: library machine type 'X86' conflicts with target machine type 'x64'
+F:\Programmeren\C++\SlimeVolley\x64\Debug\SlimeVolley.exe : fatal error LNK1120: 41 unresolved externals
