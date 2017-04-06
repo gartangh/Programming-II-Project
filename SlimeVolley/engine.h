@@ -15,7 +15,7 @@ class Engine
 public:
 	Engine(Context* _context) : context(_context)
 	{
-		AddSystem(new SystemAI()); 
+		AddSystem(new SystemAI());
 		AddSystem(new SystemCollision());
 		AddSystem(new SystemEyes());
 		AddSystem(new SystemInputMulti());
@@ -27,7 +27,6 @@ public:
 		AddSystem(new SystemReplay());
 		AddSystem(new SystemStateMulti());
 		AddSystem(new SystemStateSingle());
-
 	};
 
 	~Engine()

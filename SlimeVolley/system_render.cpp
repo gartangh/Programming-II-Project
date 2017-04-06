@@ -23,12 +23,14 @@ void SystemRender::Update()
 	{
 		initialized = Initialize();
 	}
-	cout << "rendering";
+
+	cout << "Rendering...";
+
 	// Clear screen and draw background
 	Graphics::Instance().ClearScreen();
 	Graphics::Instance().DrawBackground();
 
-	// TODO: Iterate over all entities with the sprite component and print to
+	// Iterate over all entities with the sprite component and print to
 	// screen. For player slimes, draw the pupils as well.
 
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::SPRITE);
@@ -36,28 +38,24 @@ void SystemRender::Update()
 		ComponentSprite *sprite_comp = (ComponentSprite*)(*i)->GetComponent(Component::SPRITE);
 		Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, sprite_comp->y, 39, 39);
 	}
-	/*
-		Graphics::Instance().ClearScreen();
-		Graphics::Instance().DrawBackground();
-		Graphics::Instance().DrawBitmap(Graphics::SPRITE_PLAYER1, 150, 299 - 0, 39, 39);
-		Graphics::Instance().DrawBitmap(Graphics::SPRITE_PLAYER2, 600, 299 - 0, 39, 39);
-		Graphics::Instance().DrawBitmap(Graphics::SPRITE_BALL, 150, 299 - 133.5, 11, 11);
-		Graphics::Instance().ExecuteDraws();
-	*/
-	Color c(0, 0, 0);
 
-	// TODO: Use an appropriate color for the different backgrounds
-	/*if (engine->GetContext()->GetLevel() == ...)
-	{
-		c = Color(..., ..., ...);
-	}*/
+	// Use an appropriate color for the different backgrounds
+	Color c(0, 0, 0); // Black
+	if (engine->GetContext()->GetLevel() == 2) {
+		c = Color(255, 255, 255); // White
+	}
 
+	
 	// TODO: Print the current score if it is a singleplayer game
+	if () {
+		Graphics::Instance().DrawString("Score: ", 375, 0, c, Graphics::ALIGN_CENTER);
+		Graphics::Instance().ExecuteDraws();
+	}
 
 	// TODO: Print the correct instructions at the bottom of the screen,
 	// depending on whether there's a regular game or a replay
-
 	int state = engine->GetContext()->GetState();
+	
 
 	// TODO: Print an appropriate message if state != 0, depending on state
 	// and current level (1-3 for singleplayer, 0 for multiplayer)

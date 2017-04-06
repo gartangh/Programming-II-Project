@@ -12,38 +12,44 @@
 #include "engine.h"
 #include "entity.h"
 #include "tags.h"
-#include "keyenum.h"
-
-#define SPEED 100
 
 void SystemMotion::Update()
 {
 	// Is the game running?
 	if (!engine->GetContext()->IsPaused() && !engine->GetContext()->IsFrozen())
 	{
-		// TODO: Update velocity and position of all entities with motion
-		// component
-		Context* con = engine->GetContext();
-		bool left_player_one = con->GetKeyPressed(QKEY, false);
-		bool right_player_one = con->GetKeyPressed(DKEY, false);
-		bool left_player_two = con->GetKeyPressed(LEFTKEY, false);
-		bool right_player_two = con->GetKeyPressed(RIGHTKEY, false);
+		// TODO: Update velocity and position of all entities with motion component
+		Context* context = engine->GetContext();
 
-		double time = 1.0 / 40;
-		set<Entity*> entities= engine->GetEntityStream()->WithTag(Component::MOTION);
-		for (set<Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
-			ComponentMotion *motion_comp = (ComponentMotion*)(*i)->GetComponent(Component::MOTION);
-			ComponentSprite *sprite_comp = (ComponentSprite*)(*i)->GetComponent(Component::SPRITE);
-			if (sprite_comp->sprite == Graphics::SPRITE_PLAYER1) {
-				motion_comp->v_x = left_player_one*(-SPEED) + right_player_one*(SPEED);
+		bool left_player1 = context->GetKeyPressed(ALLEGRO_KEY_Q, false);
+		bool right_player1 = context->GetKeyPressed(ALLEGRO_KEY_D, false);
+		bool up_player1 = context->GetKeyPressed(ALLEGRO_KEY_Z, false);
+		bool left_player2 = context->GetKeyPressed(ALLEGRO_KEY_LEFT, false);
+		bool right_player2 = context->GetKeyPressed(ALLEGRO_KEY_RIGHT, false);
+		bool up_player2 = context->GetKeyPressed(ALLEGRO_KEY_UP, false);
+
+		set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::MOTION);
+		for each (Entity* i in entities)
+		{
+			ComponentMotion *comp_motion = (ComponentMotion*)i->GetComponent(Component::MOTION);
+			ComponentSprite *comp_sprite = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
+				comp_motion->v_x = left_player1*(-SLIME_V_X) + right_player1*(SLIME_V_X);
+				if (up_player1) {
+					comp_motion->v_y = SLIME_V_Y;
+				}
 			}
-			if (sprite_comp->sprite == Graphics::SPRITE_PLAYER2) {
-				motion_comp->v_x = left_player_two*(-SPEED) + right_player_two*(SPEED);
+			else if (comp_sprite->sprite == Graphics::SPRITE_PLAYER2) {
+				comp_motion->v_x = left_player2*(-SLIME_V_X) + right_player2*(SLIME_V_Y);
+				if (up_player2) {
+					comp_motion->v_y = SLIME_V_Y;
+				}
 			}
-			sprite_comp->x += motion_comp->v_x*time;
-			sprite_comp->y += motion_comp->v_y*time;
-			motion_comp->v_x += motion_comp->a_x*time;
-			motion_comp->v_y += motion_comp->a_y*time;
+
+			comp_sprite->x += comp_motion->v_x;
+			comp_sprite->y += comp_motion->v_y;
+			comp_motion->v_x += comp_motion->a_x;
+			comp_motion->v_y += comp_motion->a_y;
 		}
 	}
 }

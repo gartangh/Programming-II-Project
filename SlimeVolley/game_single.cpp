@@ -10,7 +10,6 @@
 #include "entity_stream.h"
 #include "graphics.h"
 #include <iostream>
-#include "keyenum.h"
 
 #define START1 150
 #define START2 600
@@ -50,8 +49,7 @@ int GameSingle::Run()
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			int keycode = event.keyboard.keycode;
-			if (keycode == QKEY || keycode == ZKEY || keycode == SKEY || keycode == DKEY ||
-				keycode == UPKEY || keycode == DOWNKEY || keycode == LEFTKEY || keycode == RIGHTKEY)
+			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_DOWN || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT)
 			{
 				context->ToggleKey(keycode, true);
 			}
@@ -60,8 +58,7 @@ int GameSingle::Run()
 		else if (event.type == ALLEGRO_EVENT_KEY_UP)
 		{
 			int keycode = event.keyboard.keycode;
-			if (keycode == QKEY || keycode == ZKEY || keycode == SKEY || keycode == DKEY ||
-				keycode == UPKEY || keycode == DOWNKEY || keycode == LEFTKEY || keycode == RIGHTKEY)
+			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_DOWN || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT)
 			{
 				context->ToggleKey(keycode, false);
 			}
@@ -72,17 +69,6 @@ int GameSingle::Run()
 			engine.Update();
 		}
 
-		// The following six lines clear the screen, redraw the background,
-		// draw sprites and render both to screen. This should be handled by
-		// the render system, but is here to make sure Allegro works properly.
-		/*
-		Graphics::Instance().ClearScreen();
-		Graphics::Instance().DrawBackground();
-		Graphics::Instance().DrawBitmap(Graphics::SPRITE_PLAYER1, 150, 299 - 0, 39, 39);
-		Graphics::Instance().DrawBitmap(Graphics::SPRITE_PLAYER2, 600, 299 - 0, 39, 39);
-		Graphics::Instance().DrawBitmap(Graphics::SPRITE_BALL, 150, 299 - 133.5, 11, 11);
-		Graphics::Instance().ExecuteDraws();
-		*/
 		// Update quit value
 		quit = AllegroLib::Instance().IsWindowClosed();
 	}
@@ -137,76 +123,77 @@ void GameSingle::MakeEntities()
 	
 	// Points for player1
 	Entity *point11 = new Entity();
-	point11->Add(new ComponentSprite(Graphics::SPRITE_POINT, 40, 279));
+	point11->Add(new ComponentSprite(Graphics::SPRITE_POINT, 40, 40));
 	point11->Add(new ComponentPoint(1, 1));
 	engine.AddEntity(point11);
 
 	Entity *point12 = new Entity();
-	point12->Add(new ComponentSprite(Graphics::SPRITE_POINT, 80, 279));
+	point12->Add(new ComponentSprite(Graphics::SPRITE_POINT, 80, 40));
 	point12->Add(new ComponentPoint(1, 2));
 	engine.AddEntity(point12);
 
 	Entity *point13 = new Entity();
-	point13->Add(new ComponentSprite(Graphics::SPRITE_POINT, 120, 279));
+	point13->Add(new ComponentSprite(Graphics::SPRITE_POINT, 120, 40));
 	point13->Add(new ComponentPoint(1, 3));
 	engine.AddEntity(point13);
 
 	Entity *point14 = new Entity();
-	point14->Add(new ComponentSprite(Graphics::SPRITE_POINT, 160, 279));
+	point14->Add(new ComponentSprite(Graphics::SPRITE_POINT, 160, 40));
 	point14->Add(new ComponentPoint(1, 4));
 	engine.AddEntity(point14);
 
 	Entity *point15 = new Entity();
-	point15->Add(new ComponentSprite(Graphics::SPRITE_POINT, 200, 279));
+	point15->Add(new ComponentSprite(Graphics::SPRITE_POINT, 200, 40));
 	point15->Add(new ComponentPoint(1, 5));
 	engine.AddEntity(point15);
 
 	Entity *point16 = new Entity();
-	point16->Add(new ComponentSprite(Graphics::SPRITE_POINT, 240, 279));
+	point16->Add(new ComponentSprite(Graphics::SPRITE_POINT, 240, 40));
 	point16->Add(new ComponentPoint(1, 6));
 	engine.AddEntity(point16);
 
 	Entity *point17 = new Entity();
-	point17->Add(new ComponentSprite(Graphics::SPRITE_POINT, 280, 279));
+	point17->Add(new ComponentSprite(Graphics::SPRITE_POINT, 280, 40));
 	point17->Add(new ComponentPoint(1, 7));
 	engine.AddEntity(point17);
 
 	// Points for player2
 	Entity *point21 = new Entity();
-	point21->Add(new ComponentSprite(Graphics::SPRITE_POINT, 469, 279));
+	point21->Add(new ComponentSprite(Graphics::SPRITE_POINT, 469, 40));
 	point21->Add(new ComponentPoint(2, 1));
 	engine.AddEntity(point21);
 
 	Entity *point22 = new Entity();
-	point22->Add(new ComponentSprite(Graphics::SPRITE_POINT, 509, 279));
+	point22->Add(new ComponentSprite(Graphics::SPRITE_POINT, 509, 40));
 	point22->Add(new ComponentPoint(2, 2));
 	engine.AddEntity(point22);
 
 	Entity *point23 = new Entity();
-	point23->Add(new ComponentSprite(Graphics::SPRITE_POINT, 549, 279));
+	point23->Add(new ComponentSprite(Graphics::SPRITE_POINT, 549, 40));
 	point23->Add(new ComponentPoint(2, 3));
 	engine.AddEntity(point23);
 
 	Entity *point24 = new Entity();
-	point24->Add(new ComponentSprite(Graphics::SPRITE_POINT, 589, 279));
+	point24->Add(new ComponentSprite(Graphics::SPRITE_POINT, 589, 40));
 	point24->Add(new ComponentPoint(2, 4));
 	engine.AddEntity(point24);
 
 	Entity *point25 = new Entity();
-	point25->Add(new ComponentSprite(Graphics::SPRITE_POINT, 629, 279));
+	point25->Add(new ComponentSprite(Graphics::SPRITE_POINT, 629, 40));
 	point25->Add(new ComponentPoint(2, 5));
 	engine.AddEntity(point25);
 
 	Entity *point26 = new Entity();
-	point26->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 0, 750, 11, COY(0), 0, 350, 5));
+	point26->Add(new ComponentSprite(Graphics::SPRITE_POINT, 669, 40));
 	point26->Add(new ComponentPoint(2, 6));
 	engine.AddEntity(point26);
 
 	Entity *point27 = new Entity();
-	point27->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 0, 750, 11, COY(0), 0, 350, -5));
+	point27->Add(new ComponentSprite(Graphics::SPRITE_POINT, 709, 40));
 	point27->Add(new ComponentPoint(2, 7));
 	engine.AddEntity(point27);
 	
+	// Net
 	Entity *net = new Entity();
 	net->Add(new ComponentSprite(Graphics::SPRITE_NET, 369, 300));
 	engine.AddEntity(net);
@@ -215,5 +202,9 @@ void GameSingle::MakeEntities()
 void GameSingle::DestroyEntities()
 {
 	// TODO: Remove and destroy all entities
-
+	vector<Entity*> entities = engine.GetEntities();
+	for each (Entity* entity in entities)
+	{
+		engine.RemoveEntity(entity);
+	}
 }
