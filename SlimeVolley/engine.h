@@ -41,7 +41,8 @@ public:
 	vector<Entity*> GetEntities();
 	Context* GetContext();
 	EntityStream* GetEntityStream();
-
+	void setBall(ComponentSprite* sprite_ball, ComponentMotion* motion_ball);
+	
 private:
 	vector<Entity*> entities;
 	vector<System*> systems;

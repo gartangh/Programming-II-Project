@@ -24,7 +24,7 @@ void SystemRender::Update()
 		initialized = Initialize();
 	}
 
-	cout << "Rendering...";
+	//cout << "Rendering...";
 
 	// Clear screen and draw background
 	Graphics::Instance().ClearScreen();
@@ -34,10 +34,27 @@ void SystemRender::Update()
 	// screen. For player slimes, draw the pupils as well.
 
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::SPRITE);
+	std::vector<ComponentSprite*> pupils;
 	for (set<Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
 		ComponentSprite *sprite_comp = (ComponentSprite*)(*i)->GetComponent(Component::SPRITE);
-		Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, sprite_comp->y, 39, 39);
+		if (sprite_comp->sprite == Graphics::SPRITE_PUPIL) {
+			pupils.push_back(sprite_comp);
+		}
+		else {
+			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, sprite_comp->y, sprite_comp->x_off, sprite_comp->y_off);
+		}
+
 	}
+
+	int a = 0;
+	set<Entity*> players = engine->GetEntityStream()->WithTag(Component::PLAYER);
+
+	for (set<Entity*>::iterator i = players.begin(); i != players.end(); i++) {
+		ComponentPlayer *play_comp = (ComponentPlayer*)(*i)->GetComponent(Component::PLAYER);
+		Graphics::Instance().DrawBitmap(pupils.at(a)->sprite, play_comp->pupil_x, play_comp->pupil_y, pupils.at(a)->x_off, pupils.at(a)->y_off);
+		a++;
+	}
+	
 
 	// Use an appropriate color for the different backgrounds
 	Color c(0, 0, 0); // Black
@@ -47,11 +64,12 @@ void SystemRender::Update()
 
 	
 	// TODO: Print the current score if it is a singleplayer game
+	/*
 	if () {
 		Graphics::Instance().DrawString("Score: ", 375, 0, c, Graphics::ALIGN_CENTER);
 		Graphics::Instance().ExecuteDraws();
 	}
-
+	*/
 	// TODO: Print the correct instructions at the bottom of the screen,
 	// depending on whether there's a regular game or a replay
 	int state = engine->GetContext()->GetState();

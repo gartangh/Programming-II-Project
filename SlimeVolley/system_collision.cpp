@@ -5,14 +5,22 @@
 #include <algorithm>
 #include <cmath>
 #include <set>
+#include <iostream>
 
 #include "component.h"
 #include "component_motion.h"
 #include "component_player.h"
 #include "component_sprite.h"
+#include "component_ball.h"
 #include "constants.h"
 #include "engine.h"
 #include "entity.h"
+#include "constants.h"
+
+void SystemCollision::setBall(ComponentSprite* sprite_comp, ComponentMotion* motion_comp) {
+	cspr_ball = sprite_comp;
+	cmot_ball = motion_comp;
+}
 
 void SystemCollision::Update()
 {
@@ -24,8 +32,35 @@ void SystemCollision::Update()
 
 	if (!engine->GetContext()->IsPaused() && !engine->GetContext()->IsFrozen())
 	{
-		// TODO: Handle all possible collisions
 
+		// TODO: Handle all possible collisions
+		set<Entity*> ball_set = engine->GetEntityStream()->WithTag(Component::BALL);
+		set<Entity*> players_set = engine->GetEntityStream()->WithTag(Component::PLAYER);
+		std::cout << "size: " << players_set.size();
+		ComponentSprite* ball = (ComponentSprite*)((*ball_set.begin())->GetComponent(Component::SPRITE));
+
+		int co_ball_x = ball->x;
+		int co_ball_y = ball->y;
+
+		for (set<Entity*>::iterator i = players_set.begin(); i != players_set.end(); i++){
+			ComponentSprite* player = (ComponentSprite*)((*i)->GetComponent(Component::SPRITE));
+			ComponentMotion* player_mot = (ComponentMotion*)((*i)->GetComponent(Component::MOTION));
+
+			double distance = sqrt((player->x - co_ball_x)*(player->x - co_ball_x) + (player->y - co_ball_y)*(player->y - co_ball_y));
+
+			if (distance < 46.875) {
+				HandleBallPlayerCollision(player, player_mot);
+			}
+		}
+	
+		if (co_ball_y < RADIUS_BALL) {
+
+		}
+
+		if (co_ball_x < RADIUS_BALL || co_ball_x > 750 - RADIUS_BALL) {
+			HandleBallWallCollision();
+		}
+		
 	}
 }
 
@@ -54,6 +89,7 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	double dist = std::sqrt(d_x * d_x + d_y * d_y);
 	if (d_y > 0 && dist < 46.875)
 	{
+		
 		cspr_ball->x = csprPlayer->x + 46.875 * d_x / dist;
 		cspr_ball->y = csprPlayer->y + 46.875 * d_y / dist;
 		double d_v_x = cmot_ball->v_x - cmotPlayer->v_x;

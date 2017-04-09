@@ -14,6 +14,8 @@
 #define START1 150
 #define START2 600
 
+#define COY(x) (375-x -75)
+
 GameSingle::GameSingle(Context* _context, int _level) :
 	context(_context),
 	engine(_context),
@@ -95,31 +97,42 @@ void GameSingle::MakeEntities()
 {
 	// Initialize required entities and add them to the engine
 	Entity *ball = new Entity();
-	ball->Add(new ComponentSprite(Graphics::SPRITE_BALL, 150, 11, 738, -11, 150, 11, 288, 11));
-	ball->Add(new ComponentMotion(0, 0, 0, 9.81));
+	ComponentSprite* sprite_ball = new ComponentSprite(Graphics::SPRITE_BALL, START2, 11, 738, -11, 50, 11, 288, 11);
+	ball->Add(sprite_ball);
+	ComponentMotion* motion_ball = new ComponentMotion(0, 0, 0, .2);
+	ball->Add(motion_ball);
 	ball->Add(new ComponentBall());
 	engine.AddEntity(ball);
+	engine.setBall(sprite_ball, motion_ball);
+	Entity *eye1 = new Entity();
+	//new ComponentSprite(Graphics::SPRITE_BALL,)
+	eye1->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, START1 + 20, 0, 738, 5, COY(20), 0, 375, 5));
+	engine.AddEntity(eye1);
+
+	Entity *eye2 = new Entity();						//x  x_min x_max x_off
+	eye2->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, START2, 0, 738, 5, COY(0), 0, 375, 5));
+	engine.AddEntity(eye2);
 
 	Entity *player1 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, START1, 39, 738, -39, COY(0), 39, 288, 39));
+	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, START1, 39, 738, 40, COY(0), 39, 288, 40));
 	player1->Add(new ComponentMotion(0, 0, 0, 0));
-	player1->Add(new ComponentPlayer());
+	player1->Add(new ComponentPlayer(1,40));
 	engine.AddEntity(player1);
 
 
 	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, START2, 39, 738, -39, COY(0), 39, 288, 39));
+	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, START2, 39, 738, 40, COY(0), 39, 288, 40));
 	player2->Add(new ComponentMotion(0, 0, 0, 0));
-	player2->Add(new ComponentPlayer());
+	player2->Add(new ComponentPlayer(2,40));
 	engine.AddEntity(player2);
 
-	Entity *eye1 = new Entity();
-	eye1->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, 100, 0, 738, 0, 190, 0, 375, 0));
-	engine.AddEntity(eye1);
 
-	Entity *eye2 = new Entity();
-	eye2->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, START2 - 53, 0, 738, -5, COY(0) + 15, 0, 375, 5));
-	engine.AddEntity(eye2);
+	//x(0), x_min(0), x_max(0), x_off(0), y(0), y_min(0), y_max(0), y_off(0)
+
+	//
+	
+
+	
 	
 	// Points for player1
 	Entity *point11 = new Entity();

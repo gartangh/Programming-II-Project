@@ -1,6 +1,7 @@
 #include "system_eyes.h"
 
 #include <cmath>
+#include <iostream>
 
 #include "component.h"
 #include "component_motion.h"
@@ -23,11 +24,11 @@ void SystemEyes::Update()
 
 	// Iterate over all player entities and set eyes in right position
 	// Get coords of ball
+	
 	set<Entity*> ball = engine->GetEntityStream()->WithTag(Component::BALL);
 	ComponentSprite *ballsprite = (ComponentSprite*)(*ball.begin())->GetComponent(Component::SPRITE);
 	int co_x_ball = ballsprite->x + ballsprite->x_off;
 	int co_y_ball = ballsprite->y + ballsprite->y_off;
-
 	set<Entity*> players = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* player in players)
 	{
@@ -35,24 +36,28 @@ void SystemEyes::Update()
 		ComponentSprite* comp_sprite = (ComponentSprite*)player->GetComponent(Component::SPRITE);
 		// Get coords of players's eyes
 		int co_x_eye;
-		if (comp_player->player_id = 1) {
-			co_x_eye = comp_sprite->x + comp_sprite->x_off + PUPILS_OFFSET_X_1;
+		//std::cout << comp_player->player_id;
+		if (comp_player->player_id == 1) {
+			co_x_eye = comp_sprite->x  + PUPILS_OFFSET_X_1;
 		}
-		else if (comp_player->player_id = 2) {
-			co_x_eye = comp_sprite->x + comp_sprite->x_off + PUPILS_OFFSET_X_2;
+		else if (comp_player->player_id == 2) {
+			co_x_eye = comp_sprite->x - PUPILS_OFFSET_X_2;
 		}
 		else continue;
-		int co_y_eye = comp_sprite->y + comp_sprite->y_off + PUPILS_OFFSET_Y;
+		int co_y_eye = comp_sprite->y  + PUPILS_OFFSET_Y;
 
 		// Calc rico
-		int dX = co_x_ball - co_x_eye;
-		int dY = co_y_ball - co_y_eye;
-
+		double dX = co_x_ball - co_x_eye;
+		double dY = co_y_ball - co_y_eye;
 		double angle = atan(dY / dX);
-
+		if (angle < 0) {
+			angle += PI/2.0;
+		}
+		cout << "player: " << comp_player->player_id << " angle: " << angle << "\n";
 		// Set pos of pupils
-		comp_player->pupil_x = co_x_eye + cos(angle) * 2;
-		comp_player->pupil_y = co_y_eye + sin(angle) * 2;
+		comp_player->pupil_x = co_x_eye + cos(angle) * 3.0;
+		comp_player->pupil_y = co_y_eye + sin(angle) * 3.0;
+		
 	}
 }
 

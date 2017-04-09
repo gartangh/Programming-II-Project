@@ -75,3 +75,8 @@ EntityStream * Engine::GetEntityStream()
 {
 	return &es;
 }
+
+void Engine::setBall(ComponentSprite* sprite_ball, ComponentMotion* motion_ball) {
+	SystemCollision* a = (SystemCollision*)systems.at(1);
+	a->setBall(sprite_ball, motion_ball);
+}

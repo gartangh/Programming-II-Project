@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 #define FPS 40.0
 
@@ -6,6 +7,7 @@
 
 #define RADIUS_SLIME 40
 #define RADIUS_BALL 12
+
 
 #define SLIME_1_INIT_X 150
 #define SLIME_2_INIT_X 600
@@ -15,8 +17,8 @@
 #define SLIME_V_Y 11.625
 
 #define PUPILS_OFFSET_X_1 20
-#define PUPILS_OFFSET_X_2 -20
-#define PUPILS_OFFSET_Y 20
+#define PUPILS_OFFSET_X_2 20
+#define PUPILS_OFFSET_Y -20
 
 #define MAX_POINTS 7
 
@@ -24,3 +26,5 @@
 
 #define REPLAY_MIN 0.5
 #define REPLAY_MAX 4
+
+#endif
