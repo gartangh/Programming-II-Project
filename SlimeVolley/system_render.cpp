@@ -41,7 +41,7 @@ void SystemRender::Update()
 			pupils.push_back(sprite_comp);
 		}
 		else {
-			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, sprite_comp->y, sprite_comp->x_off, sprite_comp->y_off);
+			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
 		}
 
 	}
@@ -51,7 +51,7 @@ void SystemRender::Update()
 
 	for (set<Entity*>::iterator i = players.begin(); i != players.end(); i++) {
 		ComponentPlayer *play_comp = (ComponentPlayer*)(*i)->GetComponent(Component::PLAYER);
-		Graphics::Instance().DrawBitmap(pupils.at(a)->sprite, play_comp->pupil_x, play_comp->pupil_y, pupils.at(a)->x_off, pupils.at(a)->y_off);
+		Graphics::Instance().DrawBitmap(pupils.at(a)->sprite, play_comp->pupil_x, COY(play_comp->pupil_y), pupils.at(a)->x_off, pupils.at(a)->y_off);
 		a++;
 	}
 	

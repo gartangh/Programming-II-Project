@@ -44,7 +44,7 @@ void SystemEyes::Update()
 			co_x_eye = comp_sprite->x - PUPILS_OFFSET_X_2;
 		}
 		else continue;
-		int co_y_eye = comp_sprite->y  + PUPILS_OFFSET_Y;
+		int co_y_eye = comp_sprite->y  - PUPILS_OFFSET_Y;
 
 		// Calc rico
 		double dX = co_x_ball - co_x_eye;

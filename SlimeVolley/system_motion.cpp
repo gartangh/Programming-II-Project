@@ -33,6 +33,10 @@ void SystemMotion::Update()
 		{
 			ComponentMotion *comp_motion = (ComponentMotion*)i->GetComponent(Component::MOTION);
 			ComponentSprite *comp_sprite = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+
+			comp_motion->v_x += comp_motion->a_x;
+			comp_motion->v_y += comp_motion->a_y;
+
 			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
 				comp_motion->v_x = left_player1*(-SLIME_V_X) + right_player1*(SLIME_V_X);
 				if (up_player1) {
@@ -47,9 +51,22 @@ void SystemMotion::Update()
 			}
 
 			comp_sprite->x += comp_motion->v_x;
-			comp_sprite->y += comp_motion->v_y;
-			comp_motion->v_x += comp_motion->a_x;
-			comp_motion->v_y += comp_motion->a_y;
+			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER2 || comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
+				int co_y = comp_sprite->y + comp_motion->v_y;
+				if (co_y < 75) {
+					comp_sprite->y = 75;
+					comp_motion->v_y = 0;
+				}
+				else {
+					comp_sprite->y = co_y;
+				}
+			}
+			else {
+				comp_sprite->y += comp_motion->v_y;
+			}
+			
+
+			
 		}
 	}
 }

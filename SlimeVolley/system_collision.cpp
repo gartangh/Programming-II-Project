@@ -67,7 +67,7 @@ void SystemCollision::Update()
 void SystemCollision::HandleBallWallCollision()
 {
 	// TODO: Handle a possible collision between the ball and a wall
-
+	cmot_ball->v_x *= -1;
 }
 
 void SystemCollision::HandleBallNetCollision()
@@ -87,20 +87,25 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	double d_x = cspr_ball->x - csprPlayer->x;
 	double d_y = cspr_ball->y - csprPlayer->y;
 	double dist = std::sqrt(d_x * d_x + d_y * d_y);
-	if (d_y > 0 && dist < 46.875)
+	double radius = 46.875;
+	if (d_y > 0 && dist < radius)
 	{
 		
-		cspr_ball->x = csprPlayer->x + 46.875 * d_x / dist;
-		cspr_ball->y = csprPlayer->y + 46.875 * d_y / dist;
+		cspr_ball->x = csprPlayer->x + radius * d_x / dist;
+		cspr_ball->y = csprPlayer->y + radius * d_y / dist;
+
 		double d_v_x = cmot_ball->v_x - cmotPlayer->v_x;
 		double d_v_y = cmot_ball->v_y - cmotPlayer->v_y;
+
 		double s = (d_x * d_v_x + d_y * d_v_y * 2) / dist;
 		if (s < 0)
 		{
 			cmot_ball->v_x += cmotPlayer->v_x - 2 * d_x * s / dist;
 			cmot_ball->v_y += cmotPlayer->v_y - d_y * s / dist;
+
 			cmot_ball->v_x = std::max(cmot_ball->v_x, -11.25);
 			cmot_ball->v_x = std::min(cmot_ball->v_x, 11.25);
+
 			cmot_ball->v_y = std::max(cmot_ball->v_y, -8.25);
 			cmot_ball->v_y = std::min(cmot_ball->v_y, 8.25);
 		}

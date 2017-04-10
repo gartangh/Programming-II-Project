@@ -27,4 +27,10 @@
 #define REPLAY_MIN 0.5
 #define REPLAY_MAX 4
 
+#define GRAVITY -.1
+
+#define COY(x) (375-x)
+
+#define POINTS_HEIGHT 340
+
 #endif
