@@ -51,15 +51,32 @@ void SystemCollision::Update()
 			if (distance < 46.875) {
 				HandleBallPlayerCollision(player, player_mot);
 			}
+
+			if (player->x < RADIUS_SLIME || player->x > GAME_WIDTH - RADIUS_SLIME) {
+				HandlePlayerWallCollision(player, player_mot);
+			}
 		}
 	
-		if (co_ball_y < RADIUS_BALL) {
-
+		if (co_ball_y < RADIUS_BALL + GROUND) {
+			double lost_energy = -0.8;
+			cmot_ball->v_y *= lost_energy;
+			/*
+			if (co_ball_y < 10 + GROUND && cmot_ball->v_y < .5) {
+				cspr_ball->y = GROUND;
+			}
+			else {
+				
+			}*/
+			
 		}
 
 		if (co_ball_x < RADIUS_BALL || co_ball_x > 750 - RADIUS_BALL) {
 			HandleBallWallCollision();
 		}
+		if (co_ball_y < GROUND + 49 && co_ball_y> GROUND && abs(co_ball_x - MIDDLE) < RADIUS_BALL) {
+			HandleBallNetCollision();
+		}
+		//if(player)
 		
 	}
 }
@@ -73,7 +90,7 @@ void SystemCollision::HandleBallWallCollision()
 void SystemCollision::HandleBallNetCollision()
 {
 	// TODO: Handle a possible collision between the ball and the net
-
+	cmot_ball->v_x = 0;
 }
 
 void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
@@ -84,10 +101,30 @@ void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, Com
 
 void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
+	double normal_x = cspr_ball->x - csprPlayer->x;
+	double normal_y = cspr_ball->y - csprPlayer->y;
+
+	double v_x = cmot_ball->v_x;
+	double v_y = cmot_ball->v_y;
 
 
+	//orhtogonal projection houden
+	double dist = normal_x*normal_x + normal_y*normal_y;
+	double v_n = normal_x*v_x + normal_y*v_y;
+	double o_x = (v_n / dist)*normal_x;
+	double o_y = (v_n / dist)*normal_y;
 
-	
+	//rejectie inverteren
+	double p_x = (v_x - o_x);
+	double p_y = (v_y - o_y);
+
+	double v_x_n = -o_x + p_x;
+	double v_y_n = -o_y + p_y;
+
+
+	cmot_ball->v_x = v_x_n*1.5;
+	cmot_ball->v_y = v_y_n*1.5;
+	/*
 	double d_x = cspr_ball->x - csprPlayer->x;
 	double d_y = cspr_ball->y - csprPlayer->y;
 	double dist = std::sqrt(d_x * d_x + d_y * d_y);
@@ -120,7 +157,7 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 			cmot_ball->v_y = std::min(cmot_ball->v_y, 8.25);
 		}
 	}
-	
+	*/
 }
 
 bool SystemCollision::Initialize()

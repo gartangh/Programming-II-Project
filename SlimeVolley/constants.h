@@ -13,7 +13,7 @@
 #define SLIME_2_INIT_X 600
 #define BALL_INIT_Y 133.5
 
-#define SLIME_V_X 6
+#define SLIME_V_X 3
 #define SLIME_V_Y 11.625
 
 #define PUPILS_OFFSET_X_1 20
@@ -35,5 +35,7 @@
 #define MIDDLE 369
 
 #define POINTS_HEIGHT 340
+
+#define GAME_WIDTH 750
 
 #endif
