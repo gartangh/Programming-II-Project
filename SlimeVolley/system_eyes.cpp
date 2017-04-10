@@ -49,14 +49,53 @@ void SystemEyes::Update()
 		// Calc rico
 		double dX = co_x_ball - co_x_eye;
 		double dY = co_y_ball - co_y_eye;
+
 		double angle = atan(dY / dX);
-		if (angle < 0) {
-			angle += PI/2.0;
+		double angle_after = angle;
+		/*
+		if (dX < 0 && dY < 0) {
+			angle_after += PI;
 		}
-		cout << "player: " << comp_player->player_id << " angle: " << angle << "\n";
+		*/
+		//dX > 0 && dY > 0 angle >0 && angle < PI/2
+
+		if (dX > 0 && dY > 0 && !(angle > 0 && angle < PI / 2)) {
+			std::cout << "problem";
+		}
+		if (dX < 0 && dY > 0 && !(angle < PI && angle > PI / 2)) {
+			std::cout << "problem";
+			angle_after += PI;
+		}
+		if (dX < 0 && dY < 0 && !(angle > PI && angle < (3 * PI) / 2)) {
+			std::cout << "problem";
+		}
+		if (dX > 0 && dY < 0 && !(angle >(3 * PI) && angle <  2 * PI)) {
+			std::cout << "problem";
+			//angle_after = PI - angle;
+		}
+
+
+
+		////////////////////////////////////////////
+
+		if (dX > 0 && dY > 0 && !(angle_after > 0 && angle_after < PI/2)) {
+			std::cout << "problem";
+		}
+		if (dX < 0 && dY > 0 && !(angle_after < PI && angle_after > PI / 2)) {
+			std::cout << "problem";
+			//angle_after -= PI / 2;
+		}
+		if (dX < 0 && dY < 0 && !(angle_after > PI && angle_after < (3* PI) / 2)) {
+			std::cout << "problem";
+		}
+		if (dX > 0 && dY < 0 && !(angle_after >(3 * PI)/2 && angle_after <  2*PI)) {
+			std::cout << "problem";
+		}
+
+		
 		// Set pos of pupils
-		comp_player->pupil_x = co_x_eye + cos(angle) * 3.0;
-		comp_player->pupil_y = co_y_eye + sin(angle) * 3.0;
+		comp_player->pupil_x = co_x_eye + cos(angle_after) * 3.0;
+		comp_player->pupil_y = co_y_eye + sin(angle_after) * 3.0;
 		
 	}
 }

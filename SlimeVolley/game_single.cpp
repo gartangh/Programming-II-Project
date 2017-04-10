@@ -98,7 +98,7 @@ void GameSingle::MakeEntities()
 {
 	// Initialize required entities and add them to the engine
 	Entity *ball = new Entity();
-	ComponentSprite* sprite_ball = new ComponentSprite(Graphics::SPRITE_BALL, START2, 11, 738, -11, 300, 11, 288, 11);
+	ComponentSprite* sprite_ball = new ComponentSprite(Graphics::SPRITE_BALL, MIDDLE, 11, 738, 11, 300, 11, 288, 11);
 	ball->Add(sprite_ball);
 	ComponentMotion* motion_ball = new ComponentMotion(0, 0, 0, GRAVITY);
 	ball->Add(motion_ball);

@@ -36,7 +36,7 @@ void SystemCollision::Update()
 		// TODO: Handle all possible collisions
 		set<Entity*> ball_set = engine->GetEntityStream()->WithTag(Component::BALL);
 		set<Entity*> players_set = engine->GetEntityStream()->WithTag(Component::PLAYER);
-		std::cout << "size: " << players_set.size();
+		//std::cout << "size: " << players_set.size();
 		ComponentSprite* ball = (ComponentSprite*)((*ball_set.begin())->GetComponent(Component::SPRITE));
 
 		int co_ball_x = ball->x;
@@ -84,6 +84,10 @@ void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, Com
 
 void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
+
+
+
+	
 	double d_x = cspr_ball->x - csprPlayer->x;
 	double d_y = cspr_ball->y - csprPlayer->y;
 	double dist = std::sqrt(d_x * d_x + d_y * d_y);
@@ -97,19 +101,26 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 		double d_v_x = cmot_ball->v_x - cmotPlayer->v_x;
 		double d_v_y = cmot_ball->v_y - cmotPlayer->v_y;
 
+		//?
 		double s = (d_x * d_v_x + d_y * d_v_y * 2) / dist;
+
 		if (s < 0)
 		{
 			cmot_ball->v_x += cmotPlayer->v_x - 2 * d_x * s / dist;
 			cmot_ball->v_y += cmotPlayer->v_y - d_y * s / dist;
 
+			//if Vx ball smaller then -11.25 set to 11.25
+			//if Vx ball bigger then 11.25 set to 11.25
 			cmot_ball->v_x = std::max(cmot_ball->v_x, -11.25);
 			cmot_ball->v_x = std::min(cmot_ball->v_x, 11.25);
 
+			//if Vy ball smaller then -8.75 set to 8.75
+			//if Vy ball bigger then 8.75 set to 8.75
 			cmot_ball->v_y = std::max(cmot_ball->v_y, -8.25);
 			cmot_ball->v_y = std::min(cmot_ball->v_y, 8.25);
 		}
 	}
+	
 }
 
 bool SystemCollision::Initialize()

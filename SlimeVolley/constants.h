@@ -28,8 +28,11 @@
 #define REPLAY_MAX 4
 
 #define GRAVITY -.1
+#define NO_GRAVITY 0
 
 #define COY(x) (375-x)
+#define GROUND 75
+#define MIDDLE 369
 
 #define POINTS_HEIGHT 340
 
