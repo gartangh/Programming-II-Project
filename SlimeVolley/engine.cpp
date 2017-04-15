@@ -76,7 +76,13 @@ EntityStream * Engine::GetEntityStream()
 	return &es;
 }
 
-void Engine::setBall(ComponentSprite* sprite_ball, ComponentMotion* motion_ball) {
+void Engine::setEntities(ComponentSprite* cspr_player_1, ComponentMotion* cmot_player_1, 
+						 ComponentSprite* cspr_player_2, ComponentMotion* cmot_player_2, 
+						 ComponentSprite* cspr_ball, ComponentMotion* cmot_ball) 
+{
 	SystemCollision* a = (SystemCollision*)systems.at(1);
-	a->setBall(sprite_ball, motion_ball);
+	a->setBall(cspr_ball, cmot_ball);
+
+	SystemAI* ai = (SystemAI*)systems.at(0);
+	ai->setEntities(cspr_player_1, cspr_player_2, cmot_player_2, cspr_ball, cmot_ball);
 }

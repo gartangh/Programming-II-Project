@@ -19,6 +19,7 @@ public:
 	};
 
 	virtual void Update();
+	void SystemAI::setEntities(ComponentSprite* cspr_player_1, ComponentSprite* cspr_player_2, ComponentMotion* cmot_player_2, ComponentSprite* cspr_ball, ComponentMotion* cmot_ball);
 
 protected:
 	virtual Type GetType()

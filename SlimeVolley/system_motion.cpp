@@ -24,6 +24,7 @@ void SystemMotion::Update()
 		bool left_player1 = context->GetKeyPressed(ALLEGRO_KEY_Q, false);
 		bool right_player1 = context->GetKeyPressed(ALLEGRO_KEY_D, false);
 		bool up_player1 = context->GetKeyPressed(ALLEGRO_KEY_Z, false);
+
 		bool left_player2 = context->GetKeyPressed(ALLEGRO_KEY_LEFT, false);
 		bool right_player2 = context->GetKeyPressed(ALLEGRO_KEY_RIGHT, false);
 		bool up_player2 = context->GetKeyPressed(ALLEGRO_KEY_UP, false);
@@ -39,13 +40,13 @@ void SystemMotion::Update()
 
 			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
 				comp_motion->v_x = left_player1*(-SLIME_V_X) + right_player1*(SLIME_V_X);
-				if (up_player1) {
+				if (up_player1 && comp_sprite->y < 1) {
 					comp_motion->v_y = SLIME_V_Y;
 				}
 			}
 			else if (comp_sprite->sprite == Graphics::SPRITE_PLAYER2) {
 				comp_motion->v_x = left_player2*(-SLIME_V_X) + right_player2*(SLIME_V_Y);
-				if (up_player2) {
+				if (up_player2  && comp_sprite->y < 1) {
 					comp_motion->v_y = SLIME_V_Y;
 				}
 			}
@@ -53,8 +54,8 @@ void SystemMotion::Update()
 			comp_sprite->x += comp_motion->v_x;
 			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER2 || comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
 				int co_y = comp_sprite->y + comp_motion->v_y;
-				if (co_y < 75) {
-					comp_sprite->y = 75;
+				if (co_y < 0) {
+					comp_sprite->y = 0;
 					comp_motion->v_y = 0;
 				}
 				else {

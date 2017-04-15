@@ -1,6 +1,7 @@
 #include "system_ai.h"
 
 #include <set>
+#include <iostream>
 
 #include "component.h"
 #include "component_motion.h"
@@ -8,6 +9,7 @@
 #include "component_sprite.h"
 #include "entity.h"
 #include "engine.h"
+
 
 void SystemAI::Update()
 {
@@ -37,6 +39,24 @@ void SystemAI::Update()
 double SystemAI::XBallBelow(double y_target)
 {
 	// TODO: Calculate the value of x when y is first below y_target
+	//Calculate time to hit y value
+	//Py  = Pn + v*t +(a/2)*t^2
+	//t1 = (-v+sqrt(-2*Pn*a +2*Py*a+v^2))/a
+
+	int Pn = cspr_ball->y;
+	int v = cmot_ball->v_y;
+	double a = cmot_ball->a_y;
+
+	double wortel = sqrt(-2 * Pn*a + 2 * y_target*a + v*v);
+	double t1 = (-v + wortel) / a;
+	double t2 = (-v - wortel) / a;
+	
+	if (t1 < 0) {
+		return cspr_ball->x + t2*cmot_ball->v_x;
+	}
+	else {
+		return cspr_ball->x + t1*cmot_ball->v_x;
+	}
 
 	return 0;
 }
@@ -74,8 +94,6 @@ void SystemAI::UpdateKeys()
 {
 	int level = engine->GetContext()->GetLevel();
 
-	// TODO: Implement game logic for different levels
-
 	if (level == 1)
 	{
 		// If ball is on left side of the net, set state equal to -1
@@ -84,11 +102,25 @@ void SystemAI::UpdateKeys()
 		//    Set state equal to 0 and serve only if the ball drops below y = 110 by simply moving right and jump
 		//    Return
 		
+		if (cspr_ball->y < 110) {
+			MoveRight();
+			Jump();
+			return;
+		}
+		
 		// Calculate the x-value of the first position at which the ball drops below y = 90 (call this position P)
-
+		double P = XBallBelow(90);
 		// If P is on the left side of the net
 		//    Position the slime closer than distance 6 to x = 600 (i.e. use abs(x - 600) < 6) by moving left/right (otherwise just stop)
 		//    Return
+		if (P < MIDDLE) {
+			if (cspr_player_2->x < 594) {
+				MoveRight();
+			}
+			else if (cspr_player_2->x > 606) {
+				MoveLeft();
+			}
+		}
 
 		// If the horizontal distance between P and the slime is less than 25, and the slime is on the ground
 		//    If Slime's x >= 675 and ball's x > 625
@@ -98,6 +130,16 @@ void SystemAI::UpdateKeys()
 		//    If Horizontal distance between ball and slime is less than 110 and ball's y > 25 and ball's y < 150
 		//        Jump
 		//    Return
+		if (abs(P - cspr_ball->x) < 25 && cspr_player_2->y == 0) {
+			if (cspr_player_2->x >= 625 && cspr_ball->x > 625)
+				Jump();
+			if (cspr_player_2->x <= 435 && cspr_ball->x < 395 && abs(cspr_ball->x - cspr_player_2->x) < 75)
+				Jump();
+			if (abs(cspr_ball->x - cspr_player_2->x) < 110 && cspr_ball->y > 25 && cspr_ball->y < 150)
+				Jump();
+			return;
+		}
+		Stop();
 
 		// Else if the slime is on the ground
 		//    Position it as close as possible to P (use abs limit 25 instead of 6)
@@ -163,7 +205,9 @@ void SystemAI::UpdateKeys()
 void SystemAI::UpdateMovement()
 {
 	// TODO: Change player's movement according to AI decisions (i.e. pressed_xxx)
-
+	engine->GetContext()->ToggleKey(ALLEGRO_KEY_UP, pressed_up);
+	engine->GetContext()->ToggleKey(ALLEGRO_KEY_LEFT, pressed_left);
+	engine->GetContext()->ToggleKey(ALLEGRO_KEY_RIGHT, pressed_right);
 }
 
 bool SystemAI::Initialize()
@@ -171,4 +215,15 @@ bool SystemAI::Initialize()
 	// TODO: Initialize all component pointers (optional)
 
 	return true;
+}
+
+void SystemAI::setEntities(ComponentSprite* cspr_player_1,ComponentSprite* cspr_player_2,
+						   ComponentMotion* cmot_player_2,ComponentSprite* cspr_ball,
+						   ComponentMotion* cmot_ball) 
+{
+	this->cspr_player_1 = cspr_player_1; 
+	this->cspr_player_2 = cspr_player_2;
+	this->cmot_player_2 = cmot_player_2;
+	this->cspr_ball = cspr_ball;
+	this->cmot_ball = cmot_ball;
 }

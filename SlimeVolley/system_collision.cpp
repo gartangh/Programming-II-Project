@@ -57,7 +57,7 @@ void SystemCollision::Update()
 			}
 		}
 	
-		if (co_ball_y < RADIUS_BALL + GROUND) {
+		if (co_ball_y < RADIUS_BALL) {
 			double lost_energy = -0.8;
 			cmot_ball->v_y *= lost_energy;
 			/*
@@ -73,7 +73,7 @@ void SystemCollision::Update()
 		if (co_ball_x < RADIUS_BALL || co_ball_x > 750 - RADIUS_BALL) {
 			HandleBallWallCollision();
 		}
-		if (co_ball_y < GROUND + 49 && co_ball_y> GROUND && abs(co_ball_x - MIDDLE) < RADIUS_BALL) {
+		if (co_ball_y < 49 && co_ball_y> 0 && abs(co_ball_x - MIDDLE) < RADIUS_BALL) {
 			HandleBallNetCollision();
 		}
 		//if(player)
@@ -122,8 +122,8 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	double v_y_n = -o_y + p_y;
 
 
-	cmot_ball->v_x = v_x_n*1.5;
-	cmot_ball->v_y = v_y_n*1.5;
+	cmot_ball->v_x = v_x_n*BOUNCINESS;
+	cmot_ball->v_y = v_y_n*BOUNCINESS;
 	/*
 	double d_x = cspr_ball->x - csprPlayer->x;
 	double d_y = cspr_ball->y - csprPlayer->y;

@@ -41,7 +41,9 @@ public:
 	vector<Entity*> GetEntities();
 	Context* GetContext();
 	EntityStream* GetEntityStream();
-	void setBall(ComponentSprite* sprite_ball, ComponentMotion* motion_ball);
+	void setEntities(ComponentSprite* cspr_player_1, ComponentMotion* cmot_player_1, 
+					 ComponentSprite* cspr_player_2, ComponentMotion* cmot_player_2, 
+					 ComponentSprite* cspr_ball, ComponentMotion* cmot_ball);
 	
 private:
 	vector<Entity*> entities;

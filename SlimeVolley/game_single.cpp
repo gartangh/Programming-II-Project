@@ -52,7 +52,7 @@ int GameSingle::Run()
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			int keycode = event.keyboard.keycode;
-			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_DOWN || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT)
+			if (keycode == ALLEGRO_KEY_Z || keycode == ALLEGRO_KEY_Q|| keycode == ALLEGRO_KEY_S || keycode == ALLEGRO_KEY_D)
 			{
 				context->ToggleKey(keycode, true);
 			}
@@ -61,7 +61,7 @@ int GameSingle::Run()
 		else if (event.type == ALLEGRO_EVENT_KEY_UP)
 		{
 			int keycode = event.keyboard.keycode;
-			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_DOWN || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT)
+			if (keycode == ALLEGRO_KEY_Z || keycode == ALLEGRO_KEY_Q || keycode == ALLEGRO_KEY_S || keycode == ALLEGRO_KEY_D)
 			{
 				context->ToggleKey(keycode, false);
 			}
@@ -98,36 +98,38 @@ void GameSingle::MakeEntities()
 {
 	// Initialize required entities and add them to the engine
 	Entity *ball = new Entity();
-	ComponentSprite* sprite_ball = new ComponentSprite(Graphics::SPRITE_BALL, START2, 11, 738, 11, 300, 11, 288, 11);
-	ball->Add(sprite_ball);
-	ComponentMotion* motion_ball = new ComponentMotion(0, 0, 0, GRAVITY);
-	ball->Add(motion_ball);
+	ComponentSprite* cspr_ball = new ComponentSprite(Graphics::SPRITE_BALL, START2, 11, 738, 11, 300, 11, 288, 11);
+	ball->Add(cspr_ball);
+	ComponentMotion* cmot_ball = new ComponentMotion(0, 0, 0, GRAVITY);
+	ball->Add(cmot_ball);
 	ball->Add(new ComponentBall());
 	engine.AddEntity(ball);
-	engine.setBall(sprite_ball, motion_ball);
+
+	Entity *player1 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
+	ComponentSprite *cspr_player_1 = new ComponentSprite(Graphics::SPRITE_PLAYER1, START1, 39, 738, 40, 0, 39, 288, 40);
+	player1->Add(cspr_player_1);
+	ComponentMotion *cmot_player_1 = new ComponentMotion(0, 0, 0, GRAVITY);
+	player1->Add(cmot_player_1);
+	player1->Add(new ComponentPlayer(1,40));
+	engine.AddEntity(player1);
+
+	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
+	ComponentSprite *cspr_player_2 = new ComponentSprite(Graphics::SPRITE_PLAYER2, START2, 39, 738, 40, 0, 39, 288, 40);
+	player2->Add(cspr_player_2);
+	ComponentMotion *cmot_player_2 = new ComponentMotion(0, 0, 0, GRAVITY);
+	player2->Add(cmot_player_2);
+	player2->Add(new ComponentPlayer(2,40));
+	engine.AddEntity(player2);
+
+	engine.setEntities(cspr_player_1, cmot_player_1, cspr_player_2, cmot_player_2, cspr_ball, cmot_ball);
+
 	Entity *eye1 = new Entity();
-	//new ComponentSprite(Graphics::SPRITE_BALL,)
 	eye1->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, START1 + 20, 0, 738, 5, COY(20), 0, 375, 5));
 	engine.AddEntity(eye1);
 
 	Entity *eye2 = new Entity();						//x  x_min x_max x_off
 	eye2->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, START2, 0, 738, 5, COY(0), 0, 375, 5));
 	engine.AddEntity(eye2);
-
-	Entity *player1 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player1->Add(new ComponentSprite(Graphics::SPRITE_PLAYER1, START1, 39, 738, 40, 75, 39, 288, 40));
-	player1->Add(new ComponentMotion(0, 0, 0, GRAVITY));
-	player1->Add(new ComponentPlayer(1,40));
-	engine.AddEntity(player1);
-
-
-	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	player2->Add(new ComponentSprite(Graphics::SPRITE_PLAYER2, START2, 39, 738, 40, 75, 39, 288, 40));
-	player2->Add(new ComponentMotion(0, 0, 0, GRAVITY));
-	player2->Add(new ComponentPlayer(2,40));
-	engine.AddEntity(player2);
-
-	
 	
 	// Points for player1
 	Entity *point11 = new Entity();
@@ -203,7 +205,7 @@ void GameSingle::MakeEntities()
 	
 	// Net
 	Entity *net = new Entity();
-	net->Add(new ComponentSprite(Graphics::SPRITE_NET, MIDDLE, GROUND+49));
+	net->Add(new ComponentSprite(Graphics::SPRITE_NET, MIDDLE, 49));
 	engine.AddEntity(net);
 }
 
