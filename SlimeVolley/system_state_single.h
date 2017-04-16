@@ -17,6 +17,8 @@ public:
 
 	virtual void Update();
 
+	void setBall(ComponentSprite *cspr_ball);
+
 protected:
 	virtual Type GetType()
 	{

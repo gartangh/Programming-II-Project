@@ -17,6 +17,8 @@
 #include "entity.h"
 #include "constants.h"
 
+#define SETBACK (.2)
+
 void SystemCollision::setBall(ComponentSprite* sprite_comp, ComponentMotion* motion_comp) {
 	cspr_ball = sprite_comp;
 	cmot_ball = motion_comp;
@@ -46,9 +48,9 @@ void SystemCollision::Update()
 			ComponentSprite* player = (ComponentSprite*)((*i)->GetComponent(Component::SPRITE));
 			ComponentMotion* player_mot = (ComponentMotion*)((*i)->GetComponent(Component::MOTION));
 
-			double distance = sqrt((player->x - co_ball_x)*(player->x - co_ball_x) + (player->y - co_ball_y)*(player->y - co_ball_y));
+			double distance = (player->x - co_ball_x)*(player->x - co_ball_x) + (player->y - co_ball_y)*(player->y - co_ball_y);
 
-			if (distance < 46.875) {
+			if (distance < 46.875*46.845) {
 				HandleBallPlayerCollision(player, player_mot);
 			}
 
@@ -101,8 +103,14 @@ void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, Com
 
 void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
-	double normal_x = cspr_ball->x - csprPlayer->x;
-	double normal_y = cspr_ball->y - csprPlayer->y;
+	int player_x = csprPlayer->x;
+	int player_y = csprPlayer->y;
+
+	int ball_x = cspr_ball->x;
+	int ball_y = cspr_ball->y;
+
+	double normal_x = ball_x - player_x;
+	double normal_y = ball_y - player_y;
 
 	double v_x = cmot_ball->v_x;
 	double v_y = cmot_ball->v_y;
@@ -121,9 +129,14 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	double v_x_n = -o_x + p_x;
 	double v_y_n = -o_y + p_y;
 
+	//place ball outsite collision circle
+	cspr_ball->x += v_x_n*SETBACK;
+	cspr_ball->y += v_y_n*SETBACK;
 
+	//set speed
 	cmot_ball->v_x = v_x_n*BOUNCINESS;
 	cmot_ball->v_y = v_y_n*BOUNCINESS;
+
 	/*
 	double d_x = cspr_ball->x - csprPlayer->x;
 	double d_y = cspr_ball->y - csprPlayer->y;

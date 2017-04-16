@@ -27,7 +27,8 @@
 #define REPLAY_MIN 0.5
 #define REPLAY_MAX 4
 
-#define GRAVITY -.5
+#define GRAVITY_BALL -.375
+#define GRAVITY_SLIME -.75
 #define NO_GRAVITY 0
 
 #define COY(x) (375-x-75)
@@ -39,6 +40,6 @@
 
 #define GAME_WIDTH 750
 
-#define BOUNCINESS (.8)
+#define BOUNCINESS (1)
 
 #endif

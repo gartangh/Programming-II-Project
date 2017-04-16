@@ -85,4 +85,7 @@ void Engine::setEntities(ComponentSprite* cspr_player_1, ComponentMotion* cmot_p
 
 	SystemAI* ai = (SystemAI*)systems.at(0);
 	ai->setEntities(cspr_player_1, cspr_player_2, cmot_player_2, cspr_ball, cmot_ball);
+
+	SystemStateSingle *single = (SystemStateSingle*)systems.at(11);
+	single->setBall(cspr_ball);
 }

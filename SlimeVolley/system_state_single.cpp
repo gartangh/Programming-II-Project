@@ -29,6 +29,7 @@ void SystemStateSingle::Update()
 			// TODO: Check if the ball has dropped. If so, freeze the game for
 			// 1.2 seconds and reset all velocities. Determine the winner and
 			// update the context accordingly.
+			
 
 		}
 		else
@@ -49,4 +50,8 @@ bool SystemStateSingle::Initialize()
 	// TODO: Initialize all component pointers (optional)
 
 	return true;
+}
+
+void SystemStateSingle::setBall(ComponentSprite *cspr_ball) {
+	this->cspr_ball = cspr_ball;
 }

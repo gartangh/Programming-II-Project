@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 
 #include "component.h"
 #include "component_motion.h"
@@ -64,6 +65,20 @@ void SystemMotion::Update()
 			}
 			else {
 				comp_sprite->y += comp_motion->v_y;
+			}
+
+			if (comp_sprite->sprite == Graphics::SPRITE_BALL) {
+				std::cout << "speed y: " << comp_motion->v_y << "\n";
+				
+				if (comp_sprite->y < RADIUS_BALL) {
+					if (comp_sprite->x < MIDDLE) {
+						engine->GetContext()->SetState(-2);
+					}
+					else {
+						engine->GetContext()->SetState(-1);
+					}
+					
+				}
 			}
 			
 

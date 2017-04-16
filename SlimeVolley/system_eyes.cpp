@@ -58,7 +58,7 @@ void SystemEyes::Update()
 		}
 		*/
 		//dX > 0 && dY > 0 angle >0 && angle < PI/2
-
+		/*
 		if (dX > 0 && dY > 0 && !(angle > 0 && angle < PI / 2)) {
 			std::cout << "problem";
 		}
@@ -73,11 +73,11 @@ void SystemEyes::Update()
 			std::cout << "problem";
 			//angle_after = PI - angle;
 		}
-
+		*/
 
 
 		////////////////////////////////////////////
-
+		/*
 		if (dX > 0 && dY > 0 && !(angle_after > 0 && angle_after < PI/2)) {
 			std::cout << "problem";
 		}
@@ -91,7 +91,7 @@ void SystemEyes::Update()
 		if (dX > 0 && dY < 0 && !(angle_after >(3 * PI)/2 && angle_after <  2*PI)) {
 			std::cout << "problem";
 		}
-
+		*/
 		
 		// Set pos of pupils
 		comp_player->pupil_x = co_x_eye + cos(angle_after) * 3.0;
