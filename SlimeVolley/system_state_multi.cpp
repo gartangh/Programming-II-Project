@@ -29,7 +29,28 @@ void SystemStateMulti::Update()
 			// TODO: Check if the ball has dropped. If so, freeze the game for
 			// 1.2 seconds and reset all velocities. Determine the winner and
 			// update the context accordingly.
+			if (cspr_ball->y <= 0) {
+				engine->GetContext()->SetFrozen(true);
+				freeze_time = 48; // 1.2 seconds
+				
+				cmot_ball->v_x = 0;
+				cmot_ball->v_y = 0;
+				cmot_player_1->v_x = 0;
+				cmot_player_1->v_y = 0;
+				cmot_player_2->v_x = 0;
+				cmot_player_2->v_y = 0;
 
+				if (cspr_ball->x <= MIDDLE) {
+					winner = 1;
+					engine->GetContext()->SetState(rand() % 3 - 7);
+					engine->GetContext()->IncreasePoints(1);
+				}
+				else {
+					winner = 2;
+					engine->GetContext()->SetState(rand() % 3 - 10);
+					engine->GetContext()->IncreasePoints(2);
+				}
+			}
 		}
 		else
 		{
@@ -38,7 +59,10 @@ void SystemStateMulti::Update()
 			// for	user input: spacebar to restart, ESC to quit (handled by
 			// input system already). If the game is not finished yet, update
 			// the context and reset player and ball positions.
-
+			freeze_time--;
+			if (freeze_time == 0) {
+				if (this->)
+			}
 		}
 	}
 }

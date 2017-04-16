@@ -77,12 +77,8 @@ void SystemMotion::Update()
 					else {
 						engine->GetContext()->SetState(-1);
 					}
-					
 				}
 			}
-			
-
-			
 		}
 	}
 }
