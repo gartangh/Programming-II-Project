@@ -114,11 +114,11 @@ void Context::IncreasePoints(int player)
 {
 	if (player == 1)
 	{
-		points_player_1 += 1;
+		points_player_1++;
 	}
-	else
+	else if (player == 2)
 	{
-		points_player_2 += 1;
+		points_player_2++;
 	}
 }
 

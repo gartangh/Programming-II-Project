@@ -10,7 +10,6 @@
 #include "entity.h"
 #include "engine.h"
 
-
 void SystemAI::Update()
 {
 	// Initialize (optional)
@@ -97,15 +96,23 @@ void SystemAI::UpdateKeys()
 	if (level == 1)
 	{
 		// If ball is on left side of the net, set state equal to -1
+		if (cspr_ball->x < MIDDLE)
+		{
+			state = -1;
+		}
 		
-		// If state equals 0 or the ball is in serving position (v_x = 0, x == 600)
+		// If state equals 0 or the ball is in serving position (v_x == 0, x == 600)
 		//    Set state equal to 0 and serve only if the ball drops below y = 110 by simply moving right and jump
 		//    Return
-		
-		if (cspr_ball->y < 110) {
-			MoveRight();
-			Jump();
-			return;
+		if (state = 0 || (cmot_ball->v_x == 0 && cspr_ball->x == 600))
+		{
+			state = 0;
+			if (cspr_ball->y < 110) {
+				MoveRight();
+				Jump();
+
+				return;
+			}
 		}
 		
 		// Calculate the x-value of the first position at which the ball drops below y = 90 (call this position P)
@@ -198,32 +205,42 @@ void SystemAI::UpdateKeys()
 	}
 	else if (level == 3)
 	{
-		
+		// OPTIONEEL ZELF TE IMPLEMENTEREN!
 	}
 }
 
 void SystemAI::UpdateMovement()
 {
 	// TODO: Change player's movement according to AI decisions (i.e. pressed_xxx)
-	engine->GetContext()->ToggleKey(ALLEGRO_KEY_UP, pressed_up);
-	engine->GetContext()->ToggleKey(ALLEGRO_KEY_LEFT, pressed_left);
-	engine->GetContext()->ToggleKey(ALLEGRO_KEY_RIGHT, pressed_right);
+	cmot_player_2->v_x = pressed_left*(-SLIME_V_X) + pressed_right*SLIME_V_X;
+	if (pressed_up && cmot_player_2->v_y == 0) {
+		cmot_player_2->v_y = SLIME_V_Y;
+	}
 }
 
 bool SystemAI::Initialize()
 {
-	// TODO: Initialize all component pointers (optional)
+	// Initialize all component pointers (optional)
+	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
+	for each (Entity* i in entities)
+	{
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
+		{
+			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+		}
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
+		{
+			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			cmot_player_2 = (ComponentMotion*)i->GetComponent(Component::MOTION);
+		}
+	}
+
+	entities = engine->GetEntityStream()->WithTag(Component::BALL);
+	for each (Entity* i in entities)
+	{
+		cspr_ball = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+		cmot_ball = (ComponentMotion*)i->GetComponent(Component::MOTION);
+	}
 
 	return true;
-}
-
-void SystemAI::setEntities(ComponentSprite* cspr_player_1,ComponentSprite* cspr_player_2,
-						   ComponentMotion* cmot_player_2,ComponentSprite* cspr_ball,
-						   ComponentMotion* cmot_ball) 
-{
-	this->cspr_player_1 = cspr_player_1; 
-	this->cspr_player_2 = cspr_player_2;
-	this->cmot_player_2 = cmot_player_2;
-	this->cspr_ball = cspr_ball;
-	this->cmot_ball = cmot_ball;
 }

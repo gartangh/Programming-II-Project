@@ -176,6 +176,30 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 bool SystemCollision::Initialize()
 {
 	// TODO: Initialize all component pointers (optional)
+	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
+	for each (Entity* i in entities)
+	{
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
+		{
+			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			cmot_player_1 = (ComponentMotion*)i->GetComponent(Component::MOTION);
+
+		}
+		else if (((ComponentPlayer*)i->GetComponent(Component::MOTION))->player_id == 2)
+		{
+			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			cmot_player_2 = (ComponentMotion*)i->GetComponent(Component::MOTION);
+		}
+	}
+
+	entities = engine->GetEntityStream()->WithTag(Component::BALL);
+	for each (Entity* i in entities)
+	{
+		cspr_ball = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+		cmot_ball = (ComponentMotion*)i->GetComponent(Component::MOTION);
+	}
+
+	return true;
 
 	return true;
 }

@@ -15,18 +15,6 @@ class Engine
 public:
 	Engine(Context* _context) : context(_context)
 	{
-		AddSystem(new SystemAI());
-		AddSystem(new SystemCollision());
-		AddSystem(new SystemEyes());
-		AddSystem(new SystemInputMulti());
-		AddSystem(new SystemInputSingle());
-		AddSystem(new SystemMotion());
-		AddSystem(new SystemOutput());
-		AddSystem(new SystemPoints());
-		AddSystem(new SystemRender());
-		AddSystem(new SystemReplay());
-		AddSystem(new SystemStateMulti());
-		AddSystem(new SystemStateSingle());
 	};
 
 	~Engine()
@@ -41,9 +29,6 @@ public:
 	vector<Entity*> GetEntities();
 	Context* GetContext();
 	EntityStream* GetEntityStream();
-	void setEntities(ComponentSprite* cspr_player_1, ComponentMotion* cmot_player_1, 
-					 ComponentSprite* cspr_player_2, ComponentMotion* cmot_player_2, 
-					 ComponentSprite* cspr_ball, ComponentMotion* cmot_ball);
 	
 private:
 	vector<Entity*> entities;

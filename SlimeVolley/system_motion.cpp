@@ -22,38 +22,20 @@ void SystemMotion::Update()
 		// TODO: Update velocity and position of all entities with motion component
 		Context* context = engine->GetContext();
 
-		bool left_player1 = context->GetKeyPressed(ALLEGRO_KEY_Q, false);
-		bool right_player1 = context->GetKeyPressed(ALLEGRO_KEY_D, false);
-		bool up_player1 = context->GetKeyPressed(ALLEGRO_KEY_Z, false);
-
-		bool left_player2 = context->GetKeyPressed(ALLEGRO_KEY_LEFT, false);
-		bool right_player2 = context->GetKeyPressed(ALLEGRO_KEY_RIGHT, false);
-		bool up_player2 = context->GetKeyPressed(ALLEGRO_KEY_UP, false);
-
 		set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::MOTION);
 		for each (Entity* i in entities)
-		{
+		{	
+			// Get components
 			ComponentMotion *comp_motion = (ComponentMotion*)i->GetComponent(Component::MOTION);
 			ComponentSprite *comp_sprite = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 
+			// Update velocity
 			comp_motion->v_x += comp_motion->a_x;
 			comp_motion->v_y += comp_motion->a_y;
 
-			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
-				comp_motion->v_x = left_player1*(-SLIME_V_X) + right_player1*(SLIME_V_X);
-				if (up_player1 && comp_sprite->y < 1) {
-					comp_motion->v_y = SLIME_V_Y;
-				}
-			}
-			else if (comp_sprite->sprite == Graphics::SPRITE_PLAYER2) {
-				comp_motion->v_x = left_player2*(-SLIME_V_X) + right_player2*(SLIME_V_Y);
-				if (up_player2  && comp_sprite->y < 1) {
-					comp_motion->v_y = SLIME_V_Y;
-				}
-			}
-
+			// Update coords
 			comp_sprite->x += comp_motion->v_x;
-			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER2 || comp_sprite->sprite == Graphics::SPRITE_PLAYER1) {
+			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER1 || comp_sprite->sprite == Graphics::SPRITE_PLAYER2) {
 				int co_y = comp_sprite->y + comp_motion->v_y;
 				if (co_y < 0) {
 					comp_sprite->y = 0;
@@ -65,19 +47,6 @@ void SystemMotion::Update()
 			}
 			else {
 				comp_sprite->y += comp_motion->v_y;
-			}
-
-			if (comp_sprite->sprite == Graphics::SPRITE_BALL) {
-				std::cout << "speed y: " << comp_motion->v_y << "\n";
-				
-				if (comp_sprite->y < RADIUS_BALL) {
-					if (comp_sprite->x < MIDDLE) {
-						engine->GetContext()->SetState(-2);
-					}
-					else {
-						engine->GetContext()->SetState(-1);
-					}
-				}
 			}
 		}
 	}
