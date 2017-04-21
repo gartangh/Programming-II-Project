@@ -32,7 +32,7 @@ void SystemCollision::Update()
 		// TODO: Handle all possible collisions
 		// Collision between Player 1 and ball
 		double distance_player_1 = (cspr_player_1->x - cspr_ball->x)*(cspr_player_1->x - cspr_ball->x) + (cspr_player_1->y - cspr_ball->y)*(cspr_player_1->y - cspr_ball->y);
-		if (distance_player_1 < 46.875*46.845) {
+		if (distance_player_1 < RADIUS_COLLISION*RADIUS_COLLISION) {
 			HandleBallPlayerCollision(cspr_player_1, cmot_player_1);
 		}
 
@@ -44,7 +44,7 @@ void SystemCollision::Update()
 
 		// Collision between Player 2 and ball
 		double distance_player_2 = (cspr_player_2->x - cspr_ball->x)*(cspr_player_2->x - cspr_ball->x) + (cspr_player_2->y - cspr_ball->y)*(cspr_player_2->y - cspr_ball->y);
-		if (distance_player_2 < 46.875*46.845) {
+		if (distance_player_2 < RADIUS_COLLISION*RADIUS_COLLISION) {
 			HandleBallPlayerCollision(cspr_player_2, cmot_player_2);
 		}
 
@@ -127,12 +127,16 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	int d_x = ball_x - player_x;
 	int d_y = ball_y - player_y;
 
-	double dist = sqrt(d_x*d_x + d_y + d_y);
-
-	double dist_diff = COLLISION_BUFFER*((RADIUS_COLLISION - dist)/dist + 1);
+	//double dist = sqrt(d_x*d_x + d_y + d_y);
+	/*
+	double dist_diff = COLLISION_BUFFER*RADIUS_COLLISION;
 
 	v_x_n /= v_l;
 	v_y_n /= v_l;
+
+	cspr_ball->x = v_x_n*dist_diff;
+	cspr_ball->y = v_y_n*dist_diff;
+	*/
 
 	COLLISION_BUFFER;
 	

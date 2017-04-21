@@ -1,7 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define FPS 10.0
+#define FPS 40.0
 
 #define FONT_SIZE 26
 
@@ -10,6 +10,7 @@
 #define RADIUS_EYES 3
 #define RADIUS_COLLISION (46.845)
 
+#define COLLISION_BUFFER (1.2)
 
 #define SLIME_1_INIT_X 150
 #define SLIME_2_INIT_X 600
