@@ -44,13 +44,35 @@ bool GameReplay::Run()
 		// Start Allegro iteration
 		AllegroLib::Instance().StartIteration();
 
-		// TODO: Get the current Allegro event
+		// Get the current Allegro event
+		ALLEGRO_EVENT event = AllegroLib::Instance().GetCurrentEvent();
 
-		// TODO: If event key down, toggle key in context
-
-		// TODO: If event key up, untoggle key in context
-
-		// TODO: If event timer, update engine
+		// If event key down, toggle key in context
+		// TODO: change Z, Q & D to UP, LEFT & RIGHT
+		if (event.type == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			int keycode = event.keyboard.keycode;
+			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT ||
+				keycode == ALLEGRO_KEY_P || keycode == ALLEGRO_KEY_ESCAPE || keycode == ALLEGRO_KEY_SPACE)
+			{
+				context->ToggleKey(keycode, true);
+			}
+		}
+		// If event key up, untoggle key in context
+		else if (event.type == ALLEGRO_EVENT_KEY_UP)
+		{
+			int keycode = event.keyboard.keycode;
+			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT ||
+				keycode == ALLEGRO_KEY_P || keycode == ALLEGRO_KEY_ESCAPE || keycode == ALLEGRO_KEY_SPACE)
+			{
+				context->ToggleKey(keycode, false);
+			}
+		}
+		// If event timer, update engine
+		else if (event.type == ALLEGRO_EVENT_TIMER)
+		{
+			engine.Update();
+		}
 
 		// The following six lines clear the screen, redraw the background,
 		// draw sprites and render both to screen. This should be handled by
