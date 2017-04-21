@@ -50,7 +50,7 @@ void SystemCollision::Update()
 
 			double distance = (player->x - co_ball_x)*(player->x - co_ball_x) + (player->y - co_ball_y)*(player->y - co_ball_y);
 
-			if (distance < 46.875*46.845) {
+			if (distance < RADIUS_COLLISION*RADIUS_COLLISION) {
 				HandleBallPlayerCollision(player, player_mot);
 			}
 
@@ -129,47 +129,25 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	double v_x_n = -o_x + p_x;
 	double v_y_n = -o_y + p_y;
 
-	
-
+	double v_l = sqrt(v_x_n*v_x_n + v_y_n*v_y_n);
 
 	//set speed
 	cmot_ball->v_x = v_x_n*BOUNCINESS + cmotPlayer->v_x;
 	cmot_ball->v_y = v_y_n*BOUNCINESS + cmotPlayer->v_y;
-	int a = 5;
-	/*
-	double d_x = cspr_ball->x - csprPlayer->x;
-	double d_y = cspr_ball->y - csprPlayer->y;
-	double dist = std::sqrt(d_x * d_x + d_y * d_y);
-	double radius = 46.875;
-	if (d_y > 0 && dist < radius)
-	{
-		
-		cspr_ball->x = csprPlayer->x + radius * d_x / dist;
-		cspr_ball->y = csprPlayer->y + radius * d_y / dist;
 
-		double d_v_x = cmot_ball->v_x - cmotPlayer->v_x;
-		double d_v_y = cmot_ball->v_y - cmotPlayer->v_y;
 
-		//?
-		double s = (d_x * d_v_x + d_y * d_v_y * 2) / dist;
+	int d_x = ball_x - player_x;
+	int d_y = ball_y - player_y;
 
-		if (s < 0)
-		{
-			cmot_ball->v_x += cmotPlayer->v_x - 2 * d_x * s / dist;
-			cmot_ball->v_y += cmotPlayer->v_y - d_y * s / dist;
+	double dist = sqrt(d_x*d_x + d_y + d_y);
 
-			//if Vx ball smaller then -11.25 set to 11.25
-			//if Vx ball bigger then 11.25 set to 11.25
-			cmot_ball->v_x = std::max(cmot_ball->v_x, -11.25);
-			cmot_ball->v_x = std::min(cmot_ball->v_x, 11.25);
+	double dist_diff = COLLISION_BUFFER*((RADIUS_COLLISION - dist)/dist + 1);
 
-			//if Vy ball smaller then -8.75 set to 8.75
-			//if Vy ball bigger then 8.75 set to 8.75
-			cmot_ball->v_y = std::max(cmot_ball->v_y, -8.25);
-			cmot_ball->v_y = std::min(cmot_ball->v_y, 8.25);
-		}
-	}
-	*/
+	v_x_n /= v_l;
+	v_y_n /= v_l;
+
+	COLLISION_BUFFER;
+	
 }
 
 bool SystemCollision::Initialize()

@@ -8,6 +8,7 @@
 #define RADIUS_SLIME 40
 #define RADIUS_BALL 12
 #define RADIUS_EYES 3
+#define RADIUS_COLLISION (46.845)
 
 
 #define SLIME_1_INIT_X 150
