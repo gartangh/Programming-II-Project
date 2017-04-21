@@ -19,11 +19,6 @@
 
 #define SETBACK (.2)
 
-void SystemCollision::setBall(ComponentSprite* sprite_comp, ComponentMotion* motion_comp) {
-	cspr_ball = sprite_comp;
-	cmot_ball = motion_comp;
-}
-
 void SystemCollision::Update()
 {
 	// Initialize (optional)
@@ -34,52 +29,38 @@ void SystemCollision::Update()
 
 	if (!engine->GetContext()->IsPaused() && !engine->GetContext()->IsFrozen())
 	{
-
 		// TODO: Handle all possible collisions
-		set<Entity*> ball_set = engine->GetEntityStream()->WithTag(Component::BALL);
-		set<Entity*> players_set = engine->GetEntityStream()->WithTag(Component::PLAYER);
-		//std::cout << "size: " << players_set.size();
-		ComponentSprite* ball = (ComponentSprite*)((*ball_set.begin())->GetComponent(Component::SPRITE));
-
-		int co_ball_x = ball->x;
-		int co_ball_y = ball->y;
-
-		for (set<Entity*>::iterator i = players_set.begin(); i != players_set.end(); i++){
-			ComponentSprite* player = (ComponentSprite*)((*i)->GetComponent(Component::SPRITE));
-			ComponentMotion* player_mot = (ComponentMotion*)((*i)->GetComponent(Component::MOTION));
-
-			double distance = (player->x - co_ball_x)*(player->x - co_ball_x) + (player->y - co_ball_y)*(player->y - co_ball_y);
-
-			if (distance < 46.875*46.845) {
-				HandleBallPlayerCollision(player, player_mot);
-			}
-
-			if (player->x < RADIUS_SLIME || player->x > GAME_WIDTH - RADIUS_SLIME) {
-				HandlePlayerWallCollision(player, player_mot);
-			}
-		}
-	
-		if (co_ball_y < RADIUS_BALL) {
-			double lost_energy = -0.8;
-			cmot_ball->v_y *= lost_energy;
-			/*
-			if (co_ball_y < 10 + GROUND && cmot_ball->v_y < .5) {
-				cspr_ball->y = GROUND;
-			}
-			else {
-				
-			}*/
-			
+		// Collision between Player 1 and ball
+		double distance_player_1 = (cspr_player_1->x - cspr_ball->x)*(cspr_player_1->x - cspr_ball->x) + (cspr_player_1->y - cspr_ball->y)*(cspr_player_1->y - cspr_ball->y);
+		if (distance_player_1 < 46.875*46.845) {
+			HandleBallPlayerCollision(cspr_player_1, cmot_player_1);
 		}
 
-		if (co_ball_x < RADIUS_BALL || co_ball_x > 750 - RADIUS_BALL) {
+		// Collision between Player 1 and wall
+		if (cspr_player_1->x <= RADIUS_SLIME || cspr_player_1->x >= MIDDLE - RADIUS_SLIME) {
+			HandlePlayerWallCollision(cspr_player_1, cmot_player_1);
+		}
+
+		// Collision between Player 2 and ball
+		double distance_player_2 = (cspr_player_2->x - cspr_ball->x)*(cspr_player_2->x - cspr_ball->x) + (cspr_player_2->y - cspr_ball->y)*(cspr_player_2->y - cspr_ball->y);
+		if (distance_player_2 < 46.875*46.845) {
+			HandleBallPlayerCollision(cspr_player_2, cmot_player_2);
+		}
+
+		// Collision between Player 2 and wall
+		if (cspr_player_2->x <= MIDDLE + RADIUS_SLIME || cspr_player_2->x >= GAME_WIDTH - RADIUS_SLIME) {
+			HandlePlayerWallCollision(cspr_player_2, cmot_player_2);
+		}
+
+		// Collision between ball and wall
+		if (cspr_ball->x< RADIUS_BALL || cspr_ball->x > 750 - RADIUS_BALL) {
 			HandleBallWallCollision();
 		}
-		if (co_ball_y < 49 && co_ball_y> 0 && abs(co_ball_x - MIDDLE) < RADIUS_BALL) {
+
+		// Collision between ball and net
+		if (cspr_ball->y < 49 && abs(cspr_ball->x - MIDDLE) < RADIUS_BALL) {
 			HandleBallNetCollision();
-		}
-		//if(player)
-		
+		}		
 	}
 }
 
@@ -97,8 +78,14 @@ void SystemCollision::HandleBallNetCollision()
 
 void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
-	// TODO: Handle a possible collision between a player and the walls/floor
+	// TODO: Handle a possible collision between a player and the walls / floor
+	if (csprPlayer->y <= RADIUS_SLIME) {
+		cmotPlayer->v_y = 0;
+	}
 
+	if (csprPlayer->x <= RADIUS_SLIME || csprPlayer->x >= GAME_WIDTH - RADIUS_SLIME) {
+		cmotPlayer->v_x = 0;
+	}
 }
 
 void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
@@ -185,7 +172,7 @@ bool SystemCollision::Initialize()
 			cmot_player_1 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 
 		}
-		else if (((ComponentPlayer*)i->GetComponent(Component::MOTION))->player_id == 2)
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
 		{
 			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_2 = (ComponentMotion*)i->GetComponent(Component::MOTION);
@@ -198,8 +185,6 @@ bool SystemCollision::Initialize()
 		cspr_ball = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 		cmot_ball = (ComponentMotion*)i->GetComponent(Component::MOTION);
 	}
-
-	return true;
 
 	return true;
 }

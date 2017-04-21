@@ -17,8 +17,6 @@ public:
 
 	virtual void Update();
 
-	void setBall(ComponentSprite* sprite_comp, ComponentMotion* motion_comp);
-
 protected:
 	virtual Type GetType()
 	{

@@ -138,7 +138,7 @@ void GameSingle::MakeEntities()
 		sprite = Graphics::SPRITE_OPPONENT2;
 		break;
 	case 3:
-		sprite = Graphics::SPRITE_BACKGROUND3;
+		sprite = Graphics::SPRITE_OPPONENT3;
 		break;
 	default:
 		sprite = Graphics::SPRITE_PLAYER2;
@@ -153,14 +153,6 @@ void GameSingle::MakeEntities()
 	player2->Add(new ComponentPlayer(2, 40));
 	engine.AddEntity(player2);
 
-	Entity *eye1 = new Entity();
-	eye1->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, SLIME_1_INIT_X + 20, 0, 738, 5, COY(20), 0, 375, 5));
-	engine.AddEntity(eye1);
-
-	Entity *eye2 = new Entity();						//x  x_min x_max x_off
-	eye2->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, SLIME_2_INIT_X, 0, 738, 5, COY(0), 0, 375, 5));
-	engine.AddEntity(eye2);
-	
 	// Points for player1
 	Entity *point11 = new Entity();
 	point11->Add(new ComponentSprite(Graphics::SPRITE_POINT, 40, POINTS_HEIGHT));

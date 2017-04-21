@@ -24,36 +24,30 @@ void SystemRender::Update()
 		initialized = Initialize();
 	}
 
-	//cout << "Rendering...";
-
 	// Clear screen and draw background
 	Graphics::Instance().ClearScreen();
 	Graphics::Instance().DrawBackground();
 
 	// Iterate over all entities with the sprite component and print to
 	// screen. For player slimes, draw the pupils as well.
-
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::SPRITE);
-	std::vector<ComponentSprite*> pupils;
-	for (set<Entity*>::iterator i = entities.begin(); i != entities.end(); i++) {
-		ComponentSprite *sprite_comp = (ComponentSprite*)(*i)->GetComponent(Component::SPRITE);
-		if (sprite_comp->sprite == Graphics::SPRITE_PUPIL) {
-			pupils.push_back(sprite_comp);
+	for each (Entity* i in entities)
+	{
+		ComponentSprite *sprite_comp = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+		ComponentPlayer *play_comp = (ComponentPlayer*)i->GetComponent(Component::PLAYER);
+		if (play_comp != nullptr)
+		{
+			if (play_comp->player_id == 1)
+			{
+				Graphics::Instance().DrawBitmap(Graphics::SPRITE_PUPIL, play_comp->pupil_x, COY(play_comp->pupil_y), PUPILS_OFFSET_X_1, PUPILS_OFFSET_Y);
+			}
+			else if (play_comp->player_id == 2)
+			{
+				Graphics::Instance().DrawBitmap(Graphics::SPRITE_PUPIL, play_comp->pupil_x, COY(play_comp->pupil_y), PUPILS_OFFSET_X_2, PUPILS_OFFSET_Y);
+			}
 		}
-		else {
-			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
-		}
-	}
-
-	int a = 0;
-	set<Entity*> players = engine->GetEntityStream()->WithTag(Component::PLAYER);
-
-	for (set<Entity*>::iterator i = players.begin(); i != players.end(); i++) {
-		ComponentPlayer *play_comp = (ComponentPlayer*)(*i)->GetComponent(Component::PLAYER);
-		Graphics::Instance().DrawBitmap(pupils.at(a)->sprite, play_comp->pupil_x, COY(play_comp->pupil_y), pupils.at(a)->x_off, pupils.at(a)->y_off);
-		a++;
-	}
-	
+		Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
+	}	
 
 	// Use an appropriate color for the different backgrounds
 	Color color(0, 0, 0); // Black
@@ -61,13 +55,13 @@ void SystemRender::Update()
 		color = Color(255, 255, 255); // White
 	}
 
-	// TODO: Print the current score if it is a singleplayer game
+	// Print the current score if it is a singleplayer game
 	if (engine->GetContext()->GetLevel() > 0)
 	{
-		Graphics::Instance().DrawString("Score: ", 375, 0, color, Graphics::ALIGN_CENTER);
+		Graphics::Instance().DrawString("Score: " + engine->GetContext()->GetScore(), 375, 20, color, Graphics::ALIGN_CENTER);
 	}
 	
-	// TODO: Print the correct instructions at the bottom of the screen,
+	// Print the correct instructions at the bottom of the screen,
 	// depending on whether there's a regular game or a replay
 	if (engine->GetContext()->IsReplay())
 	{
@@ -79,7 +73,7 @@ void SystemRender::Update()
 		Graphics::Instance().DrawString("Press P to pauze of ESC to quit without saving", 375, 342, color, Graphics::ALIGN_CENTER);
 	}
 	
-	// TODO: Print an appropriate message if state != 0, depending on state
+	// Print an appropriate message if state != 0, depending on state
 	// and current level (1-3 for singleplayer, 0 for multiplayer)
 	switch (engine->GetContext()->GetState())
 	{
@@ -185,8 +179,17 @@ void SystemRender::Update()
 
 bool SystemRender::Initialize()
 {
-	// TODO: Set background according to level
-	//engine->GetContext()->GetLevel();
+	// Set background according to level
+	switch (engine->GetContext()->GetLevel()) {
+	case 2:
+		Graphics::Instance().SetBackground(Graphics::SPRITE_BACKGROUND2);
+		break;
+	case 3:
+		Graphics::Instance().SetBackground(Graphics::SPRITE_BACKGROUND3);
+		break;
+	default:
+		Graphics::Instance().SetBackground(Graphics::SPRITE_BACKGROUND1);
+	}
 
 	return true;
 }
