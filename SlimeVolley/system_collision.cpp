@@ -200,6 +200,4 @@ bool SystemCollision::Initialize()
 	}
 
 	return true;
-
-	return true;
 }

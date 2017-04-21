@@ -25,84 +25,55 @@ void SystemEyes::Update()
 	// Iterate over all player entities and set eyes in right position
 	// Get coords of ball
 	
-	set<Entity*> ball = engine->GetEntityStream()->WithTag(Component::BALL);
-	ComponentSprite *ballsprite = (ComponentSprite*)(*ball.begin())->GetComponent(Component::SPRITE);
-	int co_x_ball = ballsprite->x + ballsprite->x_off;
-	int co_y_ball = ballsprite->y + ballsprite->y_off;
-	set<Entity*> players = engine->GetEntityStream()->WithTag(Component::PLAYER);
-	for each (Entity* player in players)
-	{
-		ComponentPlayer* comp_player = (ComponentPlayer*)player->GetComponent(Component::PLAYER);
-		ComponentSprite* comp_sprite = (ComponentSprite*)player->GetComponent(Component::SPRITE);
-		// Get coords of players's eyes
-		int co_x_eye;
-		//std::cout << comp_player->player_id;
-		if (comp_player->player_id == 1) {
-			co_x_eye = comp_sprite->x  + PUPILS_OFFSET_X_1;
-		}
-		else if (comp_player->player_id == 2) {
-			co_x_eye = comp_sprite->x - PUPILS_OFFSET_X_2;
-		}
-		else continue;
-		int co_y_eye = comp_sprite->y  - PUPILS_OFFSET_Y;
+	int vec_1_x = cspr_ball->x - (cspr_player_1->x + PUPILS_OFFSET_X_1);
+	int vec_1_y = cspr_ball->y- (cspr_player_1->y + PUPILS_OFFSET_Y);
 
-		// Calc rico
-		double dX = co_x_ball - co_x_eye;
-		double dY = co_y_ball - co_y_eye;
+	double vec_1_l = sqrt(vec_1_x*vec_1_x + vec_1_y*vec_1_y);
 
-		double angle = atan(dY / dX);
-		double angle_after = angle;
-		/*
-		if (dX < 0 && dY < 0) {
-			angle_after += PI;
-		}
-		*/
-		//dX > 0 && dY > 0 angle >0 && angle < PI/2
-		/*
-		if (dX > 0 && dY > 0 && !(angle > 0 && angle < PI / 2)) {
-			std::cout << "problem";
-		}
-		if (dX < 0 && dY > 0 && !(angle < PI && angle > PI / 2)) {
-			std::cout << "problem";
-			angle_after += PI;
-		}
-		if (dX < 0 && dY < 0 && !(angle > PI && angle < (3 * PI) / 2)) {
-			std::cout << "problem";
-		}
-		if (dX > 0 && dY < 0 && !(angle >(3 * PI) && angle <  2 * PI)) {
-			std::cout << "problem";
-			//angle_after = PI - angle;
-		}
-		*/
+	vec_1_x = (int)((vec_1_x / vec_1_l)*RADIUS_EYES);
+	vec_1_y = (int)((vec_1_y / vec_1_l)*RADIUS_EYES);
+
+	vec_1_l = sqrt(vec_1_x*vec_1_x + vec_1_y*vec_1_y);
+
+	int vec_2_x = cspr_ball->x - (cspr_player_2->x + PUPILS_OFFSET_X_2);
+	int vec_2_y = cspr_ball->y - (cspr_player_2->y + PUPILS_OFFSET_Y);
 
 
-		////////////////////////////////////////////
-		/*
-		if (dX > 0 && dY > 0 && !(angle_after > 0 && angle_after < PI/2)) {
-			std::cout << "problem";
-		}
-		if (dX < 0 && dY > 0 && !(angle_after < PI && angle_after > PI / 2)) {
-			std::cout << "problem";
-			//angle_after -= PI / 2;
-		}
-		if (dX < 0 && dY < 0 && !(angle_after > PI && angle_after < (3* PI) / 2)) {
-			std::cout << "problem";
-		}
-		if (dX > 0 && dY < 0 && !(angle_after >(3 * PI)/2 && angle_after <  2*PI)) {
-			std::cout << "problem";
-		}
-		*/
-		
-		// Set pos of pupils
-		comp_player->pupil_x = co_x_eye + cos(angle_after) * 3.0;
-		comp_player->pupil_y = co_y_eye + sin(angle_after) * 3.0;
-		
-	}
+	double vec_2_l = sqrt(vec_2_x*vec_2_x + vec_2_y*vec_2_y);
+
+	vec_2_x = (int)((vec_2_x / vec_2_l)*RADIUS_EYES);
+	vec_2_y = (int)((vec_2_y / vec_2_l)*RADIUS_EYES);
+
+	cpla_player_1->pupil_x = cspr_player_1->x + PUPILS_OFFSET_X_1 + vec_1_x;
+	cpla_player_1->pupil_y = cspr_player_1->y + PUPILS_OFFSET_Y + vec_1_y;
+
+	cpla_player_2->pupil_x = cspr_player_2->x + PUPILS_OFFSET_X_2 + vec_2_x;
+	cpla_player_2->pupil_y = cspr_player_2->y + PUPILS_OFFSET_Y + vec_2_y;
 }
+
 
 bool SystemEyes::Initialize()
 {
-	// TODO: Initialize all component pointers (optional)
+	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
+	for each (Entity* i in entities)
+	{
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
+		{
+			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			cpla_player_1 = (ComponentPlayer*)i->GetComponent(Component::PLAYER);
+		}
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
+		{
+			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			cpla_player_2 = (ComponentPlayer*)i->GetComponent(Component::PLAYER);
+		}
+	}
+
+	entities = engine->GetEntityStream()->WithTag(Component::BALL);
+	for each (Entity* i in entities)
+	{
+		cspr_ball = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+	}
 
 	return true;
 }
