@@ -1,7 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define FPS 40.0
+#define FPS 10.0
 
 #define FONT_SIZE 26
 
