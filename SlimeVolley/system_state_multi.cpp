@@ -29,10 +29,10 @@ void SystemStateMulti::Update()
 			// Check if the ball has dropped. If so, freeze the game for
 			// 1.2 seconds and reset all velocities. Determine the winner and
 			// update the context accordingly.
-			if (cspr_ball->y <= 0)
+			if (cspr_ball->y <= RADIUS_BALL)
 			{
 				engine->GetContext()->SetFrozen(true);
-				freeze_time = 48; // 1.2 seconds
+				freeze_time = 1.2*FPS; // 1.2 seconds
 				
 				cmot_ball->v_x = 0;
 				cmot_ball->v_y = 0;

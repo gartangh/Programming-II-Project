@@ -9,7 +9,6 @@
 #include "entity.h"
 #include "entity_stream.h"
 #include "graphics.h"
-#include <iostream>
 #include "constants.h"
 #include "allSystems.h"
 
@@ -45,7 +44,6 @@ int GameSingle::Run()
 		ALLEGRO_EVENT event = AllegroLib::Instance().GetCurrentEvent();
 
 		// If event key down, toggle key in context
-		// TODO: change Z, Q & D to UP, LEFT & RIGHT
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			int keycode = event.keyboard.keycode;
@@ -78,12 +76,13 @@ int GameSingle::Run()
 	// Reset game state in context and return
 	int state = context->GetState();
 	context->SetState(0);
+
 	return state;
 }
 
 void GameSingle::AddSystems()
 {
-	// TODO: Add all systems to the engine
+	// Add all systems to the engine
 	engine.AddSystem(&sis);
 	engine.AddSystem(&sai);
 	engine.AddSystem(&smot);
@@ -97,7 +96,7 @@ void GameSingle::AddSystems()
 
 void GameSingle::RemoveSystems()
 {
-	// TODO: Remove all systems from the engine
+	// Remove all systems from the engine
 	engine.RemoveSystem(&sis);
 	engine.RemoveSystem(&sai);
 	engine.RemoveSystem(&smot);
@@ -233,7 +232,7 @@ void GameSingle::MakeEntities()
 
 void GameSingle::DestroyEntities()
 {
-	// TODO: Remove and destroy all entities
+	// Remove and destroy all entities
 	vector<Entity*> entities = engine.GetEntities();
 	for each (Entity* entity in entities)
 	{

@@ -26,7 +26,7 @@ void SystemStateSingle::Update()
 		// Is the level in freeze state?
 		if (freeze_time == 0)
 		{
-			// TODO: Check if the ball has dropped. If so, freeze the game for
+			// Check if the ball has dropped. If so, freeze the game for
 			// 1.2 seconds and reset all velocities. Determine the winner and
 			// update the context accordingly.
 			if (cspr_ball->y <= RADIUS_BALL) {
@@ -58,7 +58,7 @@ void SystemStateSingle::Update()
 		}
 		else
 		{
-			// TODO: Decrease freeze time by one. If it becomes zero and one
+			// Decrease freeze time by one. If it becomes zero and one
 			// of the players scored seven points, update the context as to
 			// end the level gracefully. Wait for user input: spacebar to
 			// continue to next level (if won) or retry (if lost), ESC to quit
@@ -71,10 +71,19 @@ void SystemStateSingle::Update()
 				if (engine->GetContext()->GetPoints(1) == 7)
 				{
 					engine->GetContext()->SetState(-1); // De speler heeft een level gewonnen in een singleplayer game
+					engine->GetContext()->SetFrozen(true);
+					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false)) {
+						engine->GetContext()->SetState(1);
+					}
+
 				}
 				else if (engine->GetContext()->GetPoints(2) == 7)
 				{
 					engine->GetContext()->SetState(-2); // De speler heeft een level verloren in een singleplayer game
+					engine->GetContext()->SetFrozen(true);
+					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false)) {
+						engine->GetContext()->SetState(2);
+					}
 				}
 				else
 				{
@@ -103,7 +112,7 @@ void SystemStateSingle::Update()
 
 bool SystemStateSingle::Initialize()
 {
-	// TODO: Initialize all component pointers (optional)
+	// Initialize all component pointers (optional)
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::BALL);
 	for each (Entity* i in entities)
 	{
@@ -125,8 +134,4 @@ bool SystemStateSingle::Initialize()
 	}
 
 	return true;
-}
-
-void SystemStateSingle::setBall(ComponentSprite *cspr_ball) {
-	this->cspr_ball = cspr_ball;
 }

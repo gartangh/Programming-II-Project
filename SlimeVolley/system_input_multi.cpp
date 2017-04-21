@@ -35,7 +35,16 @@ void SystemInputMulti::Update()
 
 	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, false))
 	{
+		// TODO: exit pauzed state when pressed P again
 		engine->GetContext()->SetPaused(true);
+		/*
+		if (!engine->GetContext()->IsPaused()) {
+		engine->GetContext()->SetPaused(true);
+		}
+		else {
+		engine->GetContext()->SetPaused(false);
+		}
+		*/
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
 	{

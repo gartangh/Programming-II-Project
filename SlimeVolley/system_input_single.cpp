@@ -14,7 +14,7 @@ void SystemInputSingle::Update()
 		Initialize();
 	}
 
-	// TODO: Change player's movement, pause and exit according to toggled
+	// Change player's movement, pause and exit according to toggled
 	// keys in context
 	pressed_left = engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_LEFT, false);
 	pressed_right = engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_RIGHT, false);
@@ -26,18 +26,28 @@ void SystemInputSingle::Update()
 	}
 
 	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, false))
-	{
+	{	
+		// TODO: exit pauzed state when pressed P again
 		engine->GetContext()->SetPaused(true);
+		/*
+		if (!engine->GetContext()->IsPaused()) {
+			engine->GetContext()->SetPaused(true);
+		}
+		else {
+			engine->GetContext()->SetPaused(false);
+		}
+		*/
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
 	{
 		// TODO: quit without saving
+		engine->GetContext()->SetState(3);
 	}
 }
 
 bool SystemInputSingle::Initialize()
 {
-	// TODO: Initialize all component pointers (optional)
+	// Initialize all component pointers (optional)
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
 	{
