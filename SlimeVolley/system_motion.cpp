@@ -28,6 +28,7 @@ void SystemMotion::Update()
 			// Get components
 			ComponentMotion *comp_motion = (ComponentMotion*)i->GetComponent(Component::MOTION);
 			ComponentSprite *comp_sprite = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+			ComponentPlayer *comp_player = (ComponentPlayer*)i->GetComponent(Component::PLAYER);
 
 			// Update velocity
 			comp_motion->v_x += comp_motion->a_x;
@@ -35,9 +36,9 @@ void SystemMotion::Update()
 
 			// Update coords
 			comp_sprite->x += comp_motion->v_x;
-			if (comp_sprite->sprite == Graphics::SPRITE_PLAYER1 || comp_sprite->sprite == Graphics::SPRITE_PLAYER2) {
+			if (comp_player != nullptr) {
 				int co_y = comp_sprite->y + comp_motion->v_y;
-				if (co_y < 0) {
+				if (co_y <= 0) {
 					comp_sprite->y = 0;
 					comp_motion->v_y = 0;
 				}

@@ -15,16 +15,6 @@ GameMulti::GameMulti(Context* _context) :
 	context(_context),
 	engine(_context)
 {
-	/*
-	sim = SystemInputMulti();
-	smot = SystemMotion();
-	scoll = SystemCollision();
-	seyes = SystemEyes();
-	ssm = SystemStateMulti();
-	sp = SystemPoints();
-	sr = SystemRender();
-	*/
-
 	AddSystems();
 	MakeEntities();
 	context->SetLevel(0);
@@ -125,7 +115,7 @@ void GameMulti::MakeEntities()
 	engine.AddEntity(ball);
 
 	Entity *player1 = new Entity(); // (double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	ComponentSprite *cspr_player_1 = new ComponentSprite(Graphics::SPRITE_PLAYER1, SLIME_1_INIT_X, 39, 738, 40, 0, 39, 288, 40);
+	ComponentSprite *cspr_player_1 = new ComponentSprite(Graphics::SPRITE_PLAYER1, SLIME_1_INIT_X, 39, MIDDLE, 40, 0, 39, 288, 40);
 	player1->Add(cspr_player_1);
 	ComponentMotion *cmot_player_1 = new ComponentMotion(0, 0, 0, GRAVITY_SLIME);
 	player1->Add(cmot_player_1);
@@ -133,21 +123,13 @@ void GameMulti::MakeEntities()
 	engine.AddEntity(player1);
 
 	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	ComponentSprite *cspr_player_2 = new ComponentSprite(Graphics::SPRITE_PLAYER2, SLIME_2_INIT_X, 39, 738, 40, 0, 39, 288, 40);
+	ComponentSprite *cspr_player_2 = new ComponentSprite(Graphics::SPRITE_PLAYER2, SLIME_2_INIT_X, MIDDLE, 738, 40, 0, 39, 288, 40);
 	player2->Add(cspr_player_2);
 	ComponentMotion *cmot_player_2 = new ComponentMotion(0, 0, 0, GRAVITY_SLIME);
 	player2->Add(cmot_player_2);
 	player2->Add(new ComponentPlayer(2, 40));
 	engine.AddEntity(player2);
-
-	Entity *eye1 = new Entity();
-	eye1->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, SLIME_1_INIT_X + 20, 0, 738, 5, COY(20), 0, 375, 5));
-	engine.AddEntity(eye1);
-
-	Entity *eye2 = new Entity();						//x  x_min x_max x_off
-	eye2->Add(new ComponentSprite(Graphics::SPRITE_PUPIL, SLIME_2_INIT_X, 0, 738, 5, COY(0), 0, 375, 5));
-	engine.AddEntity(eye2);
-
+	
 	// Points for player1
 	Entity *point11 = new Entity();
 	point11->Add(new ComponentSprite(Graphics::SPRITE_POINT, 40, POINTS_HEIGHT));

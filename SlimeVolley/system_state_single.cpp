@@ -45,12 +45,14 @@ void SystemStateSingle::Update()
 					winner = 1;
 					engine->GetContext()->SetState(rand() % 3 - 7);
 					engine->GetContext()->IncreasePoints(1);
+					engine->GetContext()->UpdateScore(engine->GetContext()->GetScore() + engine->GetContext()->GetLevel() * 200);
 				}
 				else
 				{
 					winner = 2;
 					engine->GetContext()->SetState(rand() % 3 - 10);
 					engine->GetContext()->IncreasePoints(2);
+					engine->GetContext()->UpdateScore(engine->GetContext()->GetScore() - engine->GetContext()->GetLevel() * 100);
 				}
 			}
 		}
