@@ -39,14 +39,19 @@ void SystemRender::Update()
 		{
 			if (play_comp->player_id == 1)
 			{
+				Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
 				Graphics::Instance().DrawBitmap(Graphics::SPRITE_PUPIL, play_comp->pupil_x, COY(play_comp->pupil_y), 5, 5);
 			}
 			else if (play_comp->player_id == 2)
 			{
-				Graphics::Instance().DrawBitmap(Graphics::SPRITE_PUPIL, play_comp->pupil_x, COY(play_comp->pupil_y), sprite_comp->x_off, sprite_comp->y_off);
+				Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
+				Graphics::Instance().DrawBitmap(Graphics::SPRITE_PUPIL, play_comp->pupil_x, COY(play_comp->pupil_y), 5, 5);	
 			}
 		}
-		Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
+		else {
+			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
+		}
+		
 	}	
 
 	// Use an appropriate color for the different backgrounds

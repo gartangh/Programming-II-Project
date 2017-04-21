@@ -117,28 +117,24 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	double v_x_n = -o_x + p_x;
 	double v_y_n = -o_y + p_y;
 
-	double v_l = sqrt(v_x_n*v_x_n + v_y_n*v_y_n);
 
 	//set speed
 	cmot_ball->v_x = v_x_n*BOUNCINESS + cmotPlayer->v_x;
 	cmot_ball->v_y = v_y_n*BOUNCINESS + cmotPlayer->v_y;
 
+	
+	double d_x = ball_x - player_x;
+	double d_y = ball_y - player_y;
 
-	int d_x = ball_x - player_x;
-	int d_y = ball_y - player_y;
+	double d_d = sqrt(d_x*d_x + d_y*d_y);
 
-	//double dist = sqrt(d_x*d_x + d_y + d_y);
-	/*
+	d_x /= d_d;
+	d_y /= d_d;
+
 	double dist_diff = COLLISION_BUFFER*RADIUS_COLLISION;
-
-	v_x_n /= v_l;
-	v_y_n /= v_l;
-
-	cspr_ball->x = v_x_n*dist_diff;
-	cspr_ball->y = v_y_n*dist_diff;
-	*/
-
-	COLLISION_BUFFER;
+	cspr_ball->x = player_x + d_x*dist_diff;
+	cspr_ball->y = player_y + d_y*dist_diff;
+	int a = 5;
 	
 }
 
