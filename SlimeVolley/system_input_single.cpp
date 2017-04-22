@@ -40,8 +40,8 @@ void SystemInputSingle::Update()
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
 	{
-		// TODO: quit without saving
-		engine->GetContext()->SetState(3);
+		// Quit without saving
+		engine->GetContext()->SetState(4);
 	}
 }
 

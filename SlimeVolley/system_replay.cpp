@@ -70,6 +70,22 @@ bool SystemReplay::Initialize()
 	// TODO: Read input coordinates from file and push to list
 
 	// TODO: Initialize all component pointers (optional)
+	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
+	for each (Entity* i in entities)
+	{
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1) {
+			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+		}
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2) {
+			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+		}
+	}
+
+	entities = engine->GetEntityStream()->WithTag(Component::BALL);
+	for each (Entity* i in entities)
+	{
+		cspr_ball = (ComponentSprite*)i->GetComponent(Component::SPRITE);
+	}
 
 	return true;
 }

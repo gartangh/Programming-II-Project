@@ -72,16 +72,17 @@ void SystemStateSingle::Update()
 				{
 					engine->GetContext()->SetState(-1); // De speler heeft een level gewonnen in een singleplayer game
 					engine->GetContext()->SetFrozen(true);
-					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false)) {
+					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false))
+					{
 						engine->GetContext()->SetState(1);
 					}
-
 				}
 				else if (engine->GetContext()->GetPoints(2) == 7)
 				{
 					engine->GetContext()->SetState(-2); // De speler heeft een level verloren in een singleplayer game
 					engine->GetContext()->SetFrozen(true);
-					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false)) {
+					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false))
+					{
 						engine->GetContext()->SetState(2);
 					}
 				}
@@ -123,11 +124,13 @@ bool SystemStateSingle::Initialize()
 	entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
 	{
-		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1) {
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
+		{
 			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_1 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 		}
-		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2) {
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
+		{
 			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_2 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 		}

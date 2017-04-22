@@ -19,7 +19,6 @@ public:
 	bool Run();
 
 private:
-	void Init();
 	void AddSystems();
 	void RemoveSystems();
 	void MakeEntities();
