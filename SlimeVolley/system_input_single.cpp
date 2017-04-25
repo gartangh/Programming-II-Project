@@ -42,6 +42,7 @@ void SystemInputSingle::Update()
 	{
 		// Quit without saving
 		engine->GetContext()->SetState(4);
+		engine->GetContext()->ToggleKey(ALLEGRO_KEY_ESCAPE, false);
 	}
 }
 

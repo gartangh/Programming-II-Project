@@ -286,6 +286,7 @@ void Game::StartSingleplayer()
 
 	// Reset score in context
 	context->ResetScore();
+	context->ResetPoints();
 
 	// Restart game if necessary
 	if (retry)
@@ -300,6 +301,10 @@ void Game::StartMultiplayer()
 	// Initialize and run the game
 	GameMulti game(context);
 	game.Run();
+
+	// Reset score in context
+	context->ResetScore(); // Not necessary
+	context->ResetPoints();
 }
 
 void Game::StartReplay(int selected_item)
@@ -335,4 +340,5 @@ void Game::StartReplay(int selected_item)
 
 	// Reset score in context
 	context->ResetScore();
+	context->ResetPoints();
 }

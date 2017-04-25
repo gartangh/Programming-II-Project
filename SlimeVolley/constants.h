@@ -43,6 +43,6 @@
 
 #define GAME_WIDTH 750
 
-#define BOUNCINESS (1.1)
+#define BOUNCINESS (1.0)
 
 #endif
