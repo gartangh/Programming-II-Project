@@ -27,7 +27,7 @@ void SystemOutput::Update()
 	}
 
 	// Is there a winner?
-	if (engine->GetContext()->GetState() > 0)
+	if (engine->GetContext()->GetState() >  0|| engine->GetContext()->print)
 	{
 		test = false;
 		// TODO: Output coordinates to file

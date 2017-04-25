@@ -26,6 +26,7 @@ public:
 		points_player_1(0),
 		points_player_2(0)
 	{
+		print = false;
 	};
 
 	~Context()
@@ -60,6 +61,8 @@ public:
 	void ToggleKey(int key, bool pressed);
 	bool GetKeyPressed(int key, bool clear);
 	void Reset(int _state, bool _score);
+
+	bool print;
 
 private:
 	int screen_width;
