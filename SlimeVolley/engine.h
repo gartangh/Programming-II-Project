@@ -19,6 +19,12 @@ public:
 
 	~Engine()
 	{
+		for (int i = 0; i < entities.size(); i++) {
+			delete entities.at(i);
+		}
+		for (int i = 0; i < systems.size(); i++) {
+			delete systems.at(i);
+		}
 	};
 
 	void AddEntity(Entity* entity);

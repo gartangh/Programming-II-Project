@@ -74,7 +74,6 @@ bool SystemReplay::Initialize()
 	ofstream myfile;
 	myfile.open(inputfile);
 
-<<<<<<< HEAD
 	if (myfile.is_open()) {
 		/*
 		std::ifstream infile(inputfile);
@@ -96,20 +95,6 @@ bool SystemReplay::Initialize()
 		std::cout << "file couldn't be openend, system replay";
 	}
 	
-	
-
-	//set entities
-	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
-	for each (Entity* i in entities)
-	{
-		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
-		{
-			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
-
-		}
-		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
-		{
-=======
 	// TODO: Initialize all component pointers (optional)
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
@@ -118,7 +103,7 @@ bool SystemReplay::Initialize()
 			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 		}
 		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2) {
->>>>>>> refs/remotes/origin/master
+
 			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 		}
 	}
