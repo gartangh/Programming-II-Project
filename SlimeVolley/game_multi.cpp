@@ -215,5 +215,14 @@ void GameMulti::DestroyEntities()
 	for each (Entity* entity in entities)
 	{
 		engine.RemoveEntity(entity);
+
+		vector<Component*> components = entity->GetComponents();
+
+		for each (Component* component in components)
+		{
+			delete component;
+		}
+
+		delete entity;
 	}
 }

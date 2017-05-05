@@ -232,10 +232,19 @@ void GameReplay::MakeEntities()
 
 void GameReplay::DestroyEntities()
 {
-	// TODO: Remove and destroy all entities
+	// Remove and destroy all entities
 	vector<Entity*> entities = engine.GetEntities();
 	for each (Entity* entity in entities)
 	{
 		engine.RemoveEntity(entity);
+
+		vector<Component*> components = entity->GetComponents();
+
+		for each (Component* component in components)
+		{
+			delete component;
+		}
+
+		delete entity;
 	}
 }
