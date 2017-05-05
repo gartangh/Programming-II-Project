@@ -45,14 +45,14 @@ void SystemStateSingle::Update()
 					winner = 1;
 					engine->GetContext()->SetState(rand() % 3 - 7);
 					engine->GetContext()->IncreasePoints(1);
-					engine->GetContext()->UpdateScore(engine->GetContext()->GetScore() + engine->GetContext()->GetLevel() * 200);
+					engine->GetContext()->UpdateScore(200);
 				}
 				else
 				{
 					winner = 2;
 					engine->GetContext()->SetState(rand() % 3 - 10);
 					engine->GetContext()->IncreasePoints(2);
-					engine->GetContext()->UpdateScore(engine->GetContext()->GetScore() - engine->GetContext()->GetLevel() * 100);
+					engine->GetContext()->UpdateScore(-100);
 				}
 			}
 		}
@@ -64,47 +64,63 @@ void SystemStateSingle::Update()
 			// continue to next level (if won) or retry (if lost), ESC to quit
 			// (handled by input system already). If the game is not finished
 			// yet, update the context and reset player and ball positions.
-			freeze_time--;
+			if (engine->GetContext()->GetPoints(1) == 7 && engine->GetContext()->GetState() <= 0)
+			{
+				engine->GetContext()->SetState(-1); // De speler heeft een level gewonnen in een singleplayer game
+				engine->GetContext()->SetFrozen(true);
+				if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false))
+				{
+					engine->GetContext()->SetState(1);
+					engine->GetContext()->SetFrozen(false);
+				}
+				/*
+				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
+				{
+					engine->GetContext()->SetState(2);
+					engine->GetContext()->SetFrozen(false);
+				}
+				*/
+			}
+			else if (engine->GetContext()->GetPoints(2) == 7 && engine->GetContext()->GetState() <= 0)
+			{
+				engine->GetContext()->SetState(-2); // De speler heeft een level verloren in een singleplayer game
+				engine->GetContext()->SetFrozen(true);
+				if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false))
+				{
+					engine->GetContext()->SetState(3);
+					engine->GetContext()->SetFrozen(false);
+				}
+				/*
+				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
+				{
+					engine->GetContext()->SetState(2);
+					engine->GetContext()->SetFrozen(false);
+				}
+				*/
+			}
+			else {
+				freeze_time--;
+			}
 
 			if (freeze_time == 0)
 			{
-				if (engine->GetContext()->GetPoints(1) == 7)
+				// Verliezer slaat op
+				if (winner == 2)
 				{
-					engine->GetContext()->SetState(-1); // De speler heeft een level gewonnen in een singleplayer game
-					engine->GetContext()->SetFrozen(true);
-					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false)) {
-						engine->GetContext()->SetState(1);
-					}
-
-				}
-				else if (engine->GetContext()->GetPoints(2) == 7)
-				{
-					engine->GetContext()->SetState(-2); // De speler heeft een level verloren in een singleplayer game
-					engine->GetContext()->SetFrozen(true);
-					if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false)) {
-						engine->GetContext()->SetState(2);
-					}
+					cspr_ball->x = SLIME_1_INIT_X;
 				}
 				else
 				{
-					// Verliezer slaat op
-					if (winner == 2)
-					{
-						cspr_ball->x = SLIME_1_INIT_X;
-					}
-					else
-					{
-						cspr_ball->x = SLIME_2_INIT_X;
-					}
-					cspr_ball->y = BALL_INIT_Y;
-					cspr_player_1->x = SLIME_1_INIT_X;
-					cspr_player_1->y = GROUND;
-					cspr_player_2->x = SLIME_2_INIT_X;
-					cspr_player_2->y = GROUND;
-
-					engine->GetContext()->SetState(0); // De bal is in het spel
-					engine->GetContext()->SetFrozen(false);
+					cspr_ball->x = SLIME_2_INIT_X;
 				}
+				cspr_ball->y = BALL_INIT_Y;
+				cspr_player_1->x = SLIME_1_INIT_X;
+				cspr_player_1->y = GROUND;
+				cspr_player_2->x = SLIME_2_INIT_X;
+				cspr_player_2->y = GROUND;
+
+				engine->GetContext()->SetState(0); // De bal is in het spel
+				engine->GetContext()->SetFrozen(false);
 			}
 		}
 	}
@@ -123,11 +139,13 @@ bool SystemStateSingle::Initialize()
 	entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
 	{
-		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1) {
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
+		{
 			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_1 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 		}
-		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2) {
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
+		{
 			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_2 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 		}

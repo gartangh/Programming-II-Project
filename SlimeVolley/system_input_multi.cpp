@@ -33,22 +33,23 @@ void SystemInputMulti::Update()
 		cmot_player_1->v_y = SLIME_V_Y;
 	}
 
-	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, false))
+	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, true))
 	{
-		// TODO: exit pauzed state when pressed P again
-		engine->GetContext()->SetPaused(true);
-		/*
+		// exit pauzed state when pressed P again
 		if (!engine->GetContext()->IsPaused()) {
-		engine->GetContext()->SetPaused(true);
+			engine->GetContext()->SetPaused(true);
 		}
 		else {
-		engine->GetContext()->SetPaused(false);
+			engine->GetContext()->SetPaused(false);
 		}
-		*/
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
 	{
-		// TODO: quit without saving
+		// Quit without saving
+		engine->GetContext()->SetState(2);
+		engine->GetContext()->SetFrozen(false);
+		engine->GetContext()->SetPaused(false);
+		engine->GetContext()->ToggleKey(ALLEGRO_KEY_ESCAPE, false);
 	}
 }
 

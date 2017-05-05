@@ -33,7 +33,7 @@ void SystemStateMulti::Update()
 			{
 				engine->GetContext()->SetFrozen(true);
 				freeze_time = 1.2*FPS; // 1.2 seconds
-				
+
 				cmot_ball->v_x = 0;
 				cmot_ball->v_y = 0;
 				cmot_player_1->v_x = 0;
@@ -62,38 +62,64 @@ void SystemStateMulti::Update()
 			// for	user input: spacebar to restart, ESC to quit (handled by
 			// input system already). If the game is not finished yet, update
 			// the context and reset player and ball positions.			
-			freeze_time--;
+			if (engine->GetContext()->GetPoints(1) == 7 && engine->GetContext()->GetState() <= 0)
+			{
+				engine->GetContext()->SetState(-3); // De linkse speler heeft de wedstrijd gewonnen in een multiplayer game
+				engine->GetContext()->SetFrozen(true);
+				if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false))
+				{
+					engine->GetContext()->ResetPoints();
+					freeze_time = 0;
+				}
+				/*
+				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
+				{
+				engine->GetContext()->SetState(2);
+				engine->GetContext()->SetFrozen(false);
+				}
+				*/
+			}
+			else if (engine->GetContext()->GetPoints(2) == 7 && engine->GetContext()->GetState() <= 0)
+			{
+				engine->GetContext()->SetState(-2); // De rechtse speler heeft de wedstrijd gewonnen in een multiplayer game
+				engine->GetContext()->SetFrozen(true);
+				if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_SPACE, false))
+				{
+					engine->GetContext()->ResetPoints();
+					freeze_time = 0;
+				}
+				/*
+				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
+				{
+					engine->GetContext()->SetState(2);
+					engine->GetContext()->SetFrozen(false);
+				}
+				*/
+			}
+			else
+			{
+				freeze_time--;
+			}
 
 			if (freeze_time == 0)
 			{
-				if (engine->GetContext()->GetPoints(1) == 7)
+				// Verliezer slaat op
+				if (winner == 2)
 				{
-					engine->GetContext()->SetState(-3); // De linkse speler heeft de wedstrijd gewonnen in een multiplayer game
-				}
-				else if (engine->GetContext()->GetPoints(2) == 7)
-				{
-					engine->GetContext()->SetState(-2); // De rechtse speler heeft de wedstrijd gewonnen in een multiplayer game
+					cspr_ball->x = SLIME_1_INIT_X;
 				}
 				else
 				{
-					// Verliezer slaat op
-					if (winner == 2)
-					{
-						cspr_ball->x = SLIME_1_INIT_X;
-					}
-					else
-					{
-						cspr_ball->x = SLIME_2_INIT_X;
-					}
-					cspr_ball->y = BALL_INIT_Y;
-					cspr_player_1->x = SLIME_1_INIT_X;
-					cspr_player_1->y = GROUND;
-					cspr_player_2->x = SLIME_2_INIT_X;
-					cspr_player_2->y = GROUND;
-
-					engine->GetContext()->SetState(0); // De bal is in het spel
-					engine->GetContext()->SetFrozen(false);
+					cspr_ball->x = SLIME_2_INIT_X;
 				}
+				cspr_ball->y = BALL_INIT_Y;
+				cspr_player_1->x = SLIME_1_INIT_X;
+				cspr_player_1->y = GROUND;
+				cspr_player_2->x = SLIME_2_INIT_X;
+				cspr_player_2->y = GROUND;
+
+				engine->GetContext()->SetState(0); // De bal is in het spel
+				engine->GetContext()->SetFrozen(false);
 			}
 		}
 	}

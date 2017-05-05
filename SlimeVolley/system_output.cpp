@@ -60,7 +60,6 @@ void SystemOutput::Update()
 		else {
 			std::cout << "couldn't open file\n";
 		}
-		
 	}
 }
 

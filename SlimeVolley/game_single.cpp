@@ -80,6 +80,7 @@ int GameSingle::Run()
 	// Reset game state in context and return
 	int state = context->GetState();
 	context->SetState(0);
+	context->ResetPoints();
 
 	return state;
 }
@@ -116,15 +117,15 @@ void GameSingle::MakeEntities()
 {
 	// Initialize required entities and add them to the engine
 	Entity *ball = new Entity();
-	ComponentSprite* cspr_ball = new ComponentSprite(Graphics::SPRITE_BALL, SLIME_1_INIT_X, 11, 738, 11, 300, 11, 288, 11);
+	ComponentSprite* cspr_ball = new ComponentSprite(Graphics::SPRITE_BALL, SLIME_1_INIT_X, 11, 738, 11, BALL_INIT_Y, 11, 288, 11);
 	ball->Add(cspr_ball);
 	ComponentMotion* cmot_ball = new ComponentMotion(0, 0, 0, GRAVITY_BALL);
 	ball->Add(cmot_ball);
 	ball->Add(new ComponentBall());
 	engine.AddEntity(ball);
 
-	Entity *player1 = new Entity(); // (double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	ComponentSprite *cspr_player_1 = new ComponentSprite(Graphics::SPRITE_PLAYER1, SLIME_1_INIT_X, 39, 738, 40, 0, 39, 288, 40);
+	Entity *player1 = new Entity();  // (double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
+	ComponentSprite *cspr_player_1 = new ComponentSprite(Graphics::SPRITE_PLAYER1, SLIME_1_INIT_X, 39, MIDDLE, 40, 0, 39, 288, 40);
 	player1->Add(cspr_player_1);
 	ComponentMotion *cmot_player_1 = new ComponentMotion(0, 0, 0, GRAVITY_SLIME);
 	player1->Add(cmot_player_1);
@@ -148,8 +149,8 @@ void GameSingle::MakeEntities()
 		break;
 	}
 
-	Entity *player2 = new Entity(); //double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
-	ComponentSprite *cspr_player_2 = new ComponentSprite(sprite, SLIME_2_INIT_X, 39, 738, 40, 0, 39, 288, 40);
+	Entity *player2 = new Entity(); // (double _x, double _x_min, double _x_max, double _x_off, double _y, double _y_min, double _y_max, double _y_off)
+	ComponentSprite *cspr_player_2 = new ComponentSprite(sprite, SLIME_2_INIT_X, MIDDLE, 738, 40, 0, 39, 288, 40);
 	player2->Add(cspr_player_2);
 	ComponentMotion *cmot_player_2 = new ComponentMotion(0, 0, 0, GRAVITY_SLIME);
 	player2->Add(cmot_player_2);
