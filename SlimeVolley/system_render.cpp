@@ -51,7 +51,6 @@ void SystemRender::Update()
 		else {
 			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
 		}
-		
 	}	
 
 	// Use an appropriate color for the different backgrounds
@@ -63,7 +62,7 @@ void SystemRender::Update()
 	// Print the current score if it is a singleplayer game
 	if (engine->GetContext()->GetLevel() > 0)
 	{
-		Graphics::Instance().DrawString("Score: " + engine->GetContext()->GetScore(), 375, 20, color, Graphics::ALIGN_CENTER);
+		Graphics::Instance().DrawString("Score: " + std::to_string(engine->GetContext()->GetScore()), 375, 20, color, Graphics::ALIGN_CENTER);
 	}
 	
 	// Print the correct instructions at the bottom of the screen,
@@ -96,7 +95,7 @@ void SystemRender::Update()
 		Graphics::Instance().DrawString("Press space to continue or esc to quit without saving", 375, 100, color, Graphics::ALIGN_CENTER);
 		break;
 	case -2:
-		Graphics::Instance().DrawString("Winners never quit, and quiters nevver win...", 375, 75, color, Graphics::ALIGN_CENTER);
+		Graphics::Instance().DrawString("Winners never quit, and quiters never win...", 375, 75, color, Graphics::ALIGN_CENTER);
 		Graphics::Instance().DrawString("Press space to retry or esc to quit", 375, 100, color, Graphics::ALIGN_CENTER);
 		break;
 	case -3:

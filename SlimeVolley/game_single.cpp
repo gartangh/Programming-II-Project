@@ -76,6 +76,7 @@ int GameSingle::Run()
 	// Reset game state in context and return
 	int state = context->GetState();
 	context->SetState(0);
+	context->ResetPoints();
 
 	return state;
 }

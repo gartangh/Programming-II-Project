@@ -43,22 +43,17 @@ void SystemPoints::Update()
 			if (comp_point->point_id <= points_player_1) {
 				comp_sprite->sprite = sprite_1;
 			}
-			/*
 			else {
 				comp_sprite->sprite = Graphics::SPRITE_POINT;
 			}
-			*/
 		}
-
 		else if (comp_point->player_id == 2) {
 			if (comp_point->point_id <= points_player_2) {
 				comp_sprite->sprite = sprite_2;
 			}
-			/*
 			else {
 			comp_sprite->sprite = Graphics::SPRITE_POINT;
 			}
-			*/
 		}
 	}
 }
