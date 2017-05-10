@@ -69,7 +69,7 @@ void SystemRender::Update()
 	// depending on whether there's a regular game or a replay
 	if (engine->GetContext()->IsReplay())
 	{
-		Graphics::Instance().DrawString("Speed down (LEFT), up (Right) or up (P)", 20, 310, color, Graphics::ALIGN_LEFT);
+		Graphics::Instance().DrawString("Speed down (LEFT), up (Right) or zero (P)", 20, 310, color, Graphics::ALIGN_LEFT);
 		Graphics::Instance().DrawString("Next point (UP), Level (DOWN) or quit (ESC)", 20, 342, color, Graphics::ALIGN_LEFT);
 	}
 	else

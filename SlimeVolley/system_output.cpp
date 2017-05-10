@@ -18,19 +18,19 @@ void SystemOutput::Update()
 		initialized = Initialize();
 	}
 
-	if (prev.x_ball != cspr_ball->x || prev.y_ball != cspr_ball->y ||
-		prev.x_player_1 != cspr_player_1->x || prev.y_player_1 != cspr_player_1->y ||
-		prev.x_player_2 != cspr_player_2->x || prev.y_player_2 != cspr_player_2->y) {
+	if (prev.x_ball != cspr_ball->x			|| prev.y_ball != cspr_ball->y			||
+		prev.x_player_1 != cspr_player_1->x || prev.y_player_1 != cspr_player_1->y	||
+		prev.x_player_2 != cspr_player_2->x || prev.y_player_2 != cspr_player_2->y	)
+	{
 
 		prev = { cspr_player_1->x , cspr_player_1->y, cspr_player_2->x , cspr_player_2->y, cspr_ball->x , cspr_ball->y };
 		cs.push_back(prev);
 	}
 
 	// Is there a winner?
-	if (engine->GetContext()->GetState() >  0|| engine->GetContext()->print)
+	if (engine->GetContext()->GetState() > 0 || engine->GetContext()->print)
 	{
-		test = false;
-		// TODO: Output coordinates to file
+		// Output coordinates to file
 		time_t now = time(0);
 		ofstream myfile;
 		char intStr[33];
@@ -65,8 +65,9 @@ void SystemOutput::Update()
 
 bool SystemOutput::Initialize()
 {
-	// TODO: Initialize all component pointers (optional)
+	// Initialize all component pointers (optional)
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
+	
 	for each (Entity* i in entities)
 	{
 		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)

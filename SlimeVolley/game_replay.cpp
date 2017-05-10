@@ -54,7 +54,7 @@ bool GameReplay::Run()
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			int keycode = event.keyboard.keycode;
-			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT ||
+			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_DOWN || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT ||
 				keycode == ALLEGRO_KEY_P || keycode == ALLEGRO_KEY_ESCAPE || keycode == ALLEGRO_KEY_SPACE)
 			{
 				context->ToggleKey(keycode, true);
@@ -64,7 +64,7 @@ bool GameReplay::Run()
 		else if (event.type == ALLEGRO_EVENT_KEY_UP)
 		{
 			int keycode = event.keyboard.keycode;
-			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT ||
+			if (keycode == ALLEGRO_KEY_UP || keycode == ALLEGRO_KEY_DOWN || keycode == ALLEGRO_KEY_LEFT || keycode == ALLEGRO_KEY_RIGHT ||
 				keycode == ALLEGRO_KEY_P || keycode == ALLEGRO_KEY_ESCAPE || keycode == ALLEGRO_KEY_SPACE)
 			{
 				context->ToggleKey(keycode, false);
