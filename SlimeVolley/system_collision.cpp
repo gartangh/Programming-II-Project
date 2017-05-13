@@ -37,7 +37,7 @@ void SystemCollision::Update()
 		}
 
 		// Collision between Player 1 and wall
-		if (cspr_player_1->x <= RADIUS_SLIME || cspr_player_1->x >= MIDDLE - RADIUS_SLIME) {
+		if (cspr_player_1->x <= RADIUS_SLIME || cspr_player_1->x >= MIDDLE - 32) {
 			HandlePlayerWallCollision(cspr_player_1, cmot_player_1);
 		}
 
@@ -49,7 +49,7 @@ void SystemCollision::Update()
 		}
 
 		// Collision between Player 2 and wall
-		if (cspr_player_2->x <= MIDDLE + RADIUS_SLIME || cspr_player_2->x >= GAME_WIDTH - RADIUS_SLIME) {
+		if (cspr_player_2->x <= MIDDLE + RADIUS_SLIME || cspr_player_2->x >= GAME_WIDTH - 32) {
 			HandlePlayerWallCollision(cspr_player_2, cmot_player_2);
 		}
 

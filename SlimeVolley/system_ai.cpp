@@ -368,7 +368,7 @@ void SystemAI::UpdateKeys()
 		//if(cmot_ball->v_x > 0 || )
 		int loc;
 		if (est >= MIDDLE) {
-			if (pred.v_x > 0) {
+			if (pred.v_x > 0 || cspr_player_2->x < 750 - RADIUS_SLIME +5) {
 				//GO to left of ball
 				loc = est + 15;
 			}
@@ -379,14 +379,28 @@ void SystemAI::UpdateKeys()
 			std::cout << "dist: " << dist << std::endl;
 			if (dist < 0) {
 				std::cout << "move Left" << std::endl;
-				MoveLeft();
+				if(cspr_player_2->x > MIDDLE + RADIUS_SLIME && abs(dist) > 3)
+					MoveLeft();
 			}
 			else {
 				std::cout << "move Right" << std::endl;
-				MoveRight();
+				if (cspr_player_2->x < GAME_WIDTH - RADIUS_SLIME && abs(dist) > 3)
+					MoveRight();
 			}
 			if ((cspr_ball->x - cspr_player_2->x)*(cspr_ball->x - cspr_player_2->x) + (cspr_ball->y - cspr_player_2->y)*(cspr_ball->y - cspr_player_2->y) < (RADIUS_COLLISION + 10)*(RADIUS_COLLISION + 10)) {
 				Jump();
+			}
+		}
+		else {
+			//Move to middle of field
+			int loc = GAME_WIDTH*(3.0 / 4.0) - cspr_player_2->x;
+			if (loc < 0) {
+				if (cspr_player_2->x > MIDDLE + RADIUS_SLIME && abs(loc) > 3)
+					MoveLeft();
+			}
+			else {
+				if (cspr_player_2->x < GAME_WIDTH - RADIUS_SLIME && abs(loc) > 3)
+					MoveRight();
 			}
 		}
 		
