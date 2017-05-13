@@ -10,7 +10,6 @@ class SystemOutput : public System
 public:
 	SystemOutput() : System(), initialized(false)
 	{
-		test = true;
 	};
 
 	virtual ~SystemOutput()
@@ -37,7 +36,6 @@ private:
 	};
 
 	bool Initialize();
-	bool test;
 	bool initialized;
 	time_t start_time;
 	int level;

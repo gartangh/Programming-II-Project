@@ -255,7 +255,7 @@ void Game::StartSingleplayer()
 			std::ofstream output("./assets/highscores/highscores.txt");
 			for (int j = 0; j < 5; j++)
 			{
-				output << to_string(highscores[j]) + " " + to_string(start_times[j]) + "\n";
+				output << to_string(highscores[j]) << " " << to_string(start_times[j]) << endl;
 			}
 			output.close();
 
@@ -315,13 +315,11 @@ void Game::StartReplay(int selected_item)
 		// File name is based on the game's timestamp and level
 		std::string file_name = "./assets/highscores/" + to_string(start_times[selected_item - 1]) + "_" + to_string(i) + ".txt";
 
-
-		//DEBUG
 		// Check if a file for the level exists
 		if (std::ifstream(file_name.c_str()))
 		{
 			// Initialize and run the game
-			GameReplay game(context, i,file_name);
+			GameReplay game(context, i, file_name);
 			if (game.Run())
 			{
 				// Player completed the level, so continue
@@ -334,7 +332,6 @@ void Game::StartReplay(int selected_item)
 				break;
 			}
 		}
-			
 		else
 		{
 			printf("File %s does not exist\n", file_name.c_str());

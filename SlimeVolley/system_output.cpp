@@ -12,7 +12,7 @@
 
 void SystemOutput::Update()
 {
-	// Initialize (optional)
+	// Initialize
 	if (!initialized)
 	{
 		initialized = Initialize();
@@ -22,51 +22,33 @@ void SystemOutput::Update()
 		prev.x_player_1 != cspr_player_1->x || prev.y_player_1 != cspr_player_1->y	||
 		prev.x_player_2 != cspr_player_2->x || prev.y_player_2 != cspr_player_2->y	)
 	{
-
 		prev = { cspr_player_1->x , cspr_player_1->y, cspr_player_2->x , cspr_player_2->y, cspr_ball->x , cspr_ball->y };
 		cs.push_back(prev);
 	}
-
+	
 	// Is there a winner?
 	if (engine->GetContext()->GetState() > 0 || engine->GetContext()->print)
 	{
-		// Output coordinates to file
-		ofstream myfile;
-		char intStr[33];
-		_itoa_s(engine->GetContext()->GetStartTime(), intStr, 10);
-
-		string path = "./assets/highscores/" + string(intStr) + "_";
-		string filename = path + string(intStr) + string("_");
-		
-		char intStr2[2];
-
-		engine->GetContext()->GetLevel();
-		_itoa_s(engine->GetContext()->GetLevel(), intStr2, 10);
-		std::cout << string(intStr2) << "\n";
-		path += string(intStr2);
-		path += string(".txt");
-
-		std::cout << path << "\n";
-		myfile.open(path);
+		std::string file_name = "./assets/highscores/" + std::to_string(start_time) + "_" + std::to_string(level) + ".txt";
+		ofstream myfile(file_name);
 
 		if (myfile.is_open()) {
 			for (coordinates i : cs) {
-				myfile << i.x_ball << " " << i.y_ball << " " << i.x_player_1 << " " << i.y_player_1 << " " << i.x_player_2 << " " << i.y_player_2 << "\n";
+				myfile << i.x_player_1 << " " << i.y_player_1 << " " << i.x_player_2 << " " << i.y_player_2 << " " << i.x_ball << " " << i.y_ball << endl;
 			}
-			//myfile << "Writing hey to a file.\n";
+			
 			myfile.close();
 		}
 		else {
-			std::cout << "couldn't open file\n";
+			std::cout << "couldn't open file" << endl;
 		}
 	}
 }
 
 bool SystemOutput::Initialize()
 {
-	// Initialize all component pointers (optional)
+	// Initialize all component pointers
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
-	
 	for each (Entity* i in entities)
 	{
 		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
@@ -87,6 +69,8 @@ bool SystemOutput::Initialize()
 	}
 
 	prev = { 0,0,0,0,0,0 };
+	start_time = engine->GetContext()->GetStartTime();
+	level = engine->GetContext()->GetLevel();
 
 	return true;
 }
