@@ -36,18 +36,24 @@ void SystemReplay::Update()
 	// Is the game running?
 	if (!engine->GetContext()->IsPaused())
 	{
-		// TODO: Go to the next frame(s), if necessary
+		GoToNextFrame();
 	}
 }
 
 void SystemReplay::GoToNextFrame()
 {
-	// TODO: Go to next frame by setting the new coordinates. Set state to:
-	//   0 if a normal frame has been found
-	//   1 if a frame has been found in which the ball has dropped
-	//   2 if there are no coordinates left
-	// and update the context whenever necessary
+	frame += speed;
 
+	if (frame < cs.size()) {
+		cspr_player_1->x = cs.at(frame).x_player_1;
+		cspr_player_1->y = cs.at(frame).y_player_1;
+
+		cspr_player_2->x = cs.at(frame).x_player_2;
+		cspr_player_2->y = cs.at(frame).y_player_2;
+
+		cspr_ball->x = cs.at(frame).x_ball;
+		cspr_ball->y = cs.at(frame).y_ball;
+	}
 }
 
 void SystemReplay::GoToNextPoint()
@@ -68,32 +74,26 @@ void SystemReplay::GoToNextLevel()
 
 bool SystemReplay::Initialize()
 {
+	frame = 0;
+	speed = 1;
 	// TODO: Read input coordinates from file and push to list
 	std::string inputfile  = engine->GetContext()->GetInputFile();
-	std::string line;
-	ofstream myfile;
-	myfile.open(inputfile);
-
-	if (myfile.is_open()) {
-		/*
-		std::ifstream infile(inputfile);
-		double x_ball;
-		double y_ball;
-		double x_player1;
-		double y_player1;
-		double x_player2;
-		double y_player2;
-		while (infile >> x_ball >> y_ball >> x_player1 >> y_player1 >> x_player2 >> y_player2) {
-			coordinates a = {x_player1, y_player1, x_player2, y_player2, x_ball, y_ball};
-			cs.push_back(a);
+	std::cout << inputfile;
+	string line;
+	std::fstream myfile(inputfile, std::ios_base::in);
+	if (myfile.is_open())
+	{
+		
+		float a;
+		while (myfile >> a)
+		{
+			printf("%f ", a);
 		}
-		std::cout << "loaded coordinates, length: " << cs.size();
-		*/
-		myfile.close();
+
+		getchar();
 	}
-	else {
-		std::cout << "file couldn't be openend, system replay";
-	}
+
+	else cout << "Unable to open file";
 	
 	// TODO: Initialize all component pointers (optional)
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);

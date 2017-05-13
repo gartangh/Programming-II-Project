@@ -41,10 +41,12 @@ private:
 	void GoToNextPoint();
 	void GoToNextLevel();
 
+	int frame;
+
 	bool initialized;
-	double speed;
+	int speed;
 	int status;
-	std::list<coordinates> cs;
+	std::vector<coordinates> cs;
 	ComponentSprite* cspr_player_1;
 	ComponentSprite* cspr_player_2;
 	ComponentSprite* cspr_ball;

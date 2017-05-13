@@ -31,12 +31,11 @@ void SystemOutput::Update()
 	if (engine->GetContext()->GetState() > 0 || engine->GetContext()->print)
 	{
 		// Output coordinates to file
-		time_t now = time(0);
 		ofstream myfile;
 		char intStr[33];
-		_itoa_s(now, intStr, 10);
+		_itoa_s(engine->GetContext()->GetStartTime(), intStr, 10);
 
-		string path = "assets/highscores/" + string(intStr) + "_";
+		string path = "./assets/highscores/" + string(intStr) + "_";
 		string filename = path + string(intStr) + string("_");
 		
 		char intStr2[2];

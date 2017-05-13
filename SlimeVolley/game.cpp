@@ -318,10 +318,10 @@ void Game::StartReplay(int selected_item)
 
 		//DEBUG
 		// Check if a file for the level exists
-		//if (std::ifstream(file_name.c_str()))
-		//{
+		if (std::ifstream(file_name.c_str()))
+		{
 			// Initialize and run the game
-			GameReplay game(context, i, "./assets/highscores/allalalla.txt");
+			GameReplay game(context, i,file_name);
 			if (game.Run())
 			{
 				// Player completed the level, so continue
@@ -333,12 +333,12 @@ void Game::StartReplay(int selected_item)
 				printf("Player failed level %i\n", i);
 				break;
 			}
-		//}
-			/*
+		}
+			
 		else
 		{
 			printf("File %s does not exist\n", file_name.c_str());
-		}*/
+		}
 	}
 
 	// Reset score in context
