@@ -1,6 +1,7 @@
 #include "system_state_single.h"
 
 #include <set>
+#include <iostream>
 
 #include "component.h"
 #include "component_player.h"
@@ -30,6 +31,7 @@ void SystemStateSingle::Update()
 			// 1.2 seconds and reset all velocities. Determine the winner and
 			// update the context accordingly.
 			if (cspr_ball->y <= RADIUS_BALL) {
+				std::cout << "Ball droped at: " << cspr_ball->x;
 				engine->GetContext()->SetFrozen(true);
 				freeze_time = 1.2*FPS; // 1.2 seconds
 

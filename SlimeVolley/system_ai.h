@@ -27,6 +27,14 @@ protected:
 	};
 
 private:
+
+	struct Prediction {
+		double co_x;
+		double v_x;
+		double v_y;
+		bool hitwall;
+	};
+
 	bool Initialize();
 	void UpdateKeys();
 	void UpdateMovement();
@@ -35,7 +43,8 @@ private:
 	void Jump();
 	void Stop();
 	float GetRandom();
-	double XBallBelow(double y_target);
+	Prediction XBallBelow(double y_target, double co_x_ball, double co_y_ball, double v_x_ball, double v_y_ball, double a_y_ball);
+	Prediction CheckBellowWithWall(double co_x_ball, double co_y_ball, double v_x_ball, double v_y_ball, double a_y_ball);
 
 	bool initialized;
 	int state;
@@ -47,4 +56,5 @@ private:
 	ComponentMotion* cmot_player_2;
 	ComponentSprite* cspr_ball;
 	ComponentMotion* cmot_ball;
+	
 };

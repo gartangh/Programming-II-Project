@@ -89,8 +89,8 @@ void GameSingle::AddSystems()
 {
 	// Add all systems to the engine
 	engine.AddSystem(&sis);
-	engine.AddSystem(&sai);
 	engine.AddSystem(&smot);
+	engine.AddSystem(&sai);
 	engine.AddSystem(&scoll);
 	engine.AddSystem(&seyes);
 	engine.AddSystem(&sss);

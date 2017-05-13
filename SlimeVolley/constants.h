@@ -1,7 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define FPS 40.0
+#define FPS 10.0
 
 #define FONT_SIZE 26
 
@@ -36,7 +36,7 @@
 
 #define COY(x) (375-x-75)
 #define COY_W_G(x) (x-75)
-#define GROUND 75
+#define GROUND 0
 #define MIDDLE 369
 
 #define POINTS_HEIGHT COY_W_G(340)

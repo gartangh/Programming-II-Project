@@ -59,7 +59,7 @@ void SystemCollision::Update()
 		}
 
 		// Collision between ball and net
-		if (cspr_ball->y < 49 && abs(cspr_ball->x - MIDDLE) < RADIUS_BALL) {
+		if (cspr_ball->y < 49 + RADIUS_BALL && abs(cspr_ball->x - MIDDLE) < RADIUS_BALL + 2) {
 			HandleBallNetCollision();
 		}		
 	}
@@ -69,12 +69,17 @@ void SystemCollision::HandleBallWallCollision()
 {
 	// TODO: Handle a possible collision between the ball and a wall
 	cmot_ball->v_x *= -1;
+	if (cspr_ball->x < MIDDLE) {
+		cspr_ball->x = RADIUS_BALL;
+	}
+	std::cout << "============== Collision with wall ==============";
 }
 
 void SystemCollision::HandleBallNetCollision()
 {
 	// TODO: Handle a possible collision between the ball and the net
 	cmot_ball->v_x = 0;
+	cspr_ball->y = RADIUS_BALL - 1;
 }
 
 void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
@@ -84,13 +89,17 @@ void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, Com
 		cmotPlayer->v_y = 0;
 	}
 
-	if (csprPlayer->x <= RADIUS_SLIME || csprPlayer->x >= GAME_WIDTH - RADIUS_SLIME) {
+	if (csprPlayer->x <= RADIUS_SLIME && cmotPlayer->v_x < 0) {
+		cmotPlayer->v_x = 0;
+	}
+	if (csprPlayer->x >= GAME_WIDTH - RADIUS_SLIME && cmotPlayer->v_x > 0) {
 		cmotPlayer->v_x = 0;
 	}
 }
 
 void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
+	/*
 	int player_x = csprPlayer->x;
 	int player_y = csprPlayer->y;
 
@@ -135,7 +144,31 @@ void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, Com
 	cspr_ball->x = player_x + d_x*dist_diff;
 	cspr_ball->y = player_y + d_y*dist_diff;
 	int a = 5;
-	
+	*/
+
+	std::cout << "Collision with player at location: " << csprPlayer->x;
+
+
+	double d_x = cspr_ball->x - csprPlayer->x;
+	double d_y = cspr_ball->y - csprPlayer->y;
+	double dist = std::sqrt(d_x * d_x + d_y * d_y);
+	if (d_y > 0 && dist < 46.875)
+	{
+		cspr_ball->x = csprPlayer->x + 46.875 * d_x / dist;
+		cspr_ball->y = csprPlayer->y + 46.875 * d_y / dist;
+		double d_v_x = cmot_ball->v_x - cmotPlayer->v_x;
+		double d_v_y = cmot_ball->v_y - cmotPlayer->v_y;
+		double s = (d_x * d_v_x + d_y * d_v_y * 2) / dist;
+		if (s < 0)
+		{
+			cmot_ball->v_x += cmotPlayer->v_x - 2 * d_x * s / dist;
+			cmot_ball->v_y += cmotPlayer->v_y - d_y * s / dist;
+			cmot_ball->v_x = std::max(cmot_ball->v_x, -11.25);
+			cmot_ball->v_x = std::min(cmot_ball->v_x, 11.25);
+			cmot_ball->v_y = std::max(cmot_ball->v_y, -8.25);
+			cmot_ball->v_y = std::min(cmot_ball->v_y, 8.25);
+		}
+	}
 }
 
 bool SystemCollision::Initialize()

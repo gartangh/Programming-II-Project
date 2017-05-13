@@ -2,6 +2,7 @@
 
 #include <set>
 #include <iostream>
+#include <cmath>
 
 #include "component.h"
 #include "component_motion.h"
@@ -35,7 +36,7 @@ void SystemAI::Update()
 	UpdateMovement();
 }
 
-double SystemAI::XBallBelow(double y_target)
+SystemAI::Prediction SystemAI::XBallBelow(double y_target, double co_x_ball, double co_y_ball, double v_x_ball, double v_y_ball, double a_y_ball)
 {
 	// TODO: Calculate the value of x when y is first below y_target
 	//Calculate time to hit y value
@@ -46,18 +47,19 @@ double SystemAI::XBallBelow(double y_target)
 	int v = cmot_ball->v_y;
 	double a = cmot_ball->a_y;
 
-	double wortel = sqrt(-2 * Pn*a + 2 * y_target*a + v*v);
-	double t1 = (-v + wortel) / a;
-	double t2 = (-v - wortel) / a;
+	double wortel = sqrt(-2 * co_y_ball*a_y_ball + 2 * y_target*a_y_ball + v_y_ball*v_y_ball);
+	double t1 = (-v_y_ball + wortel) / a_y_ball;
+	double t2 = (-v_y_ball - wortel) / a_y_ball;
 	
 	if (t1 < 0) {
-		return cspr_ball->x + t2*cmot_ball->v_x;
+		SystemAI::Prediction a = { co_x_ball + t2*v_x_ball, v_x_ball, v_y_ball + t2*a_y_ball, cmot_ball->v_x == v_x_ball };
+		return a;
 	}
 	else {
-		return cspr_ball->x + t1*cmot_ball->v_x;
+		SystemAI::Prediction a = { co_x_ball + t1*v_x_ball, v_x_ball, v_y_ball + t1*a_y_ball, cmot_ball->v_x == v_x_ball };
+		return a;
 	}
 
-	return 0;
 }
 
 void SystemAI::MoveLeft()
@@ -92,8 +94,10 @@ float SystemAI::GetRandom()
 void SystemAI::UpdateKeys()
 {
 	int level = engine->GetContext()->GetLevel();
-
-	if (level == 1)
+	Stop();
+	//int co_test = CheckBellowWithWall(cspr_ball->x, cspr_ball->y, cmot_ball->v_x, cmot_ball->v_y, cmot_ball->a_y);
+	
+	if (level == 3)
 	{
 		// If ball is on left side of the net, set state equal to -1
 		if (cspr_ball->x < MIDDLE)
@@ -116,7 +120,8 @@ void SystemAI::UpdateKeys()
 		}
 		
 		// Calculate the x-value of the first position at which the ball drops below y = 90 (call this position P)
-		double P = XBallBelow(90);
+		SystemAI::Prediction pred = XBallBelow(90, cspr_ball->x, cspr_ball->y, cmot_ball->v_x, cmot_ball->v_y, cmot_ball->a_y);
+		double P = pred.co_x;
 
 		// If P is on the left side of the net
 		//    Position the slime closer than distance 6 to x = 600 (i.e. use abs(x - 600) < 6) by moving left/right (otherwise just stop)
@@ -258,7 +263,8 @@ void SystemAI::UpdateKeys()
 		}
 
 		// Calculate the x-value of the first position at which the ball drops below y = 90 (call this position P)
-		double P = XBallBelow(90);
+		SystemAI::Prediction pred = XBallBelow(90, cspr_ball->x, cspr_ball->y, cmot_ball->v_x, cmot_ball->v_y, cmot_ball->a_y);
+		double P = pred.co_x;
 
 		// If P is on the left side of the net
 		//    Position the slime closer than distance 6 to x = 480 (i.e. use abs(x - 480) < 6) by moving left/right (otherwise just stop)
@@ -331,15 +337,93 @@ void SystemAI::UpdateKeys()
 		}
 	}
 
-	else if (level == 3)
+	else if (level == 1)
 	{
-		// OPTIONEEL ZELF TE IMPLEMENTEREN!
+		//Goal bounce ball against wall and in net
+		
+			//Ball heading to AI
+		
+		std::cout << "=====================\n";
+		
+		
+		
+
+
+		SystemAI::Prediction pred = CheckBellowWithWall(cspr_ball->x, cspr_ball->y, cmot_ball->v_x, cmot_ball->v_y, cmot_ball->a_y);
+		double est = pred.co_x;
+		std::cout << "Estimate: " << est << "\n";
+		std::cout << "=====================\n";
+
+		//opzet
+		if (cmot_ball->v_x == 0 && cspr_ball->x > MIDDLE) {
+			
+			if (cspr_player_2->x - cspr_ball->x < 32) {
+				MoveLeft();
+			}
+			if (cspr_ball->y < 40) {
+				Jump();
+			}
+		}
+
+		//if(cmot_ball->v_x > 0 || )
+		int loc;
+		if (est >= MIDDLE) {
+			if (pred.v_x > 0) {
+				//GO to left of ball
+				loc = est + 15;
+			}
+			else {
+				loc = est - 15;
+			}
+			double dist = loc - cspr_player_2->x;
+			std::cout << "dist: " << dist << std::endl;
+			if (dist < 0) {
+				std::cout << "move Left" << std::endl;
+				MoveLeft();
+			}
+			else {
+				std::cout << "move Right" << std::endl;
+				MoveRight();
+			}
+			if ((cspr_ball->x - cspr_player_2->x)*(cspr_ball->x - cspr_player_2->x) + (cspr_ball->y - cspr_player_2->y)*(cspr_ball->y - cspr_player_2->y) < (RADIUS_COLLISION + 10)*(RADIUS_COLLISION + 10)) {
+				Jump();
+			}
+		}
+		
+		
 	}
 }
+SystemAI::Prediction SystemAI::CheckBellowWithWall(double co_x_ball, double co_y_ball, double v_x_ball, double v_y_ball, double a_y_ball)
+{
+	//TODO for left wall
+	double time;
+	int loc;
+	if (v_x_ball > 0) {
+		 time = (750.0 - co_x_ball - RADIUS_BALL) / v_x_ball;
+		 loc = 750-RADIUS_BALL;
+	}
+	else if (v_x_ball < 0){
+		time = (co_x_ball-RADIUS_BALL) / ((-1)*v_x_ball);
+		loc = RADIUS_BALL;
+	}
+	else {
+		SystemAI::Prediction a = { co_x_ball, 0,-5 ,false };
+		return a;
+	}
 
+	double pred_y_ball = co_y_ball + time*v_y_ball + (time*time*a_y_ball)/2;
+
+	std::cout << "estimated time: " << time << "\n";
+	std::cout << "estimated height: " << pred_y_ball << "\n";
+	if (pred_y_ball > 0) {
+		return CheckBellowWithWall(loc, pred_y_ball, (-1)*v_x_ball, v_y_ball + time*a_y_ball, a_y_ball);
+	}
+	else {
+		return XBallBelow(RADIUS_BALL + 15,  co_x_ball,  co_y_ball,  v_x_ball,  v_y_ball,  a_y_ball);
+	}
+}
 void SystemAI::UpdateMovement()
 {
-	// TODO: Change player's movement according to AI decisions (i.e. pressed_xxx)
 	cmot_player_2->v_x = pressed_left*(-SLIME_V_X) + pressed_right*SLIME_V_X;
 	if (pressed_up && cmot_player_2->v_y == 0) {
 		cmot_player_2->v_y = SLIME_V_Y;
