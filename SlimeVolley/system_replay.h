@@ -44,6 +44,7 @@ private:
 	bool initialized;
 	double speed;
 	int status;
+	bool pop;
 	std::list<coordinates> cs;
 	ComponentSprite* cspr_player_1;
 	ComponentSprite* cspr_player_2;

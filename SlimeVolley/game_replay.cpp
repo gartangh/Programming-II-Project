@@ -50,7 +50,6 @@ bool GameReplay::Run()
 		ALLEGRO_EVENT event = AllegroLib::Instance().GetCurrentEvent();
 
 		// If event key down, toggle key in context
-		// TODO: change Z, Q & D to UP, LEFT & RIGHT
 		if (event.type == ALLEGRO_EVENT_KEY_DOWN)
 		{
 			int keycode = event.keyboard.keycode;
