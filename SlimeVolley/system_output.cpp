@@ -47,7 +47,7 @@ void SystemOutput::Update()
 
 bool SystemOutput::Initialize()
 {
-	// Initialize all component pointers (optional)
+	// Initialize all component pointers
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
 	{

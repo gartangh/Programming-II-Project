@@ -57,7 +57,8 @@ void SystemReplay::Update()
 			engine->GetContext()->SetPaused(false);
 		}
 	}
-	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, true)) {
+	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, true))
+	{
 		// TODO: Exit
 		engine->GetContext()->SetState(2);
 		status = 0;
@@ -68,8 +69,10 @@ void SystemReplay::Update()
 	if (!engine->GetContext()->IsPaused())
 	{
 		// Go to the next frame(s), if necessary
-		if (status <= 1) {
-			if (speed >= 2.0) {
+		if (status <= 1)
+		{
+			if (speed >= 2.0)
+			{
 				cs.pop_front();
 				GoToNextFrame();
 			}
@@ -96,7 +99,7 @@ void SystemReplay::Update()
 
 void SystemReplay::GoToNextFrame()
 {
-	// TODO: Go to next frame by setting the new coordinates. Set status to:
+	// Go to next frame by setting the new coordinates. Set status to:
 	//   0 if a normal frame has been found
 	//   1 if a frame has been found in which the ball has dropped
 	//   2 if there are no coordinates left

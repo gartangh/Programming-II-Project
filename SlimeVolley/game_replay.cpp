@@ -75,7 +75,6 @@ bool GameReplay::Run()
 			engine.Update();
 		}
 
-
 		// Update quit value
 		quit = AllegroLib::Instance().IsWindowClosed();
 	}
@@ -91,7 +90,7 @@ bool GameReplay::Run()
 
 void GameReplay::AddSystems()
 {
-	// TODO: Add all systems to the engine
+	// Add all systems to the engine
 	engine.AddSystem(&srep);
 	engine.AddSystem(&seyes);
 	engine.AddSystem(&sp);
@@ -100,7 +99,7 @@ void GameReplay::AddSystems()
 
 void GameReplay::RemoveSystems()
 {
-	// TODO: Remove all systems from the engine
+	// Remove all systems from the engine
 	engine.RemoveSystem(&srep);
 	engine.RemoveSystem(&seyes);
 	engine.RemoveSystem(&sp);
@@ -109,7 +108,7 @@ void GameReplay::RemoveSystems()
 
 void GameReplay::MakeEntities()
 {
-	// TODO: Initialize required entities and add them to the engine
+	// Initialize required entities and add them to the engine
 	Entity *ball = new Entity();
 	ComponentSprite* cspr_ball = new ComponentSprite(Graphics::SPRITE_BALL, SLIME_1_INIT_X, 11, 738, 11, 300, 11, 288, 11);
 	ball->Add(cspr_ball);

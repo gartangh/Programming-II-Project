@@ -40,7 +40,6 @@ private:
 	void GoToNextFrame();
 	void GoToNextPoint();
 	void GoToNextLevel();
-
 	bool initialized;
 	double speed;
 	int status;
