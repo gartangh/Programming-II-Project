@@ -34,7 +34,7 @@ void SystemStateSingle::Update()
 			{
 				std::cout << "Ball droped at: " << cspr_ball->x;
 				engine->GetContext()->SetFrozen(true);
-				freeze_time = 1.2*FPS; // 1.2 seconds
+				freeze_time = FREEZE_TIME*FPS; // 1.2 seconds
 
 				cmot_ball->v_x = 0;
 				cmot_ball->v_y = 0;
@@ -67,7 +67,7 @@ void SystemStateSingle::Update()
 			// continue to next level (if won) or retry (if lost), ESC to quit
 			// (handled by input system already). If the game is not finished
 			// yet, update the context and reset player and ball positions.
-			if (engine->GetContext()->GetPoints(1) == 7 && engine->GetContext()->GetState() <= 0)
+			if (engine->GetContext()->GetPoints(1) == MAX_POINTS && engine->GetContext()->GetState() <= 0)
 			{
 				engine->GetContext()->SetState(-1); // De speler heeft een level gewonnen in een singleplayer game
 				engine->GetContext()->SetFrozen(true);
@@ -84,7 +84,7 @@ void SystemStateSingle::Update()
 				}
 				*/
 			}
-			else if (engine->GetContext()->GetPoints(2) == 7 && engine->GetContext()->GetState() <= 0)
+			else if (engine->GetContext()->GetPoints(2) == MAX_POINTS && engine->GetContext()->GetState() <= 0)
 			{
 				engine->GetContext()->SetState(-2); // De speler heeft een level verloren in een singleplayer game
 				engine->GetContext()->SetFrozen(true);

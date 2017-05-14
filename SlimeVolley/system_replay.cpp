@@ -32,11 +32,11 @@ void SystemReplay::Update()
 	//	 [ARROW_DOWN] Go to next level
 	//	 [P] Pause playout
 	//	 [ESC] Return to menu
-	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_LEFT, true) && speed > .5)
+	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_LEFT, true) && speed > REPLAY_MIN)
 	{
 		speed /= 2.0;
 	}
-	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_RIGHT, true) && speed < 2.0)
+	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_RIGHT, true) && speed < REPLAY_MAX)
 	{
 		speed *= 2.0;
 	}
@@ -69,17 +69,17 @@ void SystemReplay::Update()
 		// Go to the next frame(s), if necessary
 		if (status <= 1)
 		{
-			if (speed >= 2.0)
+			if (speed >= REPLAY_MAX)
 			{
 				cs.pop_front();
 				GoToNextFrame();
 			}
-			else if (speed <= .5 && pop)
+			else if (speed <= REPLAY_MIN && pop)
 			{
 				pop = false;
 				GoToNextFrame();
 			}
-			else if (speed <= .5 && !pop)
+			else if (speed <= REPLAY_MIN && !pop)
 				pop = true;
 			else
 				GoToNextFrame();

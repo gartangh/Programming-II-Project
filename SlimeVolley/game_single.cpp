@@ -230,7 +230,7 @@ void GameSingle::MakeEntities()
 	
 	// Net
 	Entity *net = new Entity();
-	net->Add(new ComponentSprite(Graphics::SPRITE_NET, MIDDLE, 49));
+	net->Add(new ComponentSprite(Graphics::SPRITE_NET, 373, 39));
 	engine.AddEntity(net);
 }
 

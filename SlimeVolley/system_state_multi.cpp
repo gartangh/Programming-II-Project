@@ -32,7 +32,7 @@ void SystemStateMulti::Update()
 			if (cspr_ball->y <= RADIUS_BALL)
 			{
 				engine->GetContext()->SetFrozen(true);
-				freeze_time = 1.2*FPS; // 1.2 seconds
+				freeze_time = FREEZE_TIME*FPS; // 1.2 seconds
 
 				cmot_ball->v_x = 0;
 				cmot_ball->v_y = 0;
@@ -62,7 +62,7 @@ void SystemStateMulti::Update()
 			// for	user input: spacebar to restart, ESC to quit (handled by
 			// input system already). If the game is not finished yet, update
 			// the context and reset player and ball positions.			
-			if (engine->GetContext()->GetPoints(1) == 7 && engine->GetContext()->GetState() <= 0)
+			if (engine->GetContext()->GetPoints(1) == MAX_POINTS && engine->GetContext()->GetState() <= 0)
 			{
 				engine->GetContext()->SetState(-3); // De linkse speler heeft de wedstrijd gewonnen in een multiplayer game
 				engine->GetContext()->SetFrozen(true);
@@ -79,7 +79,7 @@ void SystemStateMulti::Update()
 				}
 				*/
 			}
-			else if (engine->GetContext()->GetPoints(2) == 7 && engine->GetContext()->GetState() <= 0)
+			else if (engine->GetContext()->GetPoints(2) == MAX_POINTS && engine->GetContext()->GetState() <= 0)
 			{
 				engine->GetContext()->SetState(-2); // De rechtse speler heeft de wedstrijd gewonnen in een multiplayer game
 				engine->GetContext()->SetFrozen(true);
