@@ -33,21 +33,13 @@ void SystemReplay::Update()
 	//	 [P] Pause playout
 	//	 [ESC] Return to menu
 	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_LEFT, true) && speed > REPLAY_MIN)
-	{
 		speed /= 2.0;
-	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_RIGHT, true) && speed < REPLAY_MAX)
-	{
 		speed *= 2.0;
-	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_UP, true))
-	{
 		GoToNextPoint();
-	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_DOWN, true))
-	{
 		GoToNextLevel();
-	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, true))
 	{
 		if (!engine->GetContext()->IsPaused())
@@ -71,7 +63,8 @@ void SystemReplay::Update()
 		{
 			if (speed >= REPLAY_MAX)
 			{
-				cs.pop_front();
+				if (!cs.empty())
+					cs.pop_front();
 				GoToNextFrame();
 			}
 			else if (speed <= REPLAY_MIN && pop)
