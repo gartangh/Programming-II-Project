@@ -30,8 +30,8 @@
 #define REPLAY_MIN 0.5
 #define REPLAY_MAX 2.0
 
-#define GRAVITY_BALL -.375
-#define GRAVITY_SLIME -.750
+#define GRAVITY_BALL (-.375)
+#define GRAVITY_SLIME (-.750)
 #define NO_GRAVITY 0
 
 #define COY(x) (375-x-75)
