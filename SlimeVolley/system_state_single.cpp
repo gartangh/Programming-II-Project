@@ -32,7 +32,6 @@ void SystemStateSingle::Update()
 			// update the context accordingly.
 			if (cspr_ball->y <= RADIUS_BALL)
 			{
-				std::cout << "Ball droped at: " << cspr_ball->x;
 				engine->GetContext()->SetFrozen(true);
 				freeze_time = FREEZE_TIME*FPS; // 1.2 seconds
 
@@ -76,13 +75,6 @@ void SystemStateSingle::Update()
 					engine->GetContext()->SetState(1);
 					engine->GetContext()->SetFrozen(false);
 				}
-				/*
-				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
-				{
-					engine->GetContext()->SetState(2);
-					engine->GetContext()->SetFrozen(false);
-				}
-				*/
 			}
 			else if (engine->GetContext()->GetPoints(2) == MAX_POINTS && engine->GetContext()->GetState() <= 0)
 			{
@@ -93,13 +85,6 @@ void SystemStateSingle::Update()
 					engine->GetContext()->SetState(3);
 					engine->GetContext()->SetFrozen(false);
 				}
-				/*
-				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
-				{
-					engine->GetContext()->SetState(2);
-					engine->GetContext()->SetFrozen(false);
-				}
-				*/
 			}
 			else
 				freeze_time--;

@@ -37,12 +37,14 @@
 #define COY(x) (375-x-75)
 #define COY_W_G(x) (x-75)
 #define GROUND 0
-#define MIDDLE 374
+#define MIDDLE (374)
 
 #define POINTS_HEIGHT COY_W_G(340)
 
 #define GAME_WIDTH 750
 
 #define BOUNCINESS (1.0)
+
+#define DIFFICULTY_AI3 (1) //From 0->1 (float)
 
 #endif

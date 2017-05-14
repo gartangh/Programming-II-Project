@@ -35,19 +35,19 @@ void SystemCollision::Update()
 		if (distance_player_1 < RADIUS_COLLISION*RADIUS_COLLISION)
 			HandleBallPlayerCollision(cspr_player_1, cmot_player_1);
 
-		// Collision between Player 1 and wall
-		if (cspr_player_1->x <= RADIUS_SLIME || cspr_player_1->x >= MIDDLE - 32)
-			HandlePlayerWallCollision(cspr_player_1, cmot_player_1);
-
-
 		// Collision between Player 2 and ball
 		double distance_player_2 = (cspr_player_2->x - cspr_ball->x)*(cspr_player_2->x - cspr_ball->x) + (cspr_player_2->y - cspr_ball->y)*(cspr_player_2->y - cspr_ball->y);
 		if (distance_player_2 < RADIUS_COLLISION*RADIUS_COLLISION)
 			HandleBallPlayerCollision(cspr_player_2, cmot_player_2);
 
+		//WALL collisions
 		// Collision between Player 2 and wall
 		if (cspr_player_2->x <= MIDDLE + RADIUS_SLIME || cspr_player_2->x >= GAME_WIDTH - 32)
 			HandlePlayerWallCollision(cspr_player_2, cmot_player_2);
+
+		// Collision between Player 1 and wall
+		if (cspr_player_1->x <= RADIUS_SLIME || cspr_player_1->x >= MIDDLE - 32)
+			HandlePlayerWallCollision(cspr_player_1, cmot_player_1);
 
 		// Collision between ball and wall
 		if (cspr_ball->x< RADIUS_BALL || cspr_ball->x > 750 - RADIUS_BALL)
@@ -61,24 +61,20 @@ void SystemCollision::Update()
 
 void SystemCollision::HandleBallWallCollision()
 {
-	// TODO: Handle a possible collision between the ball and a wall
-	cmot_ball->v_x *= -1;
-	if (cspr_ball->x < MIDDLE)
-		cspr_ball->x = RADIUS_BALL;
-
-	std::cout << "============== Collision with wall ==============" << endl;
+	if (cspr_ball->x < MIDDLE && cmot_ball->v_x < 0)
+		cmot_ball->v_x *= -1;
+	if(cspr_ball->x > MIDDLE && cmot_ball->v_x > 0)
+		cmot_ball->v_x *= -1;
 }
 
 void SystemCollision::HandleBallNetCollision()
 {
-	// TODO: Handle a possible collision between the ball and the net
 	cmot_ball->v_x = 0;
 	cspr_ball->y = RADIUS_BALL - 1;
 }
 
 void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
-	// TODO: Handle a possible collision between a player and the walls / floor
 	if (csprPlayer->y <= RADIUS_SLIME)
 		cmotPlayer->v_y = 0;
 
@@ -91,55 +87,6 @@ void SystemCollision::HandlePlayerWallCollision(ComponentSprite* csprPlayer, Com
 
 void SystemCollision::HandleBallPlayerCollision(ComponentSprite* csprPlayer, ComponentMotion* cmotPlayer)
 {
-	/*
-	int player_x = csprPlayer->x;
-	int player_y = csprPlayer->y;
-
-	int ball_x = cspr_ball->x;
-	int ball_y = cspr_ball->y;
-
-	double normal_x = ball_x - player_x;
-	double normal_y = ball_y - player_y;
-
-	double v_x = cmot_ball->v_x;
-	double v_y = cmot_ball->v_y;
-
-
-	//orhtogonal projection houden
-	double dist = normal_x*normal_x + normal_y*normal_y;
-	double v_n = normal_x*v_x + normal_y*v_y;
-	double o_x = (v_n / dist)*normal_x;
-	double o_y = (v_n / dist)*normal_y;
-
-	//rejectie inverteren
-	double p_x = (v_x - o_x);
-	double p_y = (v_y - o_y);
-
-	double v_x_n = -o_x + p_x;
-	double v_y_n = -o_y + p_y;
-
-
-	//set speed
-	cmot_ball->v_x = v_x_n*BOUNCINESS + cmotPlayer->v_x;
-	cmot_ball->v_y = v_y_n*BOUNCINESS + cmotPlayer->v_y;
-
-	
-	double d_x = ball_x - player_x;
-	double d_y = ball_y - player_y;
-
-	double d_d = sqrt(d_x*d_x + d_y*d_y);
-
-	d_x /= d_d;
-	d_y /= d_d;
-
-	double dist_diff = COLLISION_BUFFER*RADIUS_COLLISION;
-	cspr_ball->x = player_x + d_x*dist_diff;
-	cspr_ball->y = player_y + d_y*dist_diff;
-	int a = 5;
-	*/
-
-	std::cout << "Collision with player at location: " << csprPlayer->x << endl;
-
 	double d_x = cspr_ball->x - csprPlayer->x;
 	double d_y = cspr_ball->y - csprPlayer->y;
 	double dist = std::sqrt(d_x * d_x + d_y * d_y);

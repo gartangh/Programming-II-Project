@@ -35,19 +35,36 @@ void SystemMotion::Update()
 			comp_motion->v_y += comp_motion->a_y;
 
 			// Update coords
-			comp_sprite->x += comp_motion->v_x;
+			
 			if (comp_player != nullptr)
 			{
+				//PLAYER
 				int co_y = comp_sprite->y + comp_motion->v_y;
+				if (comp_sprite->x < MIDDLE) {
+					if (!(comp_sprite->x < RADIUS_SLIME && comp_motion->v_x < 0)) {
+						comp_sprite->x += comp_motion->v_x;
+					}
+				}
+				else {
+					if (!(comp_sprite->x > GAME_WIDTH - RADIUS_SLIME && comp_motion->v_x > 0)) {
+						comp_sprite->x += comp_motion->v_x;
+					}
+
+				}
+				//comp_sprite->x += comp_motion->v_x;
 				if (co_y <= 0)
 				{
 					comp_sprite->y = 0;
 					comp_motion->v_y = 0;
 				}
-				else
+				else {
 					comp_sprite->y = co_y;
+				}
+					
 			}
 			else
+				//BALL
+				comp_sprite->x += comp_motion->v_x;
 				comp_sprite->y += comp_motion->v_y;
 		}
 	}
