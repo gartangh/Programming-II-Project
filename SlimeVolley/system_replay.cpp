@@ -50,12 +50,10 @@ void SystemReplay::Update()
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, true))
 	{
-		if (!engine->GetContext()->IsPaused()) {
+		if (!engine->GetContext()->IsPaused())
 			engine->GetContext()->SetPaused(true);
-		}
-		else {
+		else
 			engine->GetContext()->SetPaused(false);
-		}
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, true))
 	{
@@ -82,14 +80,12 @@ void SystemReplay::Update()
 				GoToNextFrame();
 			}
 			else if (speed <= .5 && !pop)
-			{
 				pop = true;
-			}
-			else {
+			else
 				GoToNextFrame();
-			}
 		}
-		else {
+		else
+		{
 			engine->GetContext()->SetState(1);
 			engine->GetContext()->ResetPoints();
 			initialized = false;
@@ -160,7 +156,8 @@ bool SystemReplay::Initialize()
 	// Read input coordinates from file and push to list
 	std::ifstream input(engine->GetContext()->GetInputFile());
 
-	if (input.is_open()) {
+	if (input.is_open())
+	{
 		double x_player1;
 		double y_player1;
 		double x_player2;
@@ -168,35 +165,30 @@ bool SystemReplay::Initialize()
 		double x_ball;
 		double y_ball;
 	
-		while (input >> x_player1 >> y_player1 >> x_player2 >> y_player2 >> x_ball >> y_ball) {
+		while (input >> x_player1 >> y_player1 >> x_player2 >> y_player2 >> x_ball >> y_ball)
+		{
 			coordinates a = {x_player1, y_player1, x_player2, y_player2, x_ball, y_ball};
 			cs.push_back(a);
 		}
 		
 		input.close();
 	}
-	else {
+	else
 		std::cout << "file couldn't be openend, system replay" << endl;
-	}
 	
 	// Initialize all component pointers
 	set<Entity*> entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
 	{
-		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1) {
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
 			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
-		}
-		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2) {
-
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
 			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
-		}
 	}
 
 	entities = engine->GetEntityStream()->WithTag(Component::BALL);
 	for each (Entity* i in entities)
-	{
 		cspr_ball = (ComponentSprite*)i->GetComponent(Component::SPRITE);
-	}
 
 	speed = 1.0;
 	status = 0;

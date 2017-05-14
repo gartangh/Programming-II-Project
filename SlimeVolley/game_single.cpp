@@ -53,9 +53,8 @@ int GameSingle::Run()
 				context->ToggleKey(keycode, true);
 			}
 
-			if (keycode == ALLEGRO_KEY_U) {
+			if (keycode == ALLEGRO_KEY_U)
 				context->print = true;
-			}
 		}
 		// If event key up, untoggle key in context
 		else if (event.type == ALLEGRO_EVENT_KEY_UP)

@@ -97,21 +97,16 @@ void SystemStateMulti::Update()
 				*/
 			}
 			else
-			{
 				freeze_time--;
-			}
 
 			if (freeze_time == 0)
 			{
 				// Verliezer slaat op
 				if (winner == 2)
-				{
 					cspr_ball->x = SLIME_1_INIT_X;
-				}
 				else
-				{
 					cspr_ball->x = SLIME_2_INIT_X;
-				}
+
 				cspr_ball->y = BALL_INIT_Y;
 				cspr_player_1->x = SLIME_1_INIT_X;
 				cspr_player_1->y = GROUND;
@@ -138,11 +133,13 @@ bool SystemStateMulti::Initialize()
 	entities = engine->GetEntityStream()->WithTag(Component::PLAYER);
 	for each (Entity* i in entities)
 	{
-		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1) {
+		if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 1)
+		{
 			cspr_player_1 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_1 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 		}
-		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2) {
+		else if (((ComponentPlayer*)i->GetComponent(Component::PLAYER))->player_id == 2)
+		{
 			cspr_player_2 = (ComponentSprite*)i->GetComponent(Component::SPRITE);
 			cmot_player_2 = (ComponentMotion*)i->GetComponent(Component::MOTION);
 		}

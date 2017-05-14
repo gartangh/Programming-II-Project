@@ -30,7 +30,8 @@ void SystemStateSingle::Update()
 			// Check if the ball has dropped. If so, freeze the game for
 			// 1.2 seconds and reset all velocities. Determine the winner and
 			// update the context accordingly.
-			if (cspr_ball->y <= RADIUS_BALL) {
+			if (cspr_ball->y <= RADIUS_BALL)
+			{
 				std::cout << "Ball droped at: " << cspr_ball->x;
 				engine->GetContext()->SetFrozen(true);
 				freeze_time = 1.2*FPS; // 1.2 seconds
@@ -100,21 +101,17 @@ void SystemStateSingle::Update()
 				}
 				*/
 			}
-			else {
+			else
 				freeze_time--;
-			}
 
 			if (freeze_time == 0)
 			{
 				// Verliezer slaat op
 				if (winner == 2)
-				{
 					cspr_ball->x = SLIME_1_INIT_X;
-				}
 				else
-				{
 					cspr_ball->x = SLIME_2_INIT_X;
-				}
+
 				cspr_ball->y = BALL_INIT_Y;
 				cspr_player_1->x = SLIME_1_INIT_X;
 				cspr_player_1->y = GROUND;

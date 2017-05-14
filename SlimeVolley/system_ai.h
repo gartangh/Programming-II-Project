@@ -28,7 +28,8 @@ protected:
 
 private:
 
-	struct Prediction {
+	struct Prediction
+	{
 		double co_x;
 		double v_x;
 		double v_y;

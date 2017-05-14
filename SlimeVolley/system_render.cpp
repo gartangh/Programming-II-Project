@@ -48,22 +48,18 @@ void SystemRender::Update()
 				Graphics::Instance().DrawBitmap(Graphics::SPRITE_PUPIL, play_comp->pupil_x, COY(play_comp->pupil_y), 5, 5);	
 			}
 		}
-		else {
+		else
 			Graphics::Instance().DrawBitmap(sprite_comp->sprite, sprite_comp->x, COY(sprite_comp->y), sprite_comp->x_off, sprite_comp->y_off);
-		}
 	}	
 
 	// Use an appropriate color for the different backgrounds
 	Color color(0, 0, 0); // Black
-	if (engine->GetContext()->GetLevel() == 2) {
+	if (engine->GetContext()->GetLevel() == 2)
 		color = Color(255, 255, 255); // White
-	}
 
 	// Print the current score if it is a singleplayer game
 	if (engine->GetContext()->GetLevel() > 0)
-	{
 		Graphics::Instance().DrawString("Score: " + std::to_string(engine->GetContext()->GetScore()), 375, 20, color, Graphics::ALIGN_CENTER);
-	}
 	
 	// Print the correct instructions at the bottom of the screen,
 	// depending on whether there's a regular game or a replay
@@ -73,16 +69,15 @@ void SystemRender::Update()
 		Graphics::Instance().DrawString("Next point (UP), Level (DOWN) or quit (ESC)", 20, 342, color, Graphics::ALIGN_LEFT);
 	}
 	else
-	{
-		Graphics::Instance().DrawString("Press P to pauze of ESC to quit without saving", 375, 342, color, Graphics::ALIGN_CENTER);
-	}
+		Graphics::Instance().DrawString("Press P to pauze of ESC to quit", 375, 342, color, Graphics::ALIGN_CENTER);
 	
 	// Print an appropriate message if state != 0, depending on state
 	// and current level (1-3 for singleplayer, 0 for multiplayer)
 	switch (engine->GetContext()->GetState())
 	{
 	case -1:
-		switch (engine->GetContext()->GetLevel()) {
+		switch (engine->GetContext()->GetLevel())
+		{
 		case 2:
 			Graphics::Instance().DrawString("The slime Intermediate can go to cry in a corner!", 375, 75, color, Graphics::ALIGN_CENTER);
 			break;
@@ -92,7 +87,7 @@ void SystemRender::Update()
 		default:
 			Graphics::Instance().DrawString("The slime Novice needs more practice to beat you!", 375, 75, color, Graphics::ALIGN_CENTER);
 		}
-		Graphics::Instance().DrawString("Press space to continue or esc to quit without saving", 375, 100, color, Graphics::ALIGN_CENTER);
+		Graphics::Instance().DrawString("Press space to continue or esc to quit", 375, 100, color, Graphics::ALIGN_CENTER);
 		break;
 	case -2:
 		Graphics::Instance().DrawString("Winners never quit, and quiters never win...", 375, 75, color, Graphics::ALIGN_CENTER);
@@ -106,63 +101,39 @@ void SystemRender::Update()
 		break;
 	case -5:
 		if (engine->GetContext()->GetLevel() == 0)
-		{
 			Graphics::Instance().DrawString("Nice touch, Player 1!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		else
-		{
 			Graphics::Instance().DrawString("Nice touch!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		break;
 	case -6:
 		if (engine->GetContext()->GetLevel() == 0)
-		{
 			Graphics::Instance().DrawString("Player 1 does it again!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		else
-		{
 			Graphics::Instance().DrawString("GO GO GO!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		break;
 	case -7:
 		if (engine->GetContext()->GetLevel() == 0)
-		{
 			Graphics::Instance().DrawString("You go, Player 1!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		else
-		{
 			Graphics::Instance().DrawString("You're going places!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		break;
 	case -8:
 		if (engine->GetContext()->GetLevel() == 0)
-		{
 			Graphics::Instance().DrawString("Nice touch, Player 2!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		else
-		{
 			Graphics::Instance().DrawString("Did you lose some focus? Come on!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		break;
 	case -9:
 		if (engine->GetContext()->GetLevel() == 0)
-		{
 			Graphics::Instance().DrawString("Player 2 does it again!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		else
-		{
 			Graphics::Instance().DrawString("Are you asleep? Wake up!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		break;
 	case -10:
 		if (engine->GetContext()->GetLevel() == 0)
-		{
 			Graphics::Instance().DrawString("You go, Player 2!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		else
-		{
 			Graphics::Instance().DrawString("Come on, you can do better!", 375, 310, color, Graphics::ALIGN_CENTER);
-		}
 		break;
 	}
 
@@ -184,7 +155,8 @@ void SystemRender::Update()
 bool SystemRender::Initialize()
 {
 	// Set background according to level
-	switch (engine->GetContext()->GetLevel()) {
+	switch (engine->GetContext()->GetLevel())
+	{
 	case 2:
 		Graphics::Instance().SetBackground(Graphics::SPRITE_BACKGROUND2);
 		break;

@@ -24,28 +24,24 @@ void SystemInputMulti::Update()
 	pressed_w = engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_W, false) | engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_Z, false);
 	
 	cmot_player_2->v_x = pressed_left*(-SLIME_V_X) + pressed_right*SLIME_V_X;
-	if (pressed_up && cmot_player_2->v_y == 0) {
+	if (pressed_up && cmot_player_2->v_y == 0)
 		cmot_player_2->v_y = SLIME_V_Y;
-	}
 
 	cmot_player_1->v_x = pressed_a*(-SLIME_V_X) + pressed_d*SLIME_V_X;
-	if (pressed_w && cmot_player_1->v_y == 0) {
+	if (pressed_w && cmot_player_1->v_y == 0)
 		cmot_player_1->v_y = SLIME_V_Y;
-	}
 
 	if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_P, true))
 	{
 		// exit pauzed state when pressed P again
-		if (!engine->GetContext()->IsPaused()) {
+		if (!engine->GetContext()->IsPaused())
 			engine->GetContext()->SetPaused(true);
-		}
-		else {
+		else
 			engine->GetContext()->SetPaused(false);
-		}
 	}
 	else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
 	{
-		// Quit without saving
+		// Quit
 		engine->GetContext()->SetState(2);
 		engine->GetContext()->SetFrozen(false);
 		engine->GetContext()->SetPaused(false);

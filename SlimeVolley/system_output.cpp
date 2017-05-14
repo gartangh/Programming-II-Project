@@ -32,16 +32,15 @@ void SystemOutput::Update()
 		std::string file_name = "./assets/highscores/" + std::to_string(start_time) + "_" + std::to_string(level) + ".txt";
 		ofstream myfile(file_name);
 
-		if (myfile.is_open()) {
-			for (coordinates i : cs) {
+		if (myfile.is_open())
+		{
+			for (coordinates i : cs)
 				myfile << i.x_player_1 << " " << i.y_player_1 << " " << i.x_player_2 << " " << i.y_player_2 << " " << i.x_ball << " " << i.y_ball << endl;
-			}
 			
 			myfile.close();
 		}
-		else {
+		else
 			std::cout << "couldn't open file" << endl;
-		}
 	}
 }
 

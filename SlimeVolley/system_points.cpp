@@ -39,21 +39,19 @@ void SystemPoints::Update()
 		ComponentPoint *comp_point = (ComponentPoint*)entity->GetComponent(Component::POINT);
 		ComponentSprite *comp_sprite = (ComponentSprite*)entity->GetComponent(Component::SPRITE);
 
-		if (comp_point->player_id == 1) {
-			if (comp_point->point_id <= points_player_1) {
+		if (comp_point->player_id == 1)
+		{
+			if (comp_point->point_id <= points_player_1)
 				comp_sprite->sprite = sprite_1;
-			}
-			else {
+			else
 				comp_sprite->sprite = Graphics::SPRITE_POINT;
-			}
 		}
-		else if (comp_point->player_id == 2) {
-			if (comp_point->point_id <= points_player_2) {
+		else if (comp_point->player_id == 2)
+		{
+			if (comp_point->point_id <= points_player_2)
 				comp_sprite->sprite = sprite_2;
-			}
-			else {
-			comp_sprite->sprite = Graphics::SPRITE_POINT;
-			}
+			else
+				comp_sprite->sprite = Graphics::SPRITE_POINT;
 		}
 	}
 }

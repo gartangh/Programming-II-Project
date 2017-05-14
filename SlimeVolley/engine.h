@@ -19,12 +19,11 @@ public:
 
 	~Engine()
 	{
-		for (int i = 0; i < (int)entities.size(); i++) {
+		for (int i = 0; i < (int)entities.size(); i++)
 			delete entities.at(i);
-		}
-		for (int i = 0; i < (int)systems.size(); i++) {
+
+		for (int i = 0; i < (int)systems.size(); i++)
 			delete systems.at(i);
-		}
 	};
 
 	void AddEntity(Entity* entity);

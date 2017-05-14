@@ -36,19 +36,19 @@ void SystemMotion::Update()
 
 			// Update coords
 			comp_sprite->x += comp_motion->v_x;
-			if (comp_player != nullptr) {
+			if (comp_player != nullptr)
+			{
 				int co_y = comp_sprite->y + comp_motion->v_y;
-				if (co_y <= 0) {
+				if (co_y <= 0)
+				{
 					comp_sprite->y = 0;
 					comp_motion->v_y = 0;
 				}
-				else {
+				else
 					comp_sprite->y = co_y;
-				}
 			}
-			else {
+			else
 				comp_sprite->y += comp_motion->v_y;
-			}
 		}
 	}
 }
