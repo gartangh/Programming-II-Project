@@ -32,7 +32,6 @@ void SystemStateSingle::Update()
 			// update the context accordingly.
 			if (cspr_ball->y <= RADIUS_BALL)
 			{
-				std::cout << "Ball droped at: " << cspr_ball->x;
 				engine->GetContext()->SetFrozen(true);
 				freeze_time = 1.2*FPS; // 1.2 seconds
 
@@ -61,12 +60,7 @@ void SystemStateSingle::Update()
 		}
 		else
 		{
-			// Decrease freeze time by one. If it becomes zero and one
-			// of the players scored seven points, update the context as to
-			// end the level gracefully. Wait for user input: spacebar to
-			// continue to next level (if won) or retry (if lost), ESC to quit
-			// (handled by input system already). If the game is not finished
-			// yet, update the context and reset player and ball positions.
+
 			if (engine->GetContext()->GetPoints(1) == 7 && engine->GetContext()->GetState() <= 0)
 			{
 				engine->GetContext()->SetState(-1); // De speler heeft een level gewonnen in een singleplayer game
@@ -76,13 +70,6 @@ void SystemStateSingle::Update()
 					engine->GetContext()->SetState(1);
 					engine->GetContext()->SetFrozen(false);
 				}
-				/*
-				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
-				{
-					engine->GetContext()->SetState(2);
-					engine->GetContext()->SetFrozen(false);
-				}
-				*/
 			}
 			else if (engine->GetContext()->GetPoints(2) == 7 && engine->GetContext()->GetState() <= 0)
 			{
@@ -93,13 +80,6 @@ void SystemStateSingle::Update()
 					engine->GetContext()->SetState(3);
 					engine->GetContext()->SetFrozen(false);
 				}
-				/*
-				else if (engine->GetContext()->GetKeyPressed(ALLEGRO_KEY_ESCAPE, false))
-				{
-					engine->GetContext()->SetState(2);
-					engine->GetContext()->SetFrozen(false);
-				}
-				*/
 			}
 			else
 				freeze_time--;

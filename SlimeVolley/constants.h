@@ -1,7 +1,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-#define FPS 10.0
+#define FPS 40.0
 
 #define FONT_SIZE 26
 
@@ -37,12 +37,14 @@
 #define COY(x) (375-x-75)
 #define COY_W_G(x) (x-75)
 #define GROUND 0
-#define MIDDLE 369
+#define MIDDLE (375)
 
 #define POINTS_HEIGHT COY_W_G(340)
 
 #define GAME_WIDTH 750
 
 #define BOUNCINESS (1.0)
+
+#define DIFFICULTY_AI3 (1)//From 0->1 (float)
 
 #endif

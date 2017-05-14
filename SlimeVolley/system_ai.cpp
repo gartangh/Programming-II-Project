@@ -96,9 +96,8 @@ void SystemAI::UpdateKeys()
 {
 	int level = engine->GetContext()->GetLevel();
 	Stop();
-	//int co_test = CheckBellowWithWall(cspr_ball->x, cspr_ball->y, cmot_ball->v_x, cmot_ball->v_y, cmot_ball->a_y);
 
-	if (level == 3)
+	if (level == 1)
 	{
 		// If ball is on left side of the net, set state equal to -1
 		if (cspr_ball->x < MIDDLE)
@@ -334,20 +333,14 @@ void SystemAI::UpdateKeys()
 		}
 	}
 
-	else if (level == 1)
+	else if (level == 3)
 	{
-		// Goal bounce ball against wall and in net
-		// Ball heading to AI
-
-		std::cout << "=====================" << endl;
-
+		//Get touchdown of ball
 		SystemAI::Prediction pred = CheckBellowWithWall(cspr_ball->x, cspr_ball->y, cmot_ball->v_x, cmot_ball->v_y, cmot_ball->a_y);
 		double est = pred.co_x;
 
-		std::cout << "Estimate: " << est << endl;
-		std::cout << "=====================" << endl;
 
-		//opzet
+		//Opzet
 		if (cmot_ball->v_x == 0 && cspr_ball->x > MIDDLE)
 		{
 			if (cspr_player_2->x - cspr_ball->x < 32)
@@ -356,26 +349,25 @@ void SystemAI::UpdateKeys()
 				Jump();
 		}
 
-		//if(cmot_ball->v_x > 0 || )
+		//If touchdown is right side of field
 		int loc;
 		if (est >= MIDDLE)
 		{
 			if (pred.v_x > 0 || cspr_player_2->x < 750 - RADIUS_SLIME + 5)
 				loc = est + 15; // Go to left of ball
 			else
-				loc = est - 15;
+				loc = est - 15;// Go to right of ball
 
 			double dist = loc - cspr_player_2->x;
-			std::cout << "dist: " << dist << std::endl;
+
+			//Determine moving direction
 			if (dist < 0)
 			{
-				std::cout << "move Left" << std::endl;
 				if (cspr_player_2->x > MIDDLE + RADIUS_SLIME && abs(dist) > 3)
 					MoveLeft();
 			}
 			else
 			{
-				std::cout << "move Right" << std::endl;
 				if (cspr_player_2->x < GAME_WIDTH - RADIUS_SLIME && abs(dist) > 3)
 					MoveRight();
 			}
@@ -402,7 +394,6 @@ void SystemAI::UpdateKeys()
 
 SystemAI::Prediction SystemAI::CheckBellowWithWall(double co_x_ball, double co_y_ball, double v_x_ball, double v_y_ball, double a_y_ball)
 {
-	// TODO: for left wall
 	double time;
 	int loc;
 	if (v_x_ball > 0)
@@ -422,9 +413,6 @@ SystemAI::Prediction SystemAI::CheckBellowWithWall(double co_x_ball, double co_y
 	}
 
 	double pred_y_ball = co_y_ball + time*v_y_ball + (time*time*a_y_ball) / 2;
-
-	std::cout << "estimated time: " << time << "\n";
-	std::cout << "estimated height: " << pred_y_ball << "\n";
 	if (pred_y_ball > 0)
 	{
 		return CheckBellowWithWall(loc, pred_y_ball, (-1)*v_x_ball, v_y_ball + time*a_y_ball, a_y_ball);
@@ -437,7 +425,14 @@ SystemAI::Prediction SystemAI::CheckBellowWithWall(double co_x_ball, double co_y
 
 void SystemAI::UpdateMovement()
 {
-	cmot_player_2->v_x = pressed_left*(-SLIME_V_X) + pressed_right*SLIME_V_X;
+	int level = engine->GetContext()->GetLevel();
+	if (level == 1 || level == 2) {
+		cmot_player_2->v_x = pressed_left*(-SLIME_V_X) + pressed_right*SLIME_V_X;
+	}
+	else {
+		cmot_player_2->v_x = pressed_left*DIFFICULTY_AI3*(-SLIME_V_X) + pressed_right*DIFFICULTY_AI3*SLIME_V_X;
+	}
+	
 	if (pressed_up && cmot_player_2->v_y == 0)
 	{
 		cmot_player_2->v_y = SLIME_V_Y;
