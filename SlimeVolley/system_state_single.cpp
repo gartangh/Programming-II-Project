@@ -102,6 +102,13 @@ void SystemStateSingle::Update()
 				cspr_player_1->y = GROUND;
 				cspr_player_2->x = SLIME_2_INIT_X;
 				cspr_player_2->y = GROUND;
+				cmot_ball->v_x = 0;
+				cmot_ball->v_y = 0;
+				cmot_player_1->v_x = 0;
+				cmot_player_1->v_y = 0;
+				cmot_player_2->v_x = 0;
+				cmot_player_2->v_y = 0;
+
 
 				engine->GetContext()->SetState(0); // De bal is in het spel
 				engine->GetContext()->SetFrozen(false);

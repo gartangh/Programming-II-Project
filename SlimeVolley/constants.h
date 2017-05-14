@@ -7,7 +7,7 @@
 
 #define RADIUS_SLIME 40
 #define RADIUS_BALL 12
-#define RADIUS_EYES 3
+#define RADIUS_EYES 5
 #define RADIUS_COLLISION (46.845)
 
 #define COLLISION_BUFFER (1.2)
